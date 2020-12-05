@@ -4,8 +4,8 @@ Tile sets created with Photoshop \
 Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 # Developer Notes
-
 ## Upscaled images with the Waifu2x model
+### `5th December 2020`
 Experimenting with ESRGAN (Enhanced Super-Resolution Generative Adversarial Networks) to enhance the screenshots using a ML neural network.
 
 - ~~[ESRGAN](https://github.com/JoeyBallentine/ESRGAN) sample project~~
@@ -22,6 +22,7 @@ The below screenshots are the before and after an upscaling with the waifu2x mod
 ![upscale-enhanced](/screenshots/upscale-enhanced.png)
 
 ## Weird tiles
+### `13th November 2020`
 All quality screenshots are at 240x240px. But when trying to recreate a scene the tiles appear to be 26x26px (which isn't the typical 2^n) and the overall map is either 260px (or more likely 256px) and then the scene is cropped 16px from the left and 18px from the top. 
 \
 I've double and triple checked the tiles as a game on a low powered machine should be running optimal tile sets, but the tiles are lining up. Strange???
