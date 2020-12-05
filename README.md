@@ -7,12 +7,15 @@ Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 ## Upscaled images with the Waifu2x model
 Experimenting with ESRGAN (Enhanced Super-Resolution Generative Adversarial Networks) to enhance the screenshots using a ML neural network.
+
 - ~~[ESRGAN](https://github.com/JoeyBallentine/ESRGAN) sample project~~
 - ~~[Cupscale](https://github.com/n00mkrad/cupscale) ESRGAN UI wrapper~~
 - [Waifu project](https://github.com/nagadomi/waifu2x) with model trained on Anime images
-- [Waifu2x-caffe](https://github.com/lltcggie/waifu2x-caffe) a Waify UI wrapper
+- [Waifu2x-caffe](https://github.com/lltcggie/waifu2x-caffe) a Waifu UI wrapper
 - The ideal [settings](https://github.com/nagadomi/waifu2x/issues/201) to emulate the waifu [demo website](http://waifu2x.udp.jp/)
-\
+
+
+The below screenshots are the before and after an upscaling with the waifu2x model using the Windows desktop tool, (with the specific settings) mentioned above. I like the final result, it has a cel-shaded look to it.
 \
 ![upscale-sample](/screenshots/upscale-sample.jpg)
 \
