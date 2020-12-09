@@ -4,6 +4,16 @@ Tile sets created with Photoshop \
 Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 # Developer Notes
+## Cleaned up Cissnei sprites
+### `9th December 2020`
+Tidied up some ripped Cissnei sprites using a level adjustment filter in Photoshop to remove the blue light and then running it through Waifu2x to enhance the images. Results are poor.
+\
+\
+Sprites shared by `obesebear` on the [qhimm.com forums](https://forums.qhimm.com/index.php?topic=19983.0)
+\
+\
+![upscale-sample](/assets/sprites/cissnei-example.png)
+
 ## Upscaled images with the Waifu2x model
 ### `5th December 2020`
 Experimenting with ESRGAN (Enhanced Super-Resolution Generative Adversarial Networks) to enhance the screenshots using a ML neural network.
