@@ -4,6 +4,14 @@ Tile sets created with Photoshop \
 Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 # Developer Notes
+
+## Removing sprites from screenshots
+### `27th May 2023`
+Used an online AI-based tool ([cleanup.pictures](https://cleanup.pictures/)) to remove sprites from screenshots with the intention of using the clean background images. Results are excellent.
+\
+![train](/screenshots/train.jpg)
+![train-cleanup](/screenshots/train_cleanup.jpg)
+\
 ## Cleaned up Cissnei sprites
 ### `9th December 2020`
 Tidied up some ripped Cissnei sprites using a level adjustment filter in Photoshop to remove the blue light and then running it through Waifu2x to enhance the images. Results are poor.
