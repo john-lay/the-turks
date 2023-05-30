@@ -11,7 +11,7 @@ Used an online AI-based tool ([cleanup.pictures](https://cleanup.pictures/)) to 
 \
 ![train](/screenshots/train.jpg)
 ![train-cleanup](/screenshots/train_cleanup.jpg)
-\
+
 ## Cleaned up Cissnei sprites
 ### `9th December 2020`
 Tidied up some ripped Cissnei sprites using a level adjustment filter in Photoshop to remove the blue light and then running it through Waifu2x to enhance the images. Results are poor.
@@ -21,6 +21,11 @@ Sprites shared by `obesebear` on the [qhimm.com forums](https://forums.qhimm.com
 \
 \
 ![upscale-sample](/assets/sprites/cissnei-example.png)
+
+## Results of google translate
+### `6th December 2020`
+![menu](/assets/ui/menu.png)
+![menu-translated](/assets/ui/menu-translated.png)
 
 ## Upscaled images with the Waifu2x model
 ### `5th December 2020`
