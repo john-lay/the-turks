@@ -5,6 +5,22 @@ Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 # Developer Notes
 
+## Ripping vertical sprites from video
+### `12th June 2023`
+Attempt to rip sprites from an original video. Each vertical animation has 6 frames and fits nicely within a 96x48px canvas. Results are fair. \
+\
+Steps to reproduce:
+1. Video (512x386px, 30fps) downloaded from Niconico using the [nico downloader chrome plugin](https://chrome.google.com/webstore/detail/nico-downloader/dncjcadpoakefjpnabimpalenliehbig)
+2. Use the _take snapshop_ feature in VLC media player along with the increment frame shortcut `e` to capture animation frames
+3. Open all frames in Photoshop as different layers
+4. Create a guide where both feet touch the ground and align all images to the guide (the guide is halfway between both feet)
+5. Crop the image at 96x48px
+6. Use the polygonal lasso tool to lift the sprite (and shadow) from the background
+7. Export a gif
+\
+![shotgun animation (up)](/assets/sprites/shotgun/up.gif)
+![shotgun animation (down)](/assets/sprites/shotgun/down.gif)
+
 ## Removing sprites from screenshots
 ### `27th May 2023`
 Used an online AI-based tool ([cleanup.pictures](https://cleanup.pictures/)) to remove sprites from screenshots with the intention of using the clean background images. Results are excellent.
