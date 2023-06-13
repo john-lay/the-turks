@@ -5,6 +5,22 @@ Tile maps and created with [Tiled](https://www.mapeditor.org/)
 
 # Developer Notes
 
+## Ripping horizonal sprites from video
+### `13th June 2023`
+Attempt to rip sprites from an original video. Each horizontal animation has 8 frames and fits nicely within a 72x72px canvas. Results are fair. \
+\
+Steps to reproduce:
+1. Video (512x386px, 30fps) downloaded from Niconico using the [nico downloader chrome plugin](https://chrome.google.com/webstore/detail/nico-downloader/dncjcadpoakefjpnabimpalenliehbig)
+2. Use the _take snapshop_ feature in VLC media player along with the increment frame shortcut `e` to capture animation frames
+3. Open all frames in Photoshop as different layers
+4. Create a guide between the hips and align all images to the guide
+5. Crop the image at 72x72px
+6. Use the polygonal lasso tool to lift the sprite (and shadow) from the background
+7. Create a second guide at the feet and align all images to the guide
+8. Export a gif
+\
+![shotgun animation (left)](/assets/sprites/shotgun/left.gif)
+
 ## Ripping vertical sprites from video
 ### `12th June 2023`
 Attempt to rip sprites from an original video. Each vertical animation has 6 frames and fits nicely within a 96x48px canvas. Results are fair. \
