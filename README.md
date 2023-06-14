@@ -1,11 +1,16 @@
-# the-turks
+# The Turks
 2d Unity project \
-Tile sets created with Photoshop \
-Tile maps and created with [Tiled](https://www.mapeditor.org/)
+~~Tile sets created with Photoshop~~ \
+~~Tile maps and created with [Tiled](https://www.mapeditor.org/)~~
 
 # Developer Notes
 
 ## Ripping horizonal sprites from video
+
+### `14th June 2023`
+Strangely there are only 7 frames moving right (compared to 8 frames moving left), it also fits nicely within a 72x72px canvas. Results are fair. \
+\
+![shotgun animation (right)](/assets/sprites/shotgun/right.gif)
 ### `13th June 2023`
 Attempt to rip sprites from an original video. Each horizontal animation has 8 frames and fits nicely within a 72x72px canvas. Results are fair. \
 \
