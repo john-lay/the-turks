@@ -5,12 +5,25 @@
 
 # Developer Notes
 
+## Animating movement in Unity
+
+### `23th June 2023`
+Exported Shotgun's movement animation as frames and followed a Unity tutorial to implement [basic top-down movement](https://www.youtube.com/watch?v=whzomFgjT50).
+
+Steps to export a sequence of frames from Photoshop.
+1. Set each frame to 1 second in duration
+2. File > Export > Render Video...
+3. Under main settings, set type to `Photoshop Image Sequence` and framerate to `1`fps
+4. Under render options set the `Alpha Channel` to `Straight - Unmatted`
+5. Click `Render` to export a sequence of images on the format image0, image1...
+
 ## Ripping horizonal sprites from video
 
 ### `14th June 2023`
 Strangely there are only 7 frames moving right (compared to 8 frames moving left), it also fits nicely within a 72x72px canvas. Results are fair. \
 \
 ![shotgun animation (right)](/assets/sprites/shotgun/right.gif)
+
 ### `13th June 2023`
 Attempt to rip sprites from an original video. Each horizontal animation has 8 frames and fits nicely within a 72x72px canvas. Results are fair. \
 \
