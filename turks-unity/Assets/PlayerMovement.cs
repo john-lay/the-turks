@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         
+        PreventDiagonalMovement();
+        
         Animator.SetFloat("Horizontal",  movement.x);
         Animator.SetFloat("Vertical",  movement.y);
         Animator.SetFloat("Speed",  movement.sqrMagnitude);
@@ -36,6 +38,18 @@ public class PlayerMovement : MonoBehaviour
         if(movement.y < 0) Animator.SetInteger("Direction", (int) Direction.Down);
         if(movement.x < 0) Animator.SetInteger("Direction", (int) Direction.Left);
         if(movement.x > 0) Animator.SetInteger("Direction", (int) Direction.Right);
+    }
+
+    private void PreventDiagonalMovement()
+    {
+        if (Mathf.Abs(movement.x) > Mathf.Abs(movement.y))
+        {
+            movement.y = 0;
+        }
+        else
+        {
+            movement.x = 0;
+        }
     }
 
     // movement and physics logic
