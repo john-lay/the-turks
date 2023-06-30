@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    
-    public Animator Animator;
+    public Animator animator;
+    public ProjectileBehaviour projectilePrefab;
+    public Transform launchOffset;
 
     private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Fire 1 (ctrl) pressed");
-            Animator.SetBool("Attacking",  true);
+            animator.SetBool("Attacking",  true);
         }
     }
 
@@ -23,6 +24,7 @@ public class PlayerAttack : MonoBehaviour
     public void AttackComplete()
     {
         Debug.Log("Attack animation complete");
-        Animator.SetBool("Attacking",  false);
+        animator.SetBool("Attacking",  false);
+        Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
     }
 }

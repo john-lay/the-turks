@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rb: {fileID: 511848819}
-  Animator: {fileID: 511848818}
+  animator: {fileID: 511848818}
 --- !u!95 &511848818
 Animator:
   serializedVersion: 5
@@ -264,7 +264,8 @@ Transform:
   m_LocalPosition: {x: -2.93, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1152103785}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -280,7 +281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb0e9322e3ff2d4fa7e99f5ca854e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 511848818}
+  animator: {fileID: 511848818}
+  projectilePrefab: {fileID: 5872872283320208738, guid: d9ad80cf4e21ab74383a0596318f1716, type: 3}
+  launchOffset: {fileID: 1152103785}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,5 +366,36 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1152103784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152103785}
+  m_Layer: 0
+  m_Name: ProjectileSpawnDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1152103785
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152103784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.059, y: -2.19, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 511848821}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
