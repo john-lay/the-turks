@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public Animator animator;
     public ProjectileBehaviour projectilePrefab;
+    public ProjectileSplash projectileSplashPrefab;
     public Transform launchOffset;
 
     private void Update()
@@ -26,5 +27,14 @@ public class PlayerAttack : MonoBehaviour
         Debug.Log("Attack animation complete");
         animator.SetBool("Attacking",  false);
         Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
+    }
+
+    /// <summary>
+    /// Function called as an `Animation Event` on the `player-attack-down.anim` animation 
+    /// </summary>
+    public void BeginShotgunSplash()
+    {
+        Debug.Log("Starting shotgun splash animation");
+        Instantiate(projectileSplashPrefab, launchOffset.position, transform.rotation);
     }
 }

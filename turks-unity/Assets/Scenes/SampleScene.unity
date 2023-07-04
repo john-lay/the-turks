@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 511848818}
   projectilePrefab: {fileID: 5872872283320208738, guid: d9ad80cf4e21ab74383a0596318f1716, type: 3}
+  projectileSplashPrefab: {fileID: 3342557002690328625, guid: d6c597da349ec9d43b6693f9771f2576, type: 3}
   launchOffset: {fileID: 1152103785}
 --- !u!1 &519420028
 GameObject:
