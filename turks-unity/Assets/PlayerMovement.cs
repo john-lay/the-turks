@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
 
     public Animator animator;
-    
+
     Vector2 movement;
 
     // input logic
@@ -27,17 +27,17 @@ public class PlayerMovement : MonoBehaviour
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        
+
         PreventDiagonalMovement();
-        
-        animator.SetFloat("Horizontal",  movement.x);
-        animator.SetFloat("Vertical",  movement.y);
-        animator.SetFloat("Speed",  movement.sqrMagnitude);
-        
-        if(movement.y > 0) animator.SetInteger("Direction", (int) Direction.Up);
-        if(movement.y < 0) animator.SetInteger("Direction", (int) Direction.Down);
-        if(movement.x < 0) animator.SetInteger("Direction", (int) Direction.Left);
-        if(movement.x > 0) animator.SetInteger("Direction", (int) Direction.Right);
+
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        if (movement.y > 0) animator.SetInteger("Direction", (int) Direction.Up);
+        if (movement.y < 0) animator.SetInteger("Direction", (int) Direction.Down);
+        if (movement.x < 0) animator.SetInteger("Direction", (int) Direction.Left);
+        if (movement.x > 0) animator.SetInteger("Direction", (int) Direction.Right);
     }
 
     private void PreventDiagonalMovement()
