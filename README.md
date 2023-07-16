@@ -5,6 +5,11 @@
 
 # Developer Notes
 
+## Pixel recreation of menu
+### `16th July 2023`
+![menu-original](/assets/ui/menu-original.png)
+![menu-export](/assets/ui/menu-export.png)
+
 ## Animating movement in Unity
 
 ### `23th June 2023`
