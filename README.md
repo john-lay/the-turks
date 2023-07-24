@@ -5,6 +5,11 @@
 
 # Developer Notes
 
+## Pixel recreation of battle menu
+### `24th July 2023`
+![battle-menu-original](/assets/ui/battle-menu-original.jpg)
+![battle-menu-export](/assets/ui/battle-menu-export.png)
+
 ## Pixel recreation of menu
 ### `16th July 2023`
 ![menu-original](/assets/ui/menu-original.png)
