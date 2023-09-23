@@ -5,6 +5,17 @@
 
 # Developer Notes
 
+## Resize sprites
+### `23rd September 2023`
+The sprites ripped from the videos are scaled up. The videos are captured at 512x384 \
+Which gives a square resolution of 384x384. As previously mentioned all good screenshots \
+are at 240x240, which means the videos are scaled up by x1.6. \
+In order to reduce the sprites to their original size they need to be scaled down using \
+this modifier. In practice this means 72x72 sprites are reduced to 45x45 and 48x96 sprites \
+are reduced to 30x60. In order to maintain a 2^n resolution I will round 30, 45 and 60 up to \
+32, 48 and 64 respectively. I will begin by combining these sprites into a single sprite sheet. \
+![sprite-sheet](/assets/sprites/shotgun/sprite-sheet.png)
+
 ## Pixel recreation of battle menu
 ### `24th July 2023`
 ![battle-menu-original](/assets/ui/battle-menu-original.jpg)
