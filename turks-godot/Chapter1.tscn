@@ -146,7 +146,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=31]
-extents = Vector2( 13.5, 28.5 )
+extents = Vector2( 8, 8 )
 
 [node name="Node2D" type="Node2D"]
 position = Vector2( 1, 1 )
@@ -156,20 +156,26 @@ margin_right = 240.0
 margin_bottom = 240.0
 texture = ExtResource( 2 )
 
-[node name="Shotgun" type="KinematicBody2D" parent="."]
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 17, 112 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="ShotgunAnimatedSprite" type="AnimatedSprite" parent="Shotgun"]
+[node name="ShotgunAnimatedSprite" type="AnimatedSprite" parent="KinematicBody2D"]
 position = Vector2( 32, 32 )
 frames = SubResource( 30 )
 animation = "up"
-frame = 2
+frame = 5
 playing = true
 script = ExtResource( 4 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shotgun"]
-position = Vector2( 32, 32 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( 32, 40 )
 shape = SubResource( 31 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -1, -1, -1, 95, 183, 95, 183, 55, 207, 55, 207, 95, 239, 95, 239, -1 )
