@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var speed = 150  # speed in pixels/sec
+var speed = 175  # speed in pixels/sec
 var velocity = Vector2.ZERO
 enum MOVEMENT {LEFT, RIGHT, UP, DOWN}
 var direction = MOVEMENT.RIGHT 
