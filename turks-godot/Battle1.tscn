@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
+[ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
+[ext_resource path="res://Battle/battle-menu-health-magic_.png" type="Texture" id=3]
+[ext_resource path="res://Battle/battle-menu-magic.png" type="Texture" id=4]
+[ext_resource path="res://Battle/battle-menu-health.png" type="Texture" id=5]
+[ext_resource path="res://Battle/battle-menu-assist.png" type="Texture" id=6]
+[ext_resource path="res://Battle/battle-menu-assist_.png" type="Texture" id=7]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMap BG" type="TileMap" parent="."]
+position = Vector2( -8, 0 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 0, 8, 0, 1, 30, 0, 2, 7, 0, 3, 34, 0, 4, 17, 0, 65536, 17, 0, 65537, 29, 0, 65538, 16, 0, 65539, 21, 0, 65540, 12, 0, 131072, 13, 0, 131073, 4, 0, 131074, 13, 0, 131075, 4, 0, 131076, 20, 0, 196608, 12, 0, 196609, 12, 0, 196610, 12, 0, 196611, 12, 0, 196612, 13, 0 )
+
+[node name="TileMap HUD" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 262144, 0, 0, 262145, 1, 0, 262146, 2, 0, 262147, 3, 0, 262148, 4, 0 )
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = 30.0
+margin_top = 233.0
+margin_right = 100.0
+margin_bottom = 237.0
+value = 25.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 5 )
+
+[node name="Magic Bar" type="TextureProgress" parent="."]
+margin_left = 148.0
+margin_top = 233.0
+margin_right = 218.0
+margin_bottom = 237.0
+value = 75.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
+
+[node name="AssistBar" type="TextureProgress" parent="."]
+margin_left = 33.0
+margin_top = 214.0
+margin_right = 229.0
+margin_bottom = 218.0
+value = 50.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 6 )
