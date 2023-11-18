@@ -1,5 +1,5 @@
 # The Turks
-2d Unity project \
+2d Godot project \
 ~~Tile sets created with Photoshop~~ \
 ~~Tile maps and created with [Tiled](https://www.mapeditor.org/)~~
 
@@ -14,7 +14,7 @@ In order to reduce the sprites to their original size they need to be scaled dow
 this modifier. In practice this means 72x72 sprites are reduced to 45x45 and 48x96 sprites \
 are reduced to 30x60. In order to maintain a 2^n resolution I will round 30, 45 and 60 up to \
 32, 48 and 64 respectively. I will begin by combining these sprites into a single sprite sheet. \
-![sprite-sheet](/assets/sprites/shotgun/sprite-sheet.png)
+![sprite-sheet](/assets/sprites/shotgun/shotgun-sprite-sheet.png)
 
 ## Pixel recreation of battle menu
 ### `24th July 2023`
