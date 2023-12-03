@@ -5,6 +5,12 @@
 
 # Developer Notes
 
+## Avalanche sprites
+### `18th November / 3rd December 2023`
+Courtesy of [Naoya Shinota](https://github.com/NaoyaShinota2004). \
+Currently missing __idle up__ and __reeling from hit__ frames. \
+![sprite-sheet](/assets/sprites/avalanche/avalanche-sprite-sheet.png)
+
 ## Resize sprites
 ### `23rd September 2023`
 The sprites ripped from the videos are scaled up. The videos are captured at 512x384 \
