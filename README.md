@@ -9,11 +9,17 @@
 ### `23rd September 2023`
 The sprites ripped from the videos are scaled up. The videos are captured at 512x384 \
 Which gives a square resolution of 384x384. As previously mentioned all good screenshots \
-are at 240x240, which means the videos are scaled up by x1.6. \
+are at 240x240, which means the videos are scaled up by __x1.6__. \
 In order to reduce the sprites to their original size they need to be scaled down using \
 this modifier. In practice this means 72x72 sprites are reduced to 45x45 and 48x96 sprites \
 are reduced to 30x60. In order to maintain a 2^n resolution I will round 30, 45 and 60 up to \
 32, 48 and 64 respectively. I will begin by combining these sprites into a single sprite sheet. \
+#### Calculations
+48 / 1.6 = 30\
+96 / 1.6 = 60\
+384 / 1.6 = 240\
+384 / 240 = 1.6\
+\
 ![sprite-sheet](/assets/sprites/shotgun/shotgun-sprite-sheet.png)
 
 ## Pixel recreation of battle menu
@@ -91,7 +97,7 @@ Tidied up some ripped Cissnei sprites using a level adjustment filter in Photosh
 Sprites shared by `obesebear` on the [qhimm.com forums](https://forums.qhimm.com/index.php?topic=19983.0)
 \
 \
-![upscale-sample](/assets/sprites/cissnei-example.png)
+![upscale-sample](/assets/sprites/cissnei/cissnei-example.png)
 
 ## Results of google translate
 ### `6th December 2020`
