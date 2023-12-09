@@ -21,19 +21,19 @@ func get_input():
 	velocity = Vector2.ZERO
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
-		animatedSprite.animation = "right"
+		animatedSprite.animation = "move-right"
 		direction = MOVEMENT.RIGHT
 	elif Input.is_action_pressed("ui_left"):
 		velocity.x -= 1
-		animatedSprite.animation = "left"
+		animatedSprite.animation = "move-left"
 		direction = MOVEMENT.LEFT
 	elif Input.is_action_pressed("ui_down"):
 		velocity.y += 1
-		animatedSprite.animation = "down"
+		animatedSprite.animation = "move-down"
 		direction = MOVEMENT.DOWN
 	elif Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
-		animatedSprite.animation = "up"
+		animatedSprite.animation = "move-up"
 		direction = MOVEMENT.UP
 	else:
 		set_idle_direction()

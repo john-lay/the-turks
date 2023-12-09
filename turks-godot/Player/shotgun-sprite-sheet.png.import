@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sprite-sheet.png-c1787b77660e2988d8486c65c2f8a145.stex"
+path="res://.import/shotgun-sprite-sheet.png-9f75216880f6cec17639657f1a5287b1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/sprite-sheet.png"
-dest_files=[ "res://.import/sprite-sheet.png-c1787b77660e2988d8486c65c2f8a145.stex" ]
+source_file="res://Player/shotgun-sprite-sheet.png"
+dest_files=[ "res://.import/shotgun-sprite-sheet.png-9f75216880f6cec17639657f1a5287b1.stex" ]
 
 [params]
 
