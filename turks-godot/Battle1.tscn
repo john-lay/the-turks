@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Battle/battle-menu-health.png" type="Texture" id=5]
 [ext_resource path="res://Battle/battle-menu-assist.png" type="Texture" id=6]
 [ext_resource path="res://Battle/battle-menu-assist_.png" type="Texture" id=7]
+[ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=9]
 
 [node name="Node2D" type="Node2D"]
 
@@ -49,3 +51,19 @@ margin_bottom = 218.0
 value = 50.0
 texture_under = ExtResource( 7 )
 texture_progress = ExtResource( 6 )
+
+[node name="player" parent="." instance=ExtResource( 8 )]
+position = Vector2( 40, 120 )
+
+[node name="enemy" parent="." instance=ExtResource( 9 )]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )

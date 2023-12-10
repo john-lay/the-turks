@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Turks-godot"
-run/main_scene="res://Chapter1.tscn"
+run/main_scene="res://Battle1.tscn"
 config/icon="res://icon.png"
 
 [display]

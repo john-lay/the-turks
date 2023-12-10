@@ -23,10 +23,6 @@ region = Rect2( 192, 544, 64, 96 )
 atlas = ExtResource( 2 )
 region = Rect2( 256, 544, 64, 96 )
 
-[sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 768, 92, 64 )
-
 [sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 640, 92, 64 )
@@ -34,6 +30,10 @@ region = Rect2( 0, 640, 92, 64 )
 [sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 704, 92, 64 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 768, 92, 64 )
 
 [sub_resource type="AtlasTexture" id=40]
 atlas = ExtResource( 2 )
@@ -294,12 +294,12 @@ region = Rect2( 448, 64, 64, 64 )
 [sub_resource type="SpriteFrames" id=30]
 animations = [ {
 "frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
-"loop": true,
+"loop": false,
 "name": "attack-down",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 39 ), SubResource( 37 ), SubResource( 38 ), SubResource( 40 ) ],
-"loop": true,
+"frames": [ SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"loop": false,
 "name": "attack-left",
 "speed": 5.0
 }, {
@@ -309,7 +309,7 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ) ],
-"loop": true,
+"loop": false,
 "name": "attack-up",
 "speed": 5.0
 }, {
@@ -324,7 +324,7 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 56 ) ],
-"loop": true,
+"loop": false,
 "name": "idle-down",
 "speed": 5.0
 }, {
@@ -344,7 +344,7 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ) ],
-"loop": true,
+"loop": false,
 "name": "magic",
 "speed": 5.0
 }, {
@@ -386,8 +386,8 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 32, 32 )
 frames = SubResource( 30 )
-animation = "attack-right"
-frame = 3
+animation = "magic"
+frame = 14
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
