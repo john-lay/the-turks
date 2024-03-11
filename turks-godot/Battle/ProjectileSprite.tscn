@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ProjectileSprite.gd" type="Script" id=1]
+[ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=2]
+
+[node name="ProjectileSprite" type="Sprite"]
+position = Vector2( 100, 160 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 224, 672, 32, 32 )
+script = ExtResource( 1 )

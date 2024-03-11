@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://Battle/battle-menu-assist_.png" type="Texture" id=7]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=10]
-[ext_resource path="res://ProjectileSprite.gd" type="Script" id=11]
+[ext_resource path="res://Battle/ProjectileSprite.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
 
@@ -70,9 +69,4 @@ polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
 
-[node name="ProjectileSprite" type="Sprite" parent="."]
-position = Vector2( 100, 160 )
-texture = ExtResource( 10 )
-region_enabled = true
-region_rect = Rect2( 224, 672, 32, 32 )
-script = ExtResource( 11 )
+[node name="ProjectileSprite" parent="." instance=ExtResource( 10 )]
