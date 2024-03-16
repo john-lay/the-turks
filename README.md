@@ -137,3 +137,42 @@ The below screenshots were taken at 200% zoom in Photoshop
 ![no-grid screenshot](/screenshots/no-grid.png)
 ![grid screenshot](/screenshots/grid.png)
 ![animated grid screenshot](/screenshots/animated-grid.gif)
+
+
+rod
+======================
+magic casting       17
+idle up             4
+idle side           3
+idle down           4
+injured run down    5
+injured run side    6
+phone               1
+run down            8
+run side            9
+run up              8
+attack side         7
+attack up           8
+attack down????     8
+---------------------
+total               88
+
+12 rows of 8 = 96
+11 rows of 8 = 88
+
+avalanche
+=====================
+running up          7
+running down        7
+running side        7
+idle up             
+idle down           3
+idle side           4
+shooting up         5
+shooting down       4
+shooting side       5
+---------------------
+total               42
+
+6 rows of 8 = 48
+
