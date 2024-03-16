@@ -26,10 +26,15 @@ func set_idle_direction():
 		animatedSprite.animation = "idle-up"
 
 func fire_projectile():
-	if PROJECTILE:
-		var projectile = PROJECTILE.instance()
-		get_tree().current_scene.add_child(projectile)
-		projectile.set("direction", direction)
+	if direction == Vector2.ZERO:
+		pass
+	else:
+		if PROJECTILE:
+			var projectile = PROJECTILE.instance()
+			projectile.position = self.position
+			projectile.set("direction", direction)
+			get_tree().current_scene.add_child(projectile)
+			print("shotgun dir = ", direction)			
 
 func get_input():
 	velocity = Vector2.ZERO
