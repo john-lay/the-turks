@@ -5,7 +5,7 @@ extends Sprite
 # var a = 2
 # var b = "text"
 var speed: int = 100
-var direction: Vector2
+var direction: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
