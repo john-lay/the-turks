@@ -5,7 +5,7 @@ onready var animatedSprite = self
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var speed: int = 100
+var speed: int = 200
 var direction: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
