@@ -3,6 +3,12 @@ extends KinematicBody2D
 var speed: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.ZERO
+enum STATE {
+	MOVE,
+	ATTACK
+}
+
+var state = STATE.MOVE
 
 export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/ProjectileSprite.tscn")
 
@@ -15,6 +21,9 @@ onready var animatedSprite = $AnimatedSprite
 #func _ready():
 #	projectile = get_node("ProjectileSprite")
 
+func _ready():
+	animatedSprite.connect("animation_finished",self, "animation_finished")
+
 func set_idle_direction():
 	if direction == Vector2.RIGHT:
 		animatedSprite.animation = "idle-right"
@@ -24,6 +33,17 @@ func set_idle_direction():
 		animatedSprite.animation = "idle-down"
 	if direction == Vector2.UP:
 		animatedSprite.animation = "idle-up"
+
+func set_attack_direction():
+	if direction == Vector2.RIGHT:
+#		animatedSprite.play("attack-right")
+		animatedSprite.animation = "attack-right"
+	if direction == Vector2.LEFT:
+		animatedSprite.animation = "attack-left"
+	if direction == Vector2.DOWN:
+		animatedSprite.animation = "attack-down"
+	if direction == Vector2.UP:
+		animatedSprite.animation = "attack-up"
 
 func get_shot_start_position() -> Vector2:
 	var position: Vector2
@@ -41,16 +61,23 @@ func get_shot_start_position() -> Vector2:
 		position.y = self.position.y
 	
 	return position
-		
+
 func fire_projectile():
-	if direction == Vector2.ZERO:
-		pass
-	else:
-		if PROJECTILE:
-			var projectile = PROJECTILE.instance()
-			projectile.position = get_shot_start_position()
-			projectile.set("direction", direction)
-			get_tree().current_scene.add_child(projectile)
+	if PROJECTILE:
+		var projectile = PROJECTILE.instance()
+		projectile.position = get_shot_start_position()
+		projectile.set("direction", direction)
+		get_tree().current_scene.add_child(projectile)
+
+func animation_finished():
+	var completedAnimation = animatedSprite.get_animation()
+	print("completedAnimation = ", completedAnimation)
+	if completedAnimation == "attack-up" \
+		|| completedAnimation == "attack-down" \
+		|| completedAnimation == "attack-left" \
+		|| completedAnimation == "attack-right":
+		fire_projectile()
+		state = STATE.MOVE
 
 func get_input():
 	velocity = Vector2.ZERO
@@ -71,10 +98,14 @@ func get_input():
 		animatedSprite.animation = "move-up"
 		direction = Vector2.UP
 	elif Input.is_action_just_pressed("ui_accept"):
-		fire_projectile()
+		if direction == Vector2.ZERO:
+			pass
+		else:
+			state = STATE.ATTACK
+			set_attack_direction()
 	else:
-		set_idle_direction()
-	
+		if state == STATE.MOVE:
+			set_idle_direction()
 
 func _physics_process(_delta):
 	get_input()
