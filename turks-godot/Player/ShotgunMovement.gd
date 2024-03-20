@@ -60,7 +60,42 @@ func get_shot_start_position() -> Vector2:
 	if direction == Vector2.UP:
 		position.x = self.position.x + 32
 		position.y = self.position.y
-	
+	return position
+
+func get_left_shot_start_position() -> Vector2:
+	var position: Vector2 = get_shot_start_position()
+	var distance_from_player: int = 16
+	var shot_spacing: int = 24
+	if direction == Vector2.RIGHT:
+		position.x += distance_from_player
+		position.y -= shot_spacing
+	if direction == Vector2.LEFT:
+		position.x -= distance_from_player
+		position.y += shot_spacing
+	if direction == Vector2.DOWN:
+		position.x += shot_spacing
+		position.y += distance_from_player
+	if direction == Vector2.UP:
+		position.x -= shot_spacing
+		position.y -= distance_from_player
+	return position
+
+func get_right_shot_start_position() -> Vector2:
+	var position: Vector2 = get_shot_start_position()
+	var distance_from_player: int = 16
+	var shot_spacing: int = 24
+	if direction == Vector2.RIGHT:
+		position.x += distance_from_player
+		position.y += shot_spacing
+	if direction == Vector2.LEFT:
+		position.x -= distance_from_player
+		position.y -= shot_spacing
+	if direction == Vector2.DOWN:
+		position.x -= shot_spacing
+		position.y += distance_from_player
+	if direction == Vector2.UP:
+		position.x += shot_spacing
+		position.y -= distance_from_player
 	return position
 
 func fire_projectile():
@@ -69,15 +104,25 @@ func fire_projectile():
 		projectile.position = get_shot_start_position()
 		projectile.set("direction", direction)
 		get_tree().current_scene.add_child(projectile)
+		var projectile_left = PROJECTILE.instance()
+		projectile_left.position = get_left_shot_start_position()
+		projectile_left.set("direction", direction)
+		get_tree().current_scene.add_child(projectile_left)
+		var projectile_right = PROJECTILE.instance()
+		projectile_right.position = get_right_shot_start_position()
+		projectile_right.set("direction", direction)
+		get_tree().current_scene.add_child(projectile_right)
 		state = STATE.MOVE
 
 func should_launch_projectile():
-	var last_attack_frame = 3
 	if isAttacking:
+		var last_attack_frame: int = 3
+		if (direction == Vector2.UP || direction == Vector2.DOWN):
+			last_attack_frame = 4
 		if (animatedSprite.get_frame() == last_attack_frame): 
 			isAttacking = false
 			fire_projectile()
-		
+
 #func animation_finished():
 #	var completedAnimation = animatedSprite.get_animation()
 #	print("completedAnimation = ", completedAnimation)

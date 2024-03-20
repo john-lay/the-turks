@@ -10,7 +10,6 @@ var direction: Vector2 = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(direction)
 	if direction == Vector2.RIGHT:
 		animatedSprite.animation = "right"
 	if direction == Vector2.LEFT:
