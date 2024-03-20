@@ -13,6 +13,7 @@ var state = STATE.MOVE
 export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/ProjectileSprite.tscn")
 
 onready var animatedSprite = $AnimatedSprite
+var isAttacking: bool = false
 
 # the below line is equivalent to
 #onready var projectile = $ProjectileSprite
@@ -21,8 +22,8 @@ onready var animatedSprite = $AnimatedSprite
 #func _ready():
 #	projectile = get_node("ProjectileSprite")
 
-func _ready():
-	animatedSprite.connect("animation_finished",self, "animation_finished")
+#func _ready():
+#	animatedSprite.connect("animation_finished",self, "animation_finished")
 
 func set_idle_direction():
 	if direction == Vector2.RIGHT:
@@ -36,7 +37,6 @@ func set_idle_direction():
 
 func set_attack_direction():
 	if direction == Vector2.RIGHT:
-#		animatedSprite.play("attack-right")
 		animatedSprite.animation = "attack-right"
 	if direction == Vector2.LEFT:
 		animatedSprite.animation = "attack-left"
@@ -44,6 +44,7 @@ func set_attack_direction():
 		animatedSprite.animation = "attack-down"
 	if direction == Vector2.UP:
 		animatedSprite.animation = "attack-up"
+	isAttacking = true
 
 func get_shot_start_position() -> Vector2:
 	var position: Vector2
@@ -68,16 +69,24 @@ func fire_projectile():
 		projectile.position = get_shot_start_position()
 		projectile.set("direction", direction)
 		get_tree().current_scene.add_child(projectile)
-
-func animation_finished():
-	var completedAnimation = animatedSprite.get_animation()
-	print("completedAnimation = ", completedAnimation)
-	if completedAnimation == "attack-up" \
-		|| completedAnimation == "attack-down" \
-		|| completedAnimation == "attack-left" \
-		|| completedAnimation == "attack-right":
-		fire_projectile()
 		state = STATE.MOVE
+
+func should_launch_projectile():
+	var last_attack_frame = 3
+	if isAttacking:
+		if (animatedSprite.get_frame() == last_attack_frame): 
+			isAttacking = false
+			fire_projectile()
+		
+#func animation_finished():
+#	var completedAnimation = animatedSprite.get_animation()
+#	print("completedAnimation = ", completedAnimation)
+#	if completedAnimation == "attack-up" \
+#		|| completedAnimation == "attack-down" \
+#		|| completedAnimation == "attack-left" \
+#		|| completedAnimation == "attack-right":
+#		fire_projectile()
+#		state = STATE.MOVE
 
 func get_input():
 	velocity = Vector2.ZERO
@@ -109,5 +118,6 @@ func get_input():
 
 func _physics_process(_delta):
 	get_input()
+	should_launch_projectile()
 	velocity = velocity.normalized() * speed
 	velocity = move_and_slide(velocity)
