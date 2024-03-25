@@ -33,3 +33,5 @@ func _on_Area2D_body_entered(body):
 	if body.is_in_group("enemy_group"):
 #		print("projectile collided with ", body.name)
 		self.queue_free()
+		if body.has_method("enemy_hit"):
+			body.enemy_hit()
