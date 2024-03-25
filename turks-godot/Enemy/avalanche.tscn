@@ -325,3 +325,7 @@ margin_right = 16.0
 margin_bottom = -16.0
 text = "0000"
 align = 1
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

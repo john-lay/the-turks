@@ -5,6 +5,7 @@ extends KinematicBody2D
 # var a = 2
 # var b = "text"
 onready var damageLabel = $DamageLabel
+onready var timer = $Timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,4 +19,9 @@ func _ready():
 func enemy_hit():
 	damageLabel.text = "9999"
 	damageLabel.visible = true
-	print("enemy has been hit!")
+	timer.start(0.5)
+#	print("enemy has been hit!")
+
+
+func _on_Timer_timeout():
+	damageLabel.visible = false
