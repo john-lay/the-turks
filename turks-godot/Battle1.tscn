@@ -55,7 +55,7 @@ texture_progress = ExtResource( 6 )
 [node name="player" parent="." instance=ExtResource( 8 )]
 position = Vector2( 40, 120 )
 
-[node name="enemy" parent="." instance=ExtResource( 9 )]
+[node name="enemy" parent="." groups=["enemy_group"] instance=ExtResource( 9 )]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 __meta__ = {

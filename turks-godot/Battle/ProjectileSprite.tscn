@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Battle/ProjectileSprite.gd" type="Script" id=1]
 [ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=2]
@@ -42,7 +42,17 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 8, 3.25 )
+
 [node name="AnimatedSprite" type="AnimatedSprite"]
 frames = SubResource( 5 )
 animation = "right"
 script = ExtResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="." groups=["shotgun_projectile"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 6 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

@@ -27,3 +27,9 @@ func _physics_process(delta):
 #	set_sprite_direction()
 #	if (fired):
 	global_position += speed * direction * delta
+
+
+func _on_Area2D_body_entered(body):
+	if body.is_in_group("enemy_group"):
+#		print("projectile collided with ", body.name)
+		self.queue_free()
