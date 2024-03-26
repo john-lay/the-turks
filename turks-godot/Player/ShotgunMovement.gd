@@ -166,3 +166,6 @@ func _physics_process(_delta):
 	should_launch_projectile()
 	velocity = velocity.normalized() * speed
 	velocity = move_and_slide(velocity)
+	
+func player_hit():
+	print("shotgun hit by enemy projectile")

@@ -52,18 +52,21 @@ value = 50.0
 texture_under = ExtResource( 7 )
 texture_progress = ExtResource( 6 )
 
-[node name="player" parent="." instance=ExtResource( 8 )]
+[node name="player" parent="." groups=["player_group"] instance=ExtResource( 8 )]
 position = Vector2( 40, 120 )
 
 [node name="enemy" parent="." groups=["enemy_group"] instance=ExtResource( 9 )]
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Background Collisions" type="StaticBody2D" parent="."]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background Collisions"]
 polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background Collisions"]
 polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
