@@ -306,7 +306,7 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "attack-down"
-frame = 1
+frame = 3
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -326,6 +326,10 @@ margin_bottom = -16.0
 text = "0000"
 align = 1
 
-[node name="Timer" type="Timer" parent="."]
+[node name="DamageLabelTimer" type="Timer" parent="."]
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="StateTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="DamageLabelTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="StateTimer" to="." method="_on_StateTimer_timeout"]
