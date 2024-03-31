@@ -24,11 +24,27 @@ func _ready():
 	damageLabel.visible = false
 	randomize()
 
+func get_bullet_start_position() -> Vector2:
+	var position: Vector2
+	if direction == Vector2.RIGHT:
+		position.x = self.position.x + 24
+		position.y = self.position.y - 8
+	if direction == Vector2.LEFT:
+		position.x = self.position.x - 24
+		position.y = self.position.y - 8
+	if direction == Vector2.DOWN:
+		position.x = self.position.x
+		position.y = self.position.y
+	if direction == Vector2.UP:
+		position.x = self.position.x
+		position.y = self.position.y - 24
+	return position
 
 func fire_projectile():
 	if ENEMY_PROJECTILE:
 		var projectile = ENEMY_PROJECTILE.instance()
 		projectile.position = self.position
+		projectile.position = get_bullet_start_position()
 		projectile.set("direction", direction)
 		get_tree().current_scene.add_child(projectile)
 

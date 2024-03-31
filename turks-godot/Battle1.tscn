@@ -56,6 +56,7 @@ texture_progress = ExtResource( 6 )
 position = Vector2( 40, 120 )
 
 [node name="enemy" parent="." groups=["enemy_group"] instance=ExtResource( 9 )]
+position = Vector2( 128, 128 )
 __meta__ = {
 "_edit_group_": true
 }
