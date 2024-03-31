@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 export(PackedScene) var ENEMY_PROJECTILE: PackedScene = preload("res://Enemy/EnemyProjectile.tscn")
 
+signal request_player_position()
+
 enum STATE {
 	IDLE
 	NEW_DIRECTION
@@ -116,6 +118,7 @@ func move(delta):
 func attack():
 	set_attack_animation()
 	should_launch_projectile()
+#	get_player_position()
 	
 func choose(array):
 	array.shuffle()
@@ -130,3 +133,9 @@ func _on_StateTimer_timeout():
 
 func _on_BulletTimer_timeout():
 	canAttack = true
+
+func get_player_position():
+	emit_signal("request_player_position")
+
+func player_position_received(player_position:Vector2):
+	print("player_position received", player_position)
