@@ -47,7 +47,6 @@ func set_attack_direction():
 	isAttacking = true
 
 func get_shot_start_position() -> Vector2:
-	var position: Vector2
 	if direction == Vector2.RIGHT:
 		position.x = self.position.x + 32 + 32
 		position.y = self.position.y + 32

@@ -13,10 +13,12 @@ const SPEED:int = 50 # speed in pixels/sec
 var state = STATE.MOVE
 var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.LEFT
+var canAttack: bool = true
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
+onready var bulletTimer = $BulletTimer
 onready var animatedSprite = $AnimatedSprite
 
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +27,6 @@ func _ready():
 	randomize()
 
 func get_bullet_start_position() -> Vector2:
-	var position: Vector2
 	if direction == Vector2.RIGHT:
 		position.x = self.position.x + 24
 		position.y = self.position.y - 8
@@ -48,6 +49,22 @@ func fire_projectile():
 		projectile.set("direction", direction)
 		get_tree().current_scene.add_child(projectile)
 
+func is_playing_attack_animation():
+	var completedAnimation = animatedSprite.get_animation()
+#	print("completedAnimation = ", completedAnimation)
+	return completedAnimation == "attack-up" \
+		|| completedAnimation == "attack-down" \
+		|| completedAnimation == "attack-left" \
+		|| completedAnimation == "attack-right"
+
+func should_launch_projectile():
+	if (canAttack && is_playing_attack_animation()):
+		var attack_frame: int = 1 # frame where the firearm recoils
+		if (animatedSprite.get_frame() == attack_frame):
+			canAttack = false
+			bulletTimer.start(0.5)
+			fire_projectile()
+			
 func enemy_hit():
 	damageLabel.text = "9999"
 	damageLabel.visible = true
@@ -98,7 +115,7 @@ func move(delta):
 
 func attack():
 	set_attack_animation()
-	fire_projectile()
+	should_launch_projectile()
 	
 func choose(array):
 	array.shuffle()
@@ -110,3 +127,6 @@ func _on_Timer_timeout():
 func _on_StateTimer_timeout():
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
 	state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
+
+func _on_BulletTimer_timeout():
+	canAttack = true
