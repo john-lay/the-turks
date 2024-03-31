@@ -1,18 +1,19 @@
 extends KinematicBody2D
 
-var speed: int = 175  # speed in pixels/sec
-var velocity: Vector2 = Vector2.ZERO
-var direction: Vector2 = Vector2.ZERO
+export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/ProjectileSprite.tscn")
+
 enum STATE {
 	MOVE,
 	ATTACK
 }
 
-var state = STATE.MOVE
-
-export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/ProjectileSprite.tscn")
-
 onready var animatedSprite = $AnimatedSprite
+
+var speed: int = 175  # speed in pixels/sec
+var velocity: Vector2 = Vector2.ZERO
+var direction: Vector2 = Vector2.ZERO
+var state = STATE.MOVE
+var canAttack: bool = false
 var isAttacking: bool = false
 
 # the below line is equivalent to
@@ -47,6 +48,7 @@ func set_attack_direction():
 	isAttacking = true
 
 func get_shot_start_position() -> Vector2:
+	var position: Vector2
 	if direction == Vector2.RIGHT:
 		position.x = self.position.x + 32 + 32
 		position.y = self.position.y + 32
@@ -151,7 +153,7 @@ func get_input():
 		animatedSprite.animation = "move-up"
 		direction = Vector2.UP
 	elif Input.is_action_just_pressed("ui_accept"):
-		if direction == Vector2.ZERO:
+		if direction == Vector2.ZERO || !canAttack:
 			pass
 		else:
 			state = STATE.ATTACK
@@ -168,3 +170,6 @@ func _physics_process(_delta):
 	
 func player_hit():
 	print("shotgun hit by enemy projectile")
+
+func enable_attack():
+	canAttack = true

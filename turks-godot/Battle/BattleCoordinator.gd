@@ -6,8 +6,11 @@ onready var enemy = $enemy
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	enable_player_attack()
 
+func enable_player_attack():
+	if (player.has_method("enable_attack")):
+		player.enable_attack()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
