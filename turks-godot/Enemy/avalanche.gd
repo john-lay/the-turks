@@ -29,6 +29,7 @@ func _ready():
 	randomize()
 
 func get_bullet_start_position() -> Vector2:
+	var position: Vector2
 	if direction == Vector2.RIGHT:
 		position.x = self.position.x + 24
 		position.y = self.position.y - 8
