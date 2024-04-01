@@ -63,7 +63,7 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Background Collisions" type="StaticBody2D" parent="."]
+[node name="Background Collisions" type="StaticBody2D" parent="." groups=["bg"]]
 __meta__ = {
 "_edit_lock_": true
 }

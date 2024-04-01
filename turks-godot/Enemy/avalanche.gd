@@ -16,6 +16,7 @@ var state = STATE.MOVE
 var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.LEFT
 var canAttack: bool = true
+var collidedWithBackground: bool = false
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
@@ -115,6 +116,10 @@ func move(delta):
 	set_move_animation()
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
+	if (get_last_slide_collision() != null):
+		if (get_last_slide_collision().collider.is_in_group("bg")):
+#			print("enemy touching bg, needs to change direction")
+			collidedWithBackground = true
 
 func attack():
 	set_attack_animation()
@@ -130,7 +135,17 @@ func _on_Timer_timeout():
 
 func _on_StateTimer_timeout():
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
-	state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
+	print("state timer expired, new timer = ", stateTimer.wait_time)
+	if (collidedWithBackground):
+		collidedWithBackground = false
+#		print("collided with bg, direction was: ", direction)
+		if (direction == Vector2.LEFT): direction = Vector2.RIGHT
+		elif (direction == Vector2.RIGHT): direction = Vector2.LEFT
+		elif (direction == Vector2.UP): direction = Vector2.DOWN
+		elif (direction == Vector2.DOWN): direction = Vector2.UP
+		state = STATE.MOVE
+	else:
+		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
 
 func _on_BulletTimer_timeout():
 	canAttack = true
