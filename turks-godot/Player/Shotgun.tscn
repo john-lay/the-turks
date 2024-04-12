@@ -393,3 +393,15 @@ playing = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 32, 40 )
 shape = SubResource( 31 )
+
+[node name="DamageLabel" type="Label" parent="."]
+margin_left = 12.0
+margin_top = 4.0
+margin_right = 52.0
+margin_bottom = 18.0
+text = "0000"
+align = 1
+
+[node name="DamageLabelTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="DamageLabelTimer" to="." method="_on_DamageLabelTimer_timeout"]

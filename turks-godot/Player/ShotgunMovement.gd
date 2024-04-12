@@ -8,6 +8,8 @@ enum STATE {
 }
 
 onready var animatedSprite = $AnimatedSprite
+onready var damageLabel = $DamageLabel
+onready var damageLabelTimer = $DamageLabelTimer
 
 var speed: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
@@ -25,6 +27,8 @@ var isAttacking: bool = false
 
 #func _ready():
 #	animatedSprite.connect("animation_finished",self, "animation_finished")
+func _ready():
+	damageLabel.visible = false
 
 func set_idle_direction():
 	if direction == Vector2.RIGHT:
@@ -169,7 +173,14 @@ func _physics_process(_delta):
 	velocity = move_and_slide(velocity)
 	
 func player_hit():
-	print("shotgun hit by enemy projectile")
+#	print("shotgun hit by enemy projectile")
+	damageLabel.text = "9999"
+	damageLabel.visible = true
+	damageLabelTimer.start(0.5)
 
 func enable_attack():
 	canAttack = true
+
+
+func _on_DamageLabelTimer_timeout():
+	damageLabel.visible = false
