@@ -332,6 +332,6 @@ autostart = true
 
 [node name="BulletTimer" type="Timer" parent="."]
 
-[connection signal="timeout" from="DamageLabelTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="DamageLabelTimer" to="." method="_on_DamageLabelTimer_timeout"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_StateTimer_timeout"]
 [connection signal="timeout" from="BulletTimer" to="." method="_on_BulletTimer_timeout"]

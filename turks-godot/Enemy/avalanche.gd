@@ -168,7 +168,7 @@ func choose(array):
 	array.shuffle()
 	return array.front()
 
-func _on_Timer_timeout():
+func _on_DamageLabelTimer_timeout():
 	damageLabel.visible = false
 
 func _on_StateTimer_timeout():

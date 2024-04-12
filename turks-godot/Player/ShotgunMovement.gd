@@ -11,7 +11,7 @@ onready var animatedSprite = $AnimatedSprite
 onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
 
-var speed: int = 175  # speed in pixels/sec
+const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.ZERO
 var state = STATE.MOVE
@@ -169,7 +169,7 @@ func get_input():
 func _physics_process(_delta):
 	get_input()
 	should_launch_projectile()
-	velocity = velocity.normalized() * speed
+	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
 	
 func player_hit():
