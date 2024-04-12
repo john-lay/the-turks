@@ -80,7 +80,7 @@ func _process(delta):
 	get_player_position()
 	match state:
 		STATE.IDLE:
-			pass
+			set_idle_animation()
 		STATE.NEW_DIRECTION:
 			direction = choose([Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT])
 			state = choose([STATE.IDLE, STATE.MOVE])
@@ -113,6 +113,16 @@ func set_attack_animation():
 		animatedSprite.animation = "attack-left"
 	if (direction == Vector2.RIGHT):
 		animatedSprite.animation = "attack-right"
+
+func set_idle_animation():
+	if (direction == Vector2.UP):
+		animatedSprite.animation = "idle-down" # idle-up animation missing
+	if (direction == Vector2.DOWN):
+		animatedSprite.animation = "idle-down"
+	if (direction == Vector2.LEFT):
+		animatedSprite.animation = "idle-left"
+	if (direction == Vector2.RIGHT):
+		animatedSprite.animation = "idle-right"
 
 func move(delta):
 	set_move_animation()
@@ -153,7 +163,6 @@ func attack():
 	direction = get_attack_direction()
 	set_attack_animation()
 	should_launch_projectile()
-#	get_player_position()
 	
 func choose(array):
 	array.shuffle()
@@ -164,7 +173,7 @@ func _on_Timer_timeout():
 
 func _on_StateTimer_timeout():
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
-	print("state timer expired, new timer = ", stateTimer.wait_time)
+#	print("state timer expired, new timer = ", stateTimer.wait_time)
 	if (collidedWithBackground):
 		# move enemy in opposite direction
 		collidedWithBackground = false
