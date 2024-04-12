@@ -184,7 +184,11 @@ func _on_StateTimer_timeout():
 		elif (direction == Vector2.DOWN): direction = Vector2.UP
 		state = STATE.MOVE
 	else:
-		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
+#		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
+		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK,
+						STATE.MOVE, STATE.MOVE,
+						STATE.NEW_DIRECTION,
+						STATE.ATTACK, STATE.ATTACK, STATE.ATTACK])
 
 func _on_BulletTimer_timeout():
 	canAttack = true
