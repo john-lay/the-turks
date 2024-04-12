@@ -17,6 +17,7 @@ var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.LEFT
 var canAttack: bool = true
 var collidedWithBackground: bool = false
+var playerPosition: Vector2
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
@@ -76,6 +77,7 @@ func enemy_hit():
 #	print("enemy has been hit!")
 
 func _process(delta):
+	get_player_position()
 	match state:
 		STATE.IDLE:
 			pass
@@ -121,7 +123,34 @@ func move(delta):
 #			print("enemy touching bg, needs to change direction")
 			collidedWithBackground = true
 
+func get_attack_direction() -> Vector2:
+	var dx: int
+	var dy: int
+	var dirX: Vector2
+	var dirY: Vector2
+	if (playerPosition.x > self.position.x):
+		dx = playerPosition.x - self.position.x
+		dirX = Vector2.RIGHT
+#		print("player to enemies right")
+	elif (playerPosition.x < self.position.x):
+		dx = self.position.x - playerPosition.x
+		dirX = Vector2.LEFT
+#		print("player to enemies left")
+	if (playerPosition.y > self.position.y):
+		dy = playerPosition.y - self.position.y
+		dirY = Vector2.DOWN
+#		print("player below enemy")
+	elif (playerPosition.y < self.position.y):
+		dy = self.position.y - playerPosition.y
+		dirY = Vector2.UP
+#		print("player above enemy")
+	if (dx > dy):
+		return dirX
+	else:
+		return dirY
+	
 func attack():
+	direction = get_attack_direction()
 	set_attack_animation()
 	should_launch_projectile()
 #	get_player_position()
@@ -137,6 +166,7 @@ func _on_StateTimer_timeout():
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
 	print("state timer expired, new timer = ", stateTimer.wait_time)
 	if (collidedWithBackground):
+		# move enemy in opposite direction
 		collidedWithBackground = false
 #		print("collided with bg, direction was: ", direction)
 		if (direction == Vector2.LEFT): direction = Vector2.RIGHT
@@ -154,4 +184,5 @@ func get_player_position():
 	emit_signal("request_player_position")
 
 func player_position_received(player_position:Vector2):
-	print("player_position received", player_position)
+#	print("player_position received", player_position)
+	playerPosition = player_position
