@@ -1,7 +1,8 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://Enemy/avalanche-sprite-sheet.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/avalanche.gd" type="Script" id=2]
+[ext_resource path="res://Audio/enemy-attack.wav" type="AudioStream" id=3]
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
@@ -306,6 +307,7 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "attack-down"
+frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -331,6 +333,9 @@ align = 1
 autostart = true
 
 [node name="BulletTimer" type="Timer" parent="."]
+
+[node name="EnemyAttackAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
 
 [connection signal="timeout" from="DamageLabelTimer" to="." method="_on_DamageLabelTimer_timeout"]
 [connection signal="timeout" from="StateTimer" to="." method="_on_StateTimer_timeout"]

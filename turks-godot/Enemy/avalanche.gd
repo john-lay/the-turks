@@ -24,6 +24,7 @@ onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
 onready var bulletTimer = $BulletTimer
 onready var animatedSprite = $AnimatedSprite
+onready var enemyAttackAudio = $EnemyAttackAudio
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -69,6 +70,7 @@ func should_launch_projectile():
 			canAttack = false
 			bulletTimer.start(0.5)
 			fire_projectile()
+			enemyAttackAudio.play()
 			
 func enemy_hit():
 	damageLabel.text = "9999"
