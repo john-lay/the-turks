@@ -1,7 +1,8 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://Player/ShotgunMovement.gd" type="Script" id=1]
 [ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=2]
+[ext_resource path="res://Audio/shotgun.wav" type="AudioStream" id=3]
 
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 2 )
@@ -379,9 +380,6 @@ extents = Vector2( 8, 8 )
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 32, 32 )
@@ -403,5 +401,8 @@ text = "0000"
 align = 1
 
 [node name="DamageLabelTimer" type="Timer" parent="."]
+
+[node name="ShotgunAttackAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
 
 [connection signal="timeout" from="DamageLabelTimer" to="." method="_on_DamageLabelTimer_timeout"]

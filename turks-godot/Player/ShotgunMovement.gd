@@ -10,6 +10,7 @@ enum STATE {
 onready var animatedSprite = $AnimatedSprite
 onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
+onready var shotgunAttackAudio = $ShotgunAttackAudio
 
 const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
@@ -127,6 +128,7 @@ func should_launch_projectile():
 		if (animatedSprite.get_frame() == last_attack_frame): 
 			isAttacking = false
 			fire_projectile()
+			shotgunAttackAudio.play()
 
 #func animation_finished():
 #	var completedAnimation = animatedSprite.get_animation()
