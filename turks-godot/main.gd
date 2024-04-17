@@ -9,11 +9,14 @@ var shotgun_attack_power: int = (2 * player_level) + 14
 var shotgun_defence_power: int = player_level + 14
 
 export(PackedScene) var BATTLE1: PackedScene = preload("res://Battle1.tscn")
+export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var battle = BATTLE1.instance()
-	get_tree().current_scene.add_child(battle)
+#	var battle = BATTLE1.instance()
+#	get_tree().current_scene.add_child(battle)
+	var scene1_1 = SCENE1_1.instance()
+	get_tree().current_scene.add_child(scene1_1)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
