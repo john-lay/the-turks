@@ -13,6 +13,7 @@ onready var damageLabelTimer = $DamageLabelTimer
 onready var shotgunAttackAudio = $ShotgunAttackAudio
 
 signal player_health_changed(health)
+signal player_died
 
 const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
@@ -181,12 +182,15 @@ func _physics_process(_delta):
 	
 func player_hit():
 #	print("shotgun hit by enemy projectile")
-	health -= 5
-	damageLabel.text = "5"
+	var damage: int = 5
+	if (health - damage <= 0):
+		emit_signal("player_died")
+	health -= damage
+	damageLabel.text = damage as String
 	damageLabel.visible = true
 	damageLabelTimer.start(0.5)
 	emit_signal("player_health_changed", health)
-
+	
 func enable_attack():
 	canAttack = true
 

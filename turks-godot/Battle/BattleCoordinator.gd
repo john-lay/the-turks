@@ -40,3 +40,8 @@ func init_player_stats(hp: int, mp: int):
 func _on_player_player_health_changed(health):
 	player_hp = health
 	health_bar.value = (player_hp as float / player_max_hp as float) * 100
+
+
+func _on_player_player_died():
+	print("game over")
+	get_tree().paused = true
