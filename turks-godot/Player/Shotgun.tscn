@@ -1,6 +1,6 @@
 [gd_scene load_steps=78 format=2]
 
-[ext_resource path="res://Player/ShotgunMovement.gd" type="Script" id=1]
+[ext_resource path="res://Player/Shotgun.gd" type="Script" id=1]
 [ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=2]
 [ext_resource path="res://Audio/shotgun.wav" type="AudioStream" id=3]
 
