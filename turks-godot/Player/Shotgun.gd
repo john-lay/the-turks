@@ -169,7 +169,8 @@ func get_input():
 			set_idle_direction()
 
 func _physics_process(_delta):
-	get_input()
+	if (!isAttacking):
+		get_input()
 	should_launch_projectile()
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
