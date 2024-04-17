@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -11,9 +11,16 @@
 [ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Battle/BattleCoordinator.gd" type="Script" id=10]
 [ext_resource path="res://Audio/survive-phone.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Battle/game-over.png" type="Texture" id=12]
 
 [node name="BattleCoordinator" type="Node2D"]
 script = ExtResource( 10 )
+
+[node name="GameOver" type="Sprite" parent="."]
+visible = false
+position = Vector2( 120, 120 )
+z_index = 100
+texture = ExtResource( 12 )
 
 [node name="TileMap BG" type="TileMap" parent="."]
 position = Vector2( -8, 0 )
