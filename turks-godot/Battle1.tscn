@@ -80,4 +80,5 @@ stream = ExtResource( 11 )
 volume_db = -10.0
 autoplay = true
 
+[connection signal="player_health_changed" from="player" to="." method="_on_player_player_health_changed"]
 [connection signal="request_player_position" from="enemy" to="." method="_on_enemy_request_player_position"]

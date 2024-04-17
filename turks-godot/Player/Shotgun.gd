@@ -12,12 +12,16 @@ onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
 onready var shotgunAttackAudio = $ShotgunAttackAudio
 
+signal player_health_changed(health)
+
 const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.ZERO
 var state = STATE.MOVE
 var canAttack: bool = false
 var isAttacking: bool = false
+var max_health: int;
+var health: int;
 
 # the below line is equivalent to
 #onready var projectile = $ProjectileSprite
@@ -177,13 +181,18 @@ func _physics_process(_delta):
 	
 func player_hit():
 #	print("shotgun hit by enemy projectile")
-	damageLabel.text = "9999"
+	health -= 5
+	damageLabel.text = "5"
 	damageLabel.visible = true
 	damageLabelTimer.start(0.5)
+	emit_signal("player_health_changed", health)
 
 func enable_attack():
 	canAttack = true
 
-
 func _on_DamageLabelTimer_timeout():
 	damageLabel.visible = false
+	
+func init_player_health(hp: int):
+	max_health = hp
+	health = hp

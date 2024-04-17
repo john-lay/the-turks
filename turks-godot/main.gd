@@ -13,10 +13,12 @@ export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	var battle = BATTLE1.instance()
-#	get_tree().current_scene.add_child(battle)
-	var scene1_1 = SCENE1_1.instance()
-	get_tree().current_scene.add_child(scene1_1)
+	var battle = BATTLE1.instance()
+	get_tree().current_scene.add_child(battle)
+	if (battle.has_method("init_player_stats")):
+		battle.init_player_stats(shotgun_hp, shotgun_mp)
+#	var scene1_1 = SCENE1_1.instance()
+#	get_tree().current_scene.add_child(scene1_1)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
