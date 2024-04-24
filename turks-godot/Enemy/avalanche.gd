@@ -18,6 +18,8 @@ var direction: Vector2 = Vector2.LEFT
 var canAttack: bool = true
 var collidedWithBackground: bool = false
 var playerPosition: Vector2
+var enemy_hp: int
+var enemy_attack_power: int
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
@@ -53,6 +55,7 @@ func fire_projectile():
 		projectile.position = self.position
 		projectile.position = get_bullet_start_position()
 		projectile.set("direction", direction)
+		projectile.set("damage", enemy_attack_power)
 		get_tree().current_scene.add_child(projectile)
 
 func is_playing_attack_animation():
@@ -201,3 +204,7 @@ func get_player_position():
 func player_position_received(player_position:Vector2):
 #	print("player_position received", player_position)
 	playerPosition = player_position
+	
+func init_enemy_stats(hp, attack_power):
+	enemy_hp = hp
+	enemy_attack_power = attack_power

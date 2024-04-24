@@ -2,6 +2,7 @@ extends AnimatedSprite
 
 var speed: int = 200
 var direction: Vector2 = Vector2.ZERO
+var damage: int
 
 func _ready():
 	if direction == Vector2.RIGHT:
@@ -21,4 +22,4 @@ func _on_Area2D_body_entered(body):
 #		print("projectile collided with ", body.name)
 		self.queue_free()
 		if body.has_method("player_hit"):
-			body.player_hit()
+			body.player_hit(damage)

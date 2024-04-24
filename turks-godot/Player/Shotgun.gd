@@ -180,9 +180,8 @@ func _physics_process(_delta):
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
 	
-func player_hit():
+func player_hit(damage: int):
 #	print("shotgun hit by enemy projectile")
-	var damage: int = 5
 	if (health - damage <= 0):
 		emit_signal("player_died")
 	health -= damage

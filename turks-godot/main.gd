@@ -8,6 +8,9 @@ var shotgun_mp: int = (7 * player_level) + 100
 var shotgun_attack_power: int = (2 * player_level) + 14
 var shotgun_defence_power: int = player_level + 14
 
+var enemy_hp: int = 20
+var enemy_attack_power = 5
+
 export(PackedScene) var BATTLE1: PackedScene = preload("res://Battle1.tscn")
 export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 
@@ -17,6 +20,8 @@ func _ready():
 	get_tree().current_scene.add_child(battle)
 	if (battle.has_method("init_player_stats")):
 		battle.init_player_stats(shotgun_hp, shotgun_mp)
+	if (battle.has_method("init_enemy_stats")):
+		battle.init_enemy_stats(enemy_hp, enemy_attack_power)
 #	var scene1_1 = SCENE1_1.instance()
 #	get_tree().current_scene.add_child(scene1_1)
 
