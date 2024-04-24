@@ -6,10 +6,11 @@ onready var enemy = $enemy
 onready var health_bar = $HealthBar
 onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
-var player_max_hp: int;
-var player_hp: int;
-var player_max_mp: int;
-var player_mp: int;
+var player_max_hp: int
+var player_hp: int
+var player_max_mp: int
+var player_mp: int
+signal player_won_battle
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,3 +55,8 @@ func _on_player_player_health_changed(health):
 func _on_player_player_died():
 	game_over.visible = true
 	get_tree().paused = true
+
+
+func _on_enemy_enemy_died():
+#	print("enemy died. Informing main scene.")
+	emit_signal("player_won_battle")
