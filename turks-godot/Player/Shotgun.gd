@@ -21,8 +21,9 @@ var direction: Vector2 = Vector2.ZERO
 var state = STATE.MOVE
 var canAttack: bool = false
 var isAttacking: bool = false
-var max_health: int;
-var health: int;
+var max_health: int
+var health: int
+var attack_power: int
 
 # the below line is equivalent to
 #onready var projectile = $ProjectileSprite
@@ -114,14 +115,17 @@ func fire_projectile():
 		var projectile = PROJECTILE.instance()
 		projectile.position = get_shot_start_position()
 		projectile.set("direction", direction)
+		projectile.set("damage", attack_power)
 		get_tree().current_scene.add_child(projectile)
 		var projectile_left = PROJECTILE.instance()
 		projectile_left.position = get_left_shot_start_position()
 		projectile_left.set("direction", direction)
+		projectile_left.set("damage", attack_power)
 		get_tree().current_scene.add_child(projectile_left)
 		var projectile_right = PROJECTILE.instance()
 		projectile_right.position = get_right_shot_start_position()
 		projectile_right.set("direction", direction)
+		projectile_right.set("damage", attack_power)
 		get_tree().current_scene.add_child(projectile_right)
 		state = STATE.MOVE
 
@@ -199,3 +203,6 @@ func _on_DamageLabelTimer_timeout():
 func init_player_health(hp: int):
 	max_health = hp
 	health = hp
+
+func init_player_attack_power(shotgun_attack_power: int):
+	attack_power = shotgun_attack_power

@@ -7,6 +7,7 @@ onready var animatedSprite = self
 # var b = "text"
 var speed: int = 200
 var direction: Vector2 = Vector2.ZERO
+var damage: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,4 +35,4 @@ func _on_Area2D_body_entered(body):
 #		print("projectile collided with ", body.name)
 		self.queue_free()
 		if body.has_method("enemy_hit"):
-			body.enemy_hit()
+			body.enemy_hit(damage)

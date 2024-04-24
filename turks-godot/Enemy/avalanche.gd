@@ -3,6 +3,7 @@ extends KinematicBody2D
 export(PackedScene) var ENEMY_PROJECTILE: PackedScene = preload("res://Enemy/EnemyProjectile.tscn")
 
 signal request_player_position()
+signal enemy_died
 
 enum STATE {
 	IDLE
@@ -18,8 +19,8 @@ var direction: Vector2 = Vector2.LEFT
 var canAttack: bool = true
 var collidedWithBackground: bool = false
 var playerPosition: Vector2
-var enemy_hp: int
-var enemy_attack_power: int
+var health: int
+var attack_power: int
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
@@ -55,7 +56,7 @@ func fire_projectile():
 		projectile.position = self.position
 		projectile.position = get_bullet_start_position()
 		projectile.set("direction", direction)
-		projectile.set("damage", enemy_attack_power)
+		projectile.set("damage", attack_power)
 		get_tree().current_scene.add_child(projectile)
 
 func is_playing_attack_animation():
@@ -75,8 +76,11 @@ func should_launch_projectile():
 			fire_projectile()
 			enemyAttackAudio.play()
 			
-func enemy_hit():
-	damageLabel.text = "9999"
+func enemy_hit(damage: int):
+	if (health - damage <= 0):
+		emit_signal("enemy_died")
+	health -= damage
+	damageLabel.text = damage as String
 	damageLabel.visible = true
 	damageLabelTimer.start(0.5)
 #	print("enemy has been hit!")
@@ -205,6 +209,6 @@ func player_position_received(player_position:Vector2):
 #	print("player_position received", player_position)
 	playerPosition = player_position
 	
-func init_enemy_stats(hp, attack_power):
-	enemy_hp = hp
-	enemy_attack_power = attack_power
+func init_enemy_stats(hp, enemy_attack_power):
+	health = hp
+	attack_power = enemy_attack_power

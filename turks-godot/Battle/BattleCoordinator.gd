@@ -28,12 +28,14 @@ func _on_enemy_request_player_position():
 		enemy.player_position_received(player.position)
 
 
-func init_player_stats(hp: int, mp: int):
+func init_player_stats(hp: int, mp: int, attack_power: int):
 	player_max_hp = hp
 	player_hp = hp
 	health_bar.value = (player_hp / player_max_hp) * 100
 	if (player.has_method("init_player_health")):
 		player.init_player_health(hp)
+	if (player.has_method("init_player_attack_power")):
+		player.init_player_attack_power(attack_power)
 	
 	player_max_mp = mp
 	player_mp = mp
