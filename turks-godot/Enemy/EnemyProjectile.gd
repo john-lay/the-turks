@@ -22,4 +22,4 @@ func _on_Area2D_body_entered(body):
 #		print("projectile collided with ", body.name)
 		self.queue_free()
 		if body.has_method("player_hit"):
-			body.player_hit(damage)
+			body.player_hit(damage, direction)

@@ -21,6 +21,7 @@ var direction: Vector2 = Vector2.ZERO
 var state = STATE.MOVE
 var canAttack: bool = false
 var isAttacking: bool = false
+var isStunned: bool = false
 var max_health: int
 var health: int
 var attack_power: int
@@ -37,6 +38,7 @@ var attack_power: int
 func _ready():
 	damageLabel.visible = false
 
+
 func set_idle_direction():
 	if direction == Vector2.RIGHT:
 		animatedSprite.animation = "idle-right"
@@ -46,6 +48,7 @@ func set_idle_direction():
 		animatedSprite.animation = "idle-down"
 	if direction == Vector2.UP:
 		animatedSprite.animation = "idle-up"
+
 
 func set_attack_direction():
 	if direction == Vector2.RIGHT:
@@ -57,6 +60,7 @@ func set_attack_direction():
 	if direction == Vector2.UP:
 		animatedSprite.animation = "attack-up"
 	isAttacking = true
+
 
 func get_shot_start_position() -> Vector2:
 	var position: Vector2
@@ -73,6 +77,7 @@ func get_shot_start_position() -> Vector2:
 		position.x = self.position.x + 32
 		position.y = self.position.y
 	return position
+
 
 func get_left_shot_start_position() -> Vector2:
 	var position: Vector2 = get_shot_start_position()
@@ -92,6 +97,7 @@ func get_left_shot_start_position() -> Vector2:
 		position.y -= distance_from_player
 	return position
 
+
 func get_right_shot_start_position() -> Vector2:
 	var position: Vector2 = get_shot_start_position()
 	var distance_from_player: int = 16
@@ -109,6 +115,7 @@ func get_right_shot_start_position() -> Vector2:
 		position.x += shot_spacing
 		position.y -= distance_from_player
 	return position
+
 
 func fire_projectile():
 	if PROJECTILE:
@@ -129,6 +136,7 @@ func fire_projectile():
 		get_tree().current_scene.add_child(projectile_right)
 		state = STATE.MOVE
 
+
 func should_launch_projectile():
 	if isAttacking:
 		var last_attack_frame: int = 3
@@ -139,6 +147,14 @@ func should_launch_projectile():
 			fire_projectile()
 			shotgunAttackAudio.play()
 
+
+func has_finished_recoil():
+	if isStunned:
+		var last_recoil_frame: int = 2
+		if (animatedSprite.get_frame() == last_recoil_frame): 
+			isStunned = false
+
+
 #func animation_finished():
 #	var completedAnimation = animatedSprite.get_animation()
 #	print("completedAnimation = ", completedAnimation)
@@ -148,6 +164,7 @@ func should_launch_projectile():
 #		|| completedAnimation == "attack-right":
 #		fire_projectile()
 #		state = STATE.MOVE
+
 
 func get_input():
 	velocity = Vector2.ZERO
@@ -177,15 +194,27 @@ func get_input():
 		if state == STATE.MOVE:
 			set_idle_direction()
 
+
 func _physics_process(_delta):
-	if (!isAttacking):
+	if (!isAttacking && !isStunned):
 		get_input()
 	should_launch_projectile()
+	has_finished_recoil()
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
-	
-func player_hit(damage: int):
+
+
+func set_stun_direction(projectileDirection: Vector2):
+	if (projectileDirection == Vector2.LEFT):
+		animatedSprite.animation = "hit-right"
+	elif (projectileDirection == Vector2.RIGHT):
+		animatedSprite.animation = "hit-left"
+
+
+func player_hit(damage: int, projectileDirection: Vector2):
 #	print("shotgun hit by enemy projectile")
+	isStunned = true
+	set_stun_direction(projectileDirection)
 	if (health - damage <= 0):
 		emit_signal("player_died")
 	health -= damage
@@ -193,16 +222,21 @@ func player_hit(damage: int):
 	damageLabel.visible = true
 	damageLabelTimer.start(0.5)
 	emit_signal("player_health_changed", health)
-	
+
+
 func enable_attack():
 	canAttack = true
 
+
 func _on_DamageLabelTimer_timeout():
 	damageLabel.visible = false
-	
+
+
 func init_player_health(hp: int):
 	max_health = hp
 	health = hp
 
+
 func init_player_attack_power(shotgun_attack_power: int):
 	attack_power = shotgun_attack_power
+
