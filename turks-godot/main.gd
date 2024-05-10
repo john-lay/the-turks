@@ -29,5 +29,4 @@ func _ready():
 
 func _on_battle_player_won_battle():
 	get_tree().current_scene.remove_child(scene_battle)
-	var scene1_1 = SCENE1_1.instance()
 	get_tree().current_scene.add_child(scene1_1)
