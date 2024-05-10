@@ -4,7 +4,8 @@ export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/Projecti
 
 enum STATE {
 	MOVE,
-	ATTACK
+	ATTACK,
+	STUNNED
 }
 
 onready var animatedSprite = $AnimatedSprite
@@ -20,8 +21,6 @@ var velocity: Vector2 = Vector2.ZERO
 var direction: Vector2 = Vector2.ZERO
 var state = STATE.MOVE
 var canAttack: bool = false
-var isAttacking: bool = false
-var isStunned: bool = false
 var max_health: int
 var health: int
 var attack_power: int
@@ -59,7 +58,7 @@ func set_attack_direction():
 		animatedSprite.animation = "attack-down"
 	if direction == Vector2.UP:
 		animatedSprite.animation = "attack-up"
-	isAttacking = true
+	state = STATE.ATTACK
 
 
 func get_shot_start_position() -> Vector2:
@@ -138,21 +137,21 @@ func fire_projectile():
 
 
 func should_launch_projectile():
-	if isAttacking:
+	if (state == STATE.ATTACK):
 		var last_attack_frame: int = 3
 		if (direction == Vector2.UP || direction == Vector2.DOWN):
 			last_attack_frame = 4
 		if (animatedSprite.get_frame() == last_attack_frame): 
-			isAttacking = false
+			state = STATE.MOVE
 			fire_projectile()
 			shotgunAttackAudio.play()
 
 
 func has_finished_recoil():
-	if isStunned:
+	if (state == STATE.STUNNED):
 		var last_recoil_frame: int = 2
 		if (animatedSprite.get_frame() == last_recoil_frame): 
-			isStunned = false
+			state = STATE.MOVE
 
 
 #func animation_finished():
@@ -196,7 +195,8 @@ func get_input():
 
 
 func _physics_process(_delta):
-	if (!isAttacking && !isStunned):
+#	if (!isAttacking && !isStunned):
+	if (state == STATE.MOVE):
 		get_input()
 	should_launch_projectile()
 	has_finished_recoil()
@@ -213,7 +213,7 @@ func set_stun_direction(projectileDirection: Vector2):
 
 func player_hit(damage: int, projectileDirection: Vector2):
 #	print("shotgun hit by enemy projectile")
-	isStunned = true
+	state = STATE.STUNNED
 	set_stun_direction(projectileDirection)
 	if (health - damage <= 0):
 		emit_signal("player_died")
