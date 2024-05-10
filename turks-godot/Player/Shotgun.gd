@@ -5,7 +5,8 @@ export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/Projecti
 enum STATE {
 	MOVE,
 	ATTACK,
-	STUNNED
+	STUNNED,
+	DIED
 }
 
 onready var animatedSprite = $AnimatedSprite
@@ -154,6 +155,13 @@ func has_finished_recoil():
 			state = STATE.MOVE
 
 
+func has_finished_dying():
+	if (state == STATE.DIED):
+		var last_death_frame: int = 1
+		if (animatedSprite.get_frame() == last_death_frame): 
+			emit_signal("player_died")
+
+
 #func animation_finished():
 #	var completedAnimation = animatedSprite.get_animation()
 #	print("completedAnimation = ", completedAnimation)
@@ -200,6 +208,7 @@ func _physics_process(_delta):
 		get_input()
 	should_launch_projectile()
 	has_finished_recoil()
+	has_finished_dying()
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
 
@@ -211,12 +220,21 @@ func set_stun_direction(projectileDirection: Vector2):
 		animatedSprite.animation = "hit-left"
 
 
+func set_death_direction(projectileDirection: Vector2):
+	if (projectileDirection == Vector2.LEFT):
+		animatedSprite.animation = "die-right"
+	elif (projectileDirection == Vector2.RIGHT):
+		animatedSprite.animation = "die-left"
+
+
 func player_hit(damage: int, projectileDirection: Vector2):
 #	print("shotgun hit by enemy projectile")
-	state = STATE.STUNNED
-	set_stun_direction(projectileDirection)
 	if (health - damage <= 0):
-		emit_signal("player_died")
+		state = STATE.DIED
+		set_death_direction(projectileDirection)
+	else:
+		state = STATE.STUNNED
+		set_stun_direction(projectileDirection)
 	health -= damage
 	damageLabel.text = damage as String
 	damageLabel.visible = true

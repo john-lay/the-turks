@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://Player/Shotgun.gd" type="Script" id=1]
 [ext_resource path="res://Player/shotgun-sprite-sheet.png" type="Texture" id=2]
@@ -75,6 +75,22 @@ region = Rect2( 192, 448, 64, 96 )
 [sub_resource type="AtlasTexture" id=49]
 atlas = ExtResource( 2 )
 region = Rect2( 256, 448, 64, 96 )
+
+[sub_resource type="AtlasTexture" id=116]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 576, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=117]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 576, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=114]
+atlas = ExtResource( 2 )
+region = Rect2( 320, 640, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=115]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 640, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=108]
 atlas = ExtResource( 2 )
@@ -314,6 +330,16 @@ animations = [ {
 "name": "attack-up",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 116 ), SubResource( 117 ) ],
+"loop": false,
+"name": "die-left",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 114 ), SubResource( 115 ) ],
+"loop": false,
+"name": "die-right",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 108 ), SubResource( 109 ), SubResource( 110 ) ],
 "loop": false,
 "name": "hit-left",
@@ -384,8 +410,7 @@ script = ExtResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 32, 32 )
 frames = SubResource( 30 )
-animation = "magic"
-frame = 14
+animation = "idle-down"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
