@@ -6,10 +6,11 @@ signal request_player_position()
 signal enemy_died
 
 enum STATE {
-	IDLE
-	NEW_DIRECTION
-	MOVE
-	ATTACK
+	IDLE,
+	NEW_DIRECTION,
+	MOVE,
+	ATTACK,
+	DIED
 }
 
 const SPEED:int = 50 # speed in pixels/sec
@@ -29,10 +30,12 @@ onready var bulletTimer = $BulletTimer
 onready var animatedSprite = $AnimatedSprite
 onready var enemyAttackAudio = $EnemyAttackAudio
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	damageLabel.visible = false
 	randomize()
+
 
 func get_bullet_start_position() -> Vector2:
 	var position: Vector2
@@ -50,6 +53,7 @@ func get_bullet_start_position() -> Vector2:
 		position.y = self.position.y - 24
 	return position
 
+
 func fire_projectile():
 	if ENEMY_PROJECTILE:
 		var projectile = ENEMY_PROJECTILE.instance()
@@ -59,6 +63,7 @@ func fire_projectile():
 		projectile.set("damage", attack_power)
 		get_tree().current_scene.add_child(projectile)
 
+
 func is_playing_attack_animation():
 	var completedAnimation = animatedSprite.get_animation()
 #	print("completedAnimation = ", completedAnimation)
@@ -66,6 +71,7 @@ func is_playing_attack_animation():
 		|| completedAnimation == "attack-down" \
 		|| completedAnimation == "attack-left" \
 		|| completedAnimation == "attack-right"
+
 
 func should_launch_projectile():
 	if (canAttack && is_playing_attack_animation()):
@@ -75,15 +81,36 @@ func should_launch_projectile():
 			bulletTimer.start(0.5)
 			fire_projectile()
 			enemyAttackAudio.play()
-			
+
+
+func has_finished_dying():
+	if (state == STATE.DIED):
+		var last_death_frame: int = 3
+		if (animatedSprite.get_frame() == last_death_frame): 
+			emit_signal("enemy_died")
+
+
+func set_death_direction():
+	if (direction == Vector2.UP):
+		animatedSprite.animation = "die-up"
+	elif (direction == Vector2.DOWN):
+		animatedSprite.animation = "die-down"
+	elif (direction == Vector2.LEFT):
+		animatedSprite.animation = "die-right"
+	elif (direction == Vector2.RIGHT):
+		animatedSprite.animation = "die-left"
+
+
 func enemy_hit(damage: int):
 	if (health - damage <= 0):
-		emit_signal("enemy_died")
+		state = STATE.DIED
+		set_death_direction()
 	health -= damage
 	damageLabel.text = damage as String
 	damageLabel.visible = true
 	damageLabelTimer.start(0.5)
 #	print("enemy has been hit!")
+
 
 func _process(delta):
 	get_player_position()
@@ -97,6 +124,9 @@ func _process(delta):
 			move(delta)
 		STATE.ATTACK:
 			attack()
+		STATE.DIED:
+			has_finished_dying()
+
 
 func set_move_animation():
 	velocity = Vector2.ZERO	
@@ -113,6 +143,7 @@ func set_move_animation():
 		velocity.x += 1
 		animatedSprite.animation = "move-right"
 
+
 func set_attack_animation():
 	if (direction == Vector2.UP):
 		animatedSprite.animation = "attack-up"
@@ -122,6 +153,7 @@ func set_attack_animation():
 		animatedSprite.animation = "attack-left"
 	if (direction == Vector2.RIGHT):
 		animatedSprite.animation = "attack-right"
+
 
 func set_idle_animation():
 	if (direction == Vector2.UP):
@@ -133,6 +165,7 @@ func set_idle_animation():
 	if (direction == Vector2.RIGHT):
 		animatedSprite.animation = "idle-right"
 
+
 func move(delta):
 	set_move_animation()
 	velocity = velocity.normalized() * SPEED
@@ -141,6 +174,7 @@ func move(delta):
 		if (get_last_slide_collision().collider.is_in_group("bg")):
 #			print("enemy touching bg, needs to change direction")
 			collidedWithBackground = true
+
 
 func get_attack_direction() -> Vector2:
 	var dx: int
@@ -167,48 +201,58 @@ func get_attack_direction() -> Vector2:
 		return dirX
 	else:
 		return dirY
-	
+
+
 func attack():
 	direction = get_attack_direction()
 	set_attack_animation()
 	should_launch_projectile()
-	
+
+
 func choose(array):
 	array.shuffle()
 	return array.front()
 
+
 func _on_DamageLabelTimer_timeout():
 	damageLabel.visible = false
+
 
 func _on_StateTimer_timeout():
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
 #	print("state timer expired, new timer = ", stateTimer.wait_time)
-	if (collidedWithBackground):
-		# move enemy in opposite direction
-		collidedWithBackground = false
-#		print("collided with bg, direction was: ", direction)
-		if (direction == Vector2.LEFT): direction = Vector2.RIGHT
-		elif (direction == Vector2.RIGHT): direction = Vector2.LEFT
-		elif (direction == Vector2.UP): direction = Vector2.DOWN
-		elif (direction == Vector2.DOWN): direction = Vector2.UP
-		state = STATE.MOVE
-	else:
-#		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
-		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK,
-						STATE.MOVE, STATE.MOVE,
-						STATE.NEW_DIRECTION,
-						STATE.ATTACK, STATE.ATTACK, STATE.ATTACK])
+	if (state != STATE.DIED):
+		if (collidedWithBackground):
+			# move enemy in opposite direction
+			collidedWithBackground = false
+	#		print("collided with bg, direction was: ", direction)
+			if (direction == Vector2.LEFT): direction = Vector2.RIGHT
+			elif (direction == Vector2.RIGHT): direction = Vector2.LEFT
+			elif (direction == Vector2.UP): direction = Vector2.DOWN
+			elif (direction == Vector2.DOWN): direction = Vector2.UP
+			state = STATE.MOVE
+		else:
+	#		state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK])
+			state = choose([STATE.IDLE, STATE.NEW_DIRECTION, STATE.MOVE, STATE.ATTACK,
+							STATE.MOVE, STATE.MOVE,
+							STATE.NEW_DIRECTION,
+							STATE.ATTACK, STATE.ATTACK, STATE.ATTACK])
+
 
 func _on_BulletTimer_timeout():
 	canAttack = true
 
+
 func get_player_position():
 	emit_signal("request_player_position")
+
 
 func player_position_received(player_position:Vector2):
 #	print("player_position received", player_position)
 	playerPosition = player_position
-	
+
+
 func init_enemy_stats(hp, enemy_attack_power):
 	health = hp
 	attack_power = enemy_attack_power
+

@@ -59,4 +59,5 @@ func _on_player_player_died():
 
 func _on_enemy_enemy_died():
 #	print("enemy died. Informing main scene.")
+	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_won_battle")
