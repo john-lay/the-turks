@@ -10,6 +10,7 @@ enum STATE {
 	NEW_DIRECTION,
 	MOVE,
 	ATTACK,
+	STUNNED,
 	DIED
 }
 
@@ -89,6 +90,12 @@ func has_finished_dying():
 		if (animatedSprite.get_frame() == last_death_frame): 
 			emit_signal("enemy_died")
 
+func set_stun_direction():
+	if (playerPosition.x > self.position.x):
+		animatedSprite.animation = "hit-right"
+	else:
+		animatedSprite.animation = "hit-left"
+
 
 func set_death_direction():
 	if (direction == Vector2.UP):
@@ -105,6 +112,9 @@ func enemy_hit(damage: int):
 	if (health - damage <= 0):
 		state = STATE.DIED
 		set_death_direction()
+	else:
+		state = STATE.STUNNED
+		set_stun_direction()
 	health -= damage
 	damageLabel.text = damage as String
 	damageLabel.visible = true

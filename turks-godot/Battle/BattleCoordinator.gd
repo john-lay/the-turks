@@ -42,10 +42,12 @@ func init_player_stats(hp: int, mp: int, attack_power: int):
 	player_mp = mp
 	magic_bar.value = (player_mp / player_max_mp) * 100
 
+
 func init_enemy_stats(hp: int, attack_power: int):
 	if (enemy.has_method("init_enemy_stats")):
 		enemy.init_enemy_stats(hp, attack_power)
 	
+
 
 func _on_player_player_health_changed(health):
 	player_hp = health
