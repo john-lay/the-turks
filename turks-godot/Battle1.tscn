@@ -87,6 +87,15 @@ stream = ExtResource( 11 )
 volume_db = -10.0
 autoplay = true
 
+[node name="HealthLabel" type="Label" parent="."]
+margin_left = 50.0
+margin_top = 220.0
+margin_right = 119.0
+margin_bottom = 234.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3380/3380"
+align = 2
+
 [connection signal="player_died" from="player" to="." method="_on_player_player_died"]
 [connection signal="player_health_changed" from="player" to="." method="_on_player_player_health_changed"]
 [connection signal="enemy_died" from="enemy" to="." method="_on_enemy_enemy_died"]

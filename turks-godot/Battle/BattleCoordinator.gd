@@ -4,6 +4,7 @@ extends Node2D
 onready var player = $player
 onready var enemy = $enemy
 onready var health_bar = $HealthBar
+onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
 var player_max_hp: int
@@ -32,6 +33,7 @@ func _on_enemy_request_player_position():
 func init_player_stats(hp: int, mp: int, attack_power: int):
 	player_max_hp = hp
 	player_hp = hp
+	health_label.text = player_hp as String + "/" + player_max_hp as String
 	health_bar.value = (player_hp / player_max_hp) * 100
 	if (player.has_method("init_player_health")):
 		player.init_player_health(hp)
@@ -51,6 +53,7 @@ func init_enemy_stats(hp: int, attack_power: int):
 
 func _on_player_player_health_changed(health):
 	player_hp = health
+	health_label.text = player_hp as String + "/" + player_max_hp as String
 	health_bar.value = (player_hp as float / player_max_hp as float) * 100
 
 
