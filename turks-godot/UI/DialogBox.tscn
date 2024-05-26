@@ -1,8 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://UI/menu-box.png" type="Texture" id=1]
 [ext_resource path="res://UI/menu-more-arrow.png" type="Texture" id=2]
 [ext_resource path="res://UI/DialogBox.gd" type="Script" id=3]
+[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=3]
+size = 12
+font_data = ExtResource( 4 )
+fallback/0 = ExtResource( 5 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -27,9 +34,10 @@ texture = ExtResource( 1 )
 [node name="ContentLabel" type="Label" parent="."]
 anchor_right = 10.0
 margin_left = 8.0
-margin_top = 8.0
+margin_top = 2.0
 margin_right = 152.0
-margin_bottom = 56.0
+margin_bottom = 59.0
+custom_fonts/font = SubResource( 3 )
 text = "Line 1
 Line 2
 Line 3"
