@@ -7,6 +7,8 @@ onready var health_bar = $HealthBar
 onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
+onready var dialog_box = $DialogBox
+
 var player_max_hp: int
 var player_hp: int
 var player_max_mp: int
@@ -16,8 +18,8 @@ signal player_won_battle
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enable_player_attack()
-	
 	game_over.visible = false
+	dialog_box.visible = false
 
 
 func enable_player_attack():
@@ -48,7 +50,6 @@ func init_player_stats(hp: int, mp: int, attack_power: int):
 func init_enemy_stats(hp: int, attack_power: int):
 	if (enemy.has_method("init_enemy_stats")):
 		enemy.init_enemy_stats(hp, attack_power)
-	
 
 
 func _on_player_player_health_changed(health):
@@ -63,6 +64,19 @@ func _on_player_player_died():
 
 
 func _on_enemy_enemy_died():
-#	print("enemy died. Informing main scene.")
+	_show_exp_dialog()
+
+
+func _show_exp_dialog():
+	if (dialog_box.has_method("show_battle_won")):
+		# TODO: generate exp dynamically
+		var materia_exp = 1
+		var player_exp = 1
+		dialog_box.show_battle_won(materia_exp, player_exp)
+		dialog_box.visible = true
+
+
+func _battle_complete():
+	# returning player to exploration mode
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_won_battle")
