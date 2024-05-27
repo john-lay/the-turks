@@ -8,7 +8,7 @@ var g_strings: Dictionary = {
 		},
 		"exp_point": {
 			"en": "Experience point",
-			"jp": "經驗值"
+			"jp": "經驗値"
 		},
 		"obtained": {
 			"en": "obtained",

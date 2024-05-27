@@ -13,6 +13,7 @@ var player_max_hp: int
 var player_hp: int
 var player_max_mp: int
 var player_mp: int
+var has_shown_dialog: bool = false
 signal player_won_battle
 
 # Called when the node enters the scene tree for the first time.
@@ -64,7 +65,11 @@ func _on_player_player_died():
 
 
 func _on_enemy_enemy_died():
-	_show_exp_dialog()
+	if (player.has_method("disable_input")):
+		player.disable_input()
+	if (!has_shown_dialog):
+		has_shown_dialog = true
+		_show_exp_dialog()
 
 
 func _show_exp_dialog():
@@ -76,7 +81,7 @@ func _show_exp_dialog():
 		dialog_box.visible = true
 
 
-func _battle_complete():
+func _on_DialogBox_dialog_complete():
 	# returning player to exploration mode
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_won_battle")

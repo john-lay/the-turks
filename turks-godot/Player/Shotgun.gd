@@ -6,7 +6,8 @@ enum STATE {
 	MOVE,
 	ATTACK,
 	STUNNED,
-	DIED
+	DIED,
+	DISABLED
 }
 
 onready var animatedSprite = $AnimatedSprite
@@ -203,7 +204,8 @@ func get_input():
 
 
 func _physics_process(_delta):
-#	if (!isAttacking && !isStunned):
+	if (state == STATE.DISABLED):
+		return
 	if (state == STATE.MOVE):
 		get_input()
 	should_launch_projectile()
@@ -257,4 +259,8 @@ func init_player_health(hp: int):
 
 func init_player_attack_power(shotgun_attack_power: int):
 	attack_power = shotgun_attack_power
+
+
+func disable_input():
+	state = STATE.DISABLED
 
