@@ -8,6 +8,7 @@ onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
 onready var dialog_box = $DialogBox
+onready var global = get_node("/root/Global")
 
 var player_max_hp: int
 var player_hp: int
@@ -73,11 +74,19 @@ func _on_enemy_enemy_died():
 
 
 func _show_exp_dialog():
-	if (dialog_box.has_method("show_battle_won")):
+	if (dialog_box.has_method("write_pages")):
 		# TODO: generate exp dynamically
 		var materia_exp = 1
 		var player_exp = 1
-		dialog_box.show_battle_won(materia_exp, player_exp)
+#		var lang = global.g_settings["lang"]
+		var lang = "jp"
+		var page1: String = global.g_strings["battle"]["blizzara_exp_points"][lang] \
+							+ materia_exp as String
+		var page2: String = global.g_strings["battle"]["exp_point"][lang] \
+							+ player_exp as String + "\n" \
+							+ global.g_strings["battle"]["obtained"][lang]
+		var pages: Array = [page1, page2]
+		dialog_box.write_pages(pages)
 		dialog_box.visible = true
 
 

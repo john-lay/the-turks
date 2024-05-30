@@ -3,12 +3,12 @@ extends Node
 var g_strings: Dictionary = {
 	"battle": {
 		"blizzara_exp_points": {
-			"en": "Blizzara exp. points   ",
-			"jp": "ブリザラ 経験値"
+			"en": "Blizzara exp. points      ",
+			"jp": "ブリザラ 経験値   "
 		},
 		"exp_point": {
-			"en": "Experience point",
-			"jp": "經驗値"
+			"en": "Experience point            ",
+			"jp": "經驗値            "
 		},
 		"obtained": {
 			"en": "obtained",
