@@ -77,15 +77,22 @@ func _show_exp_dialog():
 	if (dialog_box.has_method("write_pages")):
 		# TODO: generate exp dynamically
 		var materia_exp = 1
-		var player_exp = 1
-#		var lang = global.g_settings["lang"]
-		var lang = "jp"
-		var page1: String = global.g_strings["battle"]["blizzara_exp_points"][lang] \
-							+ materia_exp as String
-		var page2: String = global.g_strings["battle"]["exp_point"][lang] \
-							+ player_exp as String + "\n" \
-							+ global.g_strings["battle"]["obtained"][lang]
+		var player_exp = 2
+		
+		var pathToPage1Sentence = ["battle", "blizzara_exp_points"]
+		var formatPage1Sentence = [materia_exp]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence, formatPage1Sentence)
+		var page1 = global.DialogPage.new([page1line1])
+		
+		var pathToPage2Sentence1 = ["battle", "exp_point"]
+		var formatPage2Sentence1 = [player_exp]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1, formatPage2Sentence1)
+		var pathToPage2Sentence2 = ["battle", "obtained"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2])
+		
 		var pages: Array = [page1, page2]
+
 		dialog_box.write_pages(pages)
 		dialog_box.visible = true
 
@@ -94,3 +101,4 @@ func _on_DialogBox_dialog_complete():
 	# returning player to exploration mode
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_won_battle")
+

@@ -6,19 +6,50 @@ signal dialog_complete
 
 onready var dialog_box = $ContentLabel
 onready var more_arrow = $MoreArrow
+onready var global = get_node("/root/Global")
 
 var _current_page: int = 0
 var _pages: Array
+var lang: String
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	more_arrow.visible = false
+	lang = global.g_settings["lang"]
+
+func _debugPrintDialogPages(pages: Array):
+	print("book contains: " + pages.size() as String + " pages")
+	for i in pages.size():
+		var index: String = i as String
+		print("  page[" + index  + "] contains: " + pages[i].Lines.size() as String + " lines")
+		for j in pages[i].Lines.size():
+			var jndex: String = j as String
+			print("    page[" + index + "] line[" + jndex + "] path: ", pages[i].Lines[j].PathToSentence)
+			print("    page[" + index + "] line[" + jndex + "] format: ", pages[i].Lines[j].FormatSentence)
+
+
+func _setPagesFromDialogPages(pages: Array):
+	var dict = global.g_strings
+	for page in pages:
+		var page_contents: String
+		for line in page.Lines.size():
+			page.Lines[line].PathToSentence.push_back(lang)
+			var localizedSentence: Array = page.Lines[line].PathToSentence
+			var raw_value = get_value_from_path(dict, localizedSentence)
+			if raw_value != null:
+				var formatted_value = raw_value % page.Lines[line].FormatSentence
+				page_contents += formatted_value
+				if line <= page.Lines.size():
+					page_contents += "\n"
+			else:
+				print("Key not found in the dictionary")
+		_pages.push_back(page_contents)
 
 
 func write_pages(pages: Array):
-	print("write pages", pages.size())
-	_pages = pages
+#	_debugPrintDialogPages(pages)
+	_setPagesFromDialogPages(pages)
 	if (pages.size() > 1):
 		more_arrow.visible = true
 	dialog_box.text = _pages[_current_page]
@@ -32,6 +63,15 @@ func _get_input():
 		else:
 			more_arrow.visible = false
 			emit_signal("dialog_complete")
+
+
+func get_value_from_path(dict: Dictionary, path: Array):
+	var current_dict = dict
+	for key in path:
+		if not current_dict.has(key):
+			return null  # Handle the case where a key is not found
+		current_dict = current_dict[key]
+	return current_dict
 
 
 func _process(_delta):
