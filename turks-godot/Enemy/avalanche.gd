@@ -273,6 +273,7 @@ func init_enemy_stats(hp, enemy_attack_power):
 
 
 func disable_enemy():
+	animatedSprite.animation = "stationary"
 	state = STATE.DISABLED
 	
 

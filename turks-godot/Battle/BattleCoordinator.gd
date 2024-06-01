@@ -8,6 +8,7 @@ onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
 onready var dialog_box = $DialogBox
+onready var materia_menu = $MateriaMenu
 onready var global = get_node("/root/Global")
 
 var player_max_hp: int
@@ -22,6 +23,7 @@ func _ready():
 	_enable_player_attack()
 	game_over.visible = false
 	dialog_box.visible = false
+	materia_menu.visible = false
 	_show_enemy_info_dialog_box()
 
 
@@ -136,3 +138,8 @@ func _on_DialogBox_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
 		_return_to_map()
 
+
+
+func _on_player_materia_menu_invoked():
+	_disable_actors()
+	materia_menu.visible = true

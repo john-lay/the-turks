@@ -394,6 +394,11 @@ animations = [ {
 "loop": true,
 "name": "move-up",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 22 ) ],
+"loop": false,
+"name": "stationary",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -408,7 +413,7 @@ __meta__ = {
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "hit-left"
+animation = "stationary"
 playing = true
 __meta__ = {
 "_edit_lock_": true

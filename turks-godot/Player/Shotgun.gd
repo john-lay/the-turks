@@ -17,6 +17,7 @@ onready var shotgunAttackAudio = $ShotgunAttackAudio
 
 signal player_health_changed(health)
 signal player_died
+signal materia_menu_invoked()
 
 const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
@@ -198,6 +199,9 @@ func get_input():
 		else:
 			state = STATE.ATTACK
 			set_attack_direction()
+	elif Input.is_action_just_pressed("ui_select"):
+		print("test")
+		emit_signal("materia_menu_invoked")
 	else:
 		if state == STATE.MOVE:
 			set_idle_direction()
