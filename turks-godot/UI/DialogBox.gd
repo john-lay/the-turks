@@ -10,13 +10,15 @@ onready var global = get_node("/root/Global")
 
 var _current_page: int = 0
 var _pages: Array
-var lang: String
+var _lang: String
+var _dialog_type
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	more_arrow.visible = false
-	lang = global.g_settings["lang"]
+	_lang = global.g_settings["lang"]
+	_dialog_type = global.g_DIALOG_TYPE.UNKNOWN
 
 func _debugPrintDialogPages(pages: Array):
 	print("book contains: " + pages.size() as String + " pages")
@@ -34,7 +36,7 @@ func _setPagesFromDialogPages(pages: Array):
 	for page in pages:
 		var page_contents: String
 		for line in page.Lines.size():
-			page.Lines[line].PathToSentence.push_back(lang)
+			page.Lines[line].PathToSentence.push_back(_lang)
 			var localizedSentence: Array = page.Lines[line].PathToSentence
 			var raw_value = get_value_from_path(dict, localizedSentence)
 			if raw_value != null:
@@ -47,11 +49,12 @@ func _setPagesFromDialogPages(pages: Array):
 		_pages.push_back(page_contents)
 
 
-func write_pages(pages: Array):
+func write_pages(pages: Array, dialog_type):
+	_dialog_type = dialog_type
 #	_debugPrintDialogPages(pages)
 	_setPagesFromDialogPages(pages)
-	if (pages.size() > 1):
-		more_arrow.visible = true
+#	if (pages.size() > 1):
+	more_arrow.visible = true
 	dialog_box.text = _pages[_current_page]
 
 
@@ -62,7 +65,7 @@ func _get_input():
 			dialog_box.text = _pages[_current_page]
 		else:
 			more_arrow.visible = false
-			emit_signal("dialog_complete")
+			emit_signal("dialog_complete", _dialog_type)
 
 
 func get_value_from_path(dict: Dictionary, path: Array):

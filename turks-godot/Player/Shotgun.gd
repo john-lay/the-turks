@@ -261,6 +261,9 @@ func init_player_attack_power(shotgun_attack_power: int):
 	attack_power = shotgun_attack_power
 
 
-func disable_input():
+func disable_player():
 	state = STATE.DISABLED
+	
+func enable_player():
+	state = STATE.MOVE
 

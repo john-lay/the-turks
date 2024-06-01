@@ -11,7 +11,8 @@ enum STATE {
 	MOVE,
 	ATTACK,
 	STUNNED,
-	DIED
+	DIED,
+	DISABLED
 }
 
 const SPEED:int = 50 # speed in pixels/sec
@@ -123,6 +124,8 @@ func enemy_hit(damage: int):
 
 
 func _process(delta):
+	if (state == STATE.DISABLED):
+		return
 	get_player_position()
 	match state:
 		STATE.IDLE:
@@ -229,6 +232,8 @@ func _on_DamageLabelTimer_timeout():
 
 
 func _on_StateTimer_timeout():
+	if (state == STATE.DISABLED):
+		return
 	stateTimer.wait_time = choose([0.5, 1, 1.5])
 #	print("state timer expired, new timer = ", stateTimer.wait_time)
 	if (state != STATE.DIED):
@@ -266,3 +271,10 @@ func init_enemy_stats(hp, enemy_attack_power):
 	health = hp
 	attack_power = enemy_attack_power
 
+
+func disable_enemy():
+	state = STATE.DISABLED
+	
+
+func enable_enemy():
+	state = STATE.MOVE

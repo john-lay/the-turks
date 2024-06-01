@@ -19,12 +19,39 @@ signal player_won_battle
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enable_player_attack()
+	_enable_player_attack()
 	game_over.visible = false
 	dialog_box.visible = false
+	_show_enemy_info_dialog_box()
 
 
-func enable_player_attack():
+func _show_enemy_info_dialog_box():
+	_disable_actors()
+	if (dialog_box.has_method("write_pages")):
+		var pathToPageSentence = ["battle", "avalanche_soldier"]
+		var pageline = global.DialogLine.new(pathToPageSentence)
+		var page = global.DialogPage.new([pageline])
+		var pages: Array = [page]
+
+		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_INIT_ENEMY)
+		dialog_box.visible = true
+
+
+func _enable_actors():
+	if (player.has_method("enable_player")):
+		player.enable_player()
+	if (enemy.has_method("enable_enemy")):
+		enemy.enable_enemy()
+
+
+func _disable_actors():
+	if (player.has_method("disable_player")):
+		player.disable_player()
+	if (enemy.has_method("disable_enemy")):
+		enemy.disable_enemy()
+
+
+func _enable_player_attack():
 	if (player.has_method("enable_attack")):
 		player.enable_attack()
 
@@ -66,8 +93,8 @@ func _on_player_player_died():
 
 
 func _on_enemy_enemy_died():
-	if (player.has_method("disable_input")):
-		player.disable_input()
+	if (player.has_method("disable_player")):
+		player.disable_player()
 	if (!has_shown_dialog):
 		has_shown_dialog = true
 		_show_exp_dialog()
@@ -93,12 +120,19 @@ func _show_exp_dialog():
 		
 		var pages: Array = [page1, page2]
 
-		dialog_box.write_pages(pages)
+		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP)
 		dialog_box.visible = true
 
-
-func _on_DialogBox_dialog_complete():
+func _return_to_map():
 	# returning player to exploration mode
 	yield(get_tree().create_timer(0.5), "timeout")
 	emit_signal("player_won_battle")
+
+
+func _on_DialogBox_dialog_complete(dialog_type):
+	if dialog_type == global.g_DIALOG_TYPE.BATTLE_INIT_ENEMY:
+		dialog_box.visible = false
+		_enable_actors()
+	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
+		_return_to_map()
 

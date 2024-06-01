@@ -13,6 +13,10 @@ var g_strings: Dictionary = {
 		"obtained": {
 			"en": "obtained",
 			"jp": "を入手しました"
+		},
+		"avalanche_soldier": {
+			"en": "avalanche soldier         LV 1",
+			"jp": "アバランチ兵            LV 1"
 		}
 	}
 }
@@ -21,6 +25,11 @@ var g_settings: Dictionary = {
 	"lang": "en"
 }
 
+enum g_DIALOG_TYPE {
+	UNKNOWN,
+	BATTLE_INIT_ENEMY,
+	BATTLE_PLAYER_EXP
+}
 
 # Declare member variables here. Examples:
 # var a = 2
