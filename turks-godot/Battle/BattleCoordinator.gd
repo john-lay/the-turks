@@ -30,8 +30,10 @@ func _ready():
 func _show_enemy_info_dialog_box():
 	_disable_actors()
 	if (dialog_box.has_method("write_pages")):
+		var enemy_lv = 1
 		var pathToPageSentence = ["battle", "avalanche_soldier"]
-		var pageline = global.DialogLine.new(pathToPageSentence)
+		var formatPageSentence = [enemy_lv]
+		var pageline = global.DialogLine.new(pathToPageSentence, formatPageSentence)
 		var page = global.DialogPage.new([pageline])
 		var pages: Array = [page]
 

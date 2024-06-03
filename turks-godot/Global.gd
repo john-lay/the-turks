@@ -15,8 +15,8 @@ var g_strings: Dictionary = {
 			"jp": "を入手しました"
 		},
 		"avalanche_soldier": {
-			"en": "avalanche soldier         LV 1",
-			"jp": "アバランチ兵            LV 1"
+			"en": "avalanche soldier         LV %d",
+			"jp": "アバランチ兵            LV %d"
 		}
 	}
 }
