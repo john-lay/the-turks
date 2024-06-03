@@ -33,6 +33,10 @@ var g_strings: Dictionary = {
 		"materia_support": {
 			"en": "Materia Support",
 			"jp": "マテリア援護"
+		},
+		"materia_spend": {
+			"en": "Spend %d MP",
+			"jp": "消費MP %d"
 		}
 	}
 }

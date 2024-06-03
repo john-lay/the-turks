@@ -7,6 +7,7 @@ onready var materia_slot1 = $MateriaSlot1
 onready var materia_slot2 = $MateriaSlot2
 onready var materia_slot3 = $MateriaSlot3
 onready var materia_support = $MateriaSupport
+onready var materia_dialog = $MateriaDialogLabel
 onready var global = get_node("/root/Global")
 
 var current_selection = 1
@@ -16,6 +17,7 @@ var _lang: String
 func _ready():
 	_lang = global.g_settings["lang"]
 	_setLabelText()
+	_set_selection()
 
 
 func _setLabelText():
@@ -40,14 +42,23 @@ func _process(delta):
 		_get_input()
 
 func _set_selection():
+	var dialog_text = global.g_strings["battle"]["materia_spend"][_lang]
+	var materia_mp = 0
 	if current_selection == 1:
 		self.animation = "1"
+		materia_mp = 6
+		materia_dialog.text = dialog_text % materia_mp
 	if current_selection == 2:
 		self.animation = "2"
+		materia_mp = 90
+		materia_dialog.text = dialog_text % materia_mp
 	if current_selection == 3:
 		self.animation = "3"
+		materia_mp = 35
+		materia_dialog.text = dialog_text % materia_mp
 	if current_selection == 4:
 		self.animation = "4"
+		materia_dialog.text = "???"
 
 
 func _get_input():

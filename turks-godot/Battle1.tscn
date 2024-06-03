@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://UI/MateriaMenu.gd" type="Script" id=15]
 [ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=16]
 [ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://UI/menu-box.png" type="Texture" id=18]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 14 )
@@ -59,6 +60,11 @@ animations = [ {
 
 [sub_resource type="DynamicFont" id=6]
 size = 11
+font_data = ExtResource( 17 )
+fallback/0 = ExtResource( 16 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 12
 font_data = ExtResource( 17 )
 fallback/0 = ExtResource( 16 )
 
@@ -184,6 +190,18 @@ margin_right = 42.0
 margin_bottom = 37.0
 custom_fonts/font = SubResource( 6 )
 text = "Materia Support"
+
+[node name="MateriaDialogBox" type="Sprite" parent="MateriaMenu"]
+position = Vector2( 26, 144 )
+texture = ExtResource( 18 )
+
+[node name="MateriaDialogLabel" type="Label" parent="MateriaMenu"]
+margin_left = -46.0
+margin_top = 116.0
+margin_right = 94.0
+margin_bottom = 133.0
+custom_fonts/font = SubResource( 7 )
+text = "Line 1"
 
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
 [connection signal="player_died" from="player" to="." method="_on_player_player_died"]
