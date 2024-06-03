@@ -17,6 +17,22 @@ var g_strings: Dictionary = {
 		"avalanche_soldier": {
 			"en": "avalanche soldier         LV %d",
 			"jp": "アバランチ兵            LV %d"
+		},
+		"materia_comet": {
+			"en": "Comet Lv %d",
+			"jp": "コメットLv %d"
+		},
+		"materia_curaga": {
+			"en": "Curaga Lv %d",
+			"jp": "ケアルガLv %d"
+		},
+		"materia_blizzara": {
+			"en": "Blizzara Lv %d",
+			"jp": "ブリザラLv %d"
+		},
+		"materia_support": {
+			"en": "Materia Support",
+			"jp": "マテリア援護"
 		}
 	}
 }

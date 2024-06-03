@@ -200,7 +200,6 @@ func get_input():
 			state = STATE.ATTACK
 			set_attack_direction()
 	elif Input.is_action_just_pressed("ui_select"):
-		print("test")
 		emit_signal("materia_menu_invoked")
 	else:
 		if state == STATE.MOVE:

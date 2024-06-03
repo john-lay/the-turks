@@ -141,7 +141,11 @@ func _on_DialogBox_dialog_complete(dialog_type):
 		_return_to_map()
 
 
-
 func _on_player_materia_menu_invoked():
 	_disable_actors()
 	materia_menu.visible = true
+
+
+func _on_MateriaMenu_close():
+	_enable_actors()
+	materia_menu.visible = false
