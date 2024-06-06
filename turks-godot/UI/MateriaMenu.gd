@@ -2,6 +2,7 @@ extends AnimatedSprite
 
 
 signal close
+signal cast_spell
 
 onready var materia_slot1 = $MateriaSlot1
 onready var materia_slot2 = $MateriaSlot2
@@ -76,3 +77,5 @@ func _get_input():
 			_set_selection()
 	if (Input.is_action_just_pressed("ui_cancel")):
 		emit_signal("close")
+	if Input.is_action_just_pressed("ui_accept"):
+		emit_signal("cast_spell", current_selection)

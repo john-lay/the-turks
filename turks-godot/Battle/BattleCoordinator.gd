@@ -9,6 +9,7 @@ onready var magic_bar = $MagicBar
 onready var game_over = $GameOver
 onready var dialog_box = $DialogBox
 onready var materia_menu = $MateriaMenu
+onready var cast_magic = $CastMagic
 onready var global = get_node("/root/Global")
 
 var player_max_hp: int
@@ -24,6 +25,7 @@ func _ready():
 	game_over.visible = false
 	dialog_box.visible = false
 	materia_menu.visible = false
+	cast_magic.visible = false
 	_show_enemy_info_dialog_box()
 
 
@@ -149,3 +151,9 @@ func _on_player_materia_menu_invoked():
 func _on_MateriaMenu_close():
 	_enable_actors()
 	materia_menu.visible = false
+
+
+func _on_MateriaMenu_cast_spell(item):
+	print("beginning casting spell for item: ", item)
+	materia_menu.visible = false
+	cast_magic.visible = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -13,60 +13,73 @@
 [ext_resource path="res://Audio/survive-phone.ogg" type="AudioStream" id=11]
 [ext_resource path="res://Battle/game-over.png" type="Texture" id=12]
 [ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=13]
-[ext_resource path="res://UI/battle-magic-menu-sheet.png" type="Texture" id=14]
-[ext_resource path="res://UI/MateriaMenu.gd" type="Script" id=15]
-[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=16]
-[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=17]
-[ext_resource path="res://UI/menu-box.png" type="Texture" id=18]
+[ext_resource path="res://Magic/magic-cursor.png" type="Texture" id=14]
+[ext_resource path="res://UI/MateriaMenu.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Magic/CastMagic.gd" type="Script" id=16]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 128, 128 )
+region = Rect2( 0, 0, 52, 52 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 14 )
-region = Rect2( 128, 0, 128, 128 )
+region = Rect2( 52, 0, 52, 52 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 14 )
-region = Rect2( 0, 128, 128, 128 )
+region = Rect2( 104, 0, 52, 52 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 14 )
-region = Rect2( 128, 128, 128, 128 )
+region = Rect2( 156, 0, 52, 52 )
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 14 )
+region = Rect2( 52, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 14 )
+region = Rect2( 104, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 14 )
+region = Rect2( 156, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 14 )
+region = Rect2( 104, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 14 )
+region = Rect2( 52, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 14 )
+region = Rect2( 156, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 14 )
+region = Rect2( 104, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 14 )
+region = Rect2( 52, 0, 52, 52 )
+
+[sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 1 ) ],
-"loop": false,
-"name": "1",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 2 ) ],
-"loop": false,
-"name": "2",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ) ],
-"loop": false,
-"name": "3",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 4 ) ],
-"loop": false,
-"name": "4",
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 1 ) ],
+"loop": true,
+"name": "default",
 "speed": 5.0
 } ]
-
-[sub_resource type="DynamicFont" id=6]
-size = 11
-font_data = ExtResource( 17 )
-fallback/0 = ExtResource( 16 )
-
-[sub_resource type="DynamicFont" id=7]
-size = 12
-font_data = ExtResource( 17 )
-fallback/0 = ExtResource( 16 )
 
 [node name="BattleCoordinator" type="Node2D"]
 script = ExtResource( 10 )
@@ -153,55 +166,16 @@ align = 2
 
 [node name="DialogBox" parent="." instance=ExtResource( 13 )]
 
-[node name="MateriaMenu" type="AnimatedSprite" parent="."]
-position = Vector2( 64, 64 )
-frames = SubResource( 5 )
-animation = "1"
-script = ExtResource( 15 )
+[node name="MateriaMenu" parent="." instance=ExtResource( 15 )]
 
-[node name="MateriaSlot1" type="Label" parent="MateriaMenu"]
-margin_left = -36.0
-margin_top = -34.0
-margin_right = 42.0
-margin_bottom = -17.0
-custom_fonts/font = SubResource( 6 )
-text = "Materia Slot 1"
+[node name="CastMagic" type="Node2D" parent="."]
+script = ExtResource( 16 )
 
-[node name="MateriaSlot2" type="Label" parent="MateriaMenu"]
-margin_left = -36.0
-margin_top = -16.0
-margin_right = 42.0
-margin_bottom = 1.0
-custom_fonts/font = SubResource( 6 )
-text = "Materia Slot 2"
-
-[node name="MateriaSlot3" type="Label" parent="MateriaMenu"]
-margin_left = -36.0
-margin_top = 2.0
-margin_right = 42.0
-margin_bottom = 19.0
-custom_fonts/font = SubResource( 6 )
-text = "Materia Slot 3"
-
-[node name="MateriaSupport" type="Label" parent="MateriaMenu"]
-margin_left = -36.0
-margin_top = 20.0
-margin_right = 42.0
-margin_bottom = 37.0
-custom_fonts/font = SubResource( 6 )
-text = "Materia Support"
-
-[node name="MateriaDialogBox" type="Sprite" parent="MateriaMenu"]
-position = Vector2( 26, 144 )
-texture = ExtResource( 18 )
-
-[node name="MateriaDialogLabel" type="Label" parent="MateriaMenu"]
-margin_left = -46.0
-margin_top = 116.0
-margin_right = 94.0
-margin_bottom = 133.0
-custom_fonts/font = SubResource( 7 )
-text = "Line 1"
+[node name="MagicCursor" type="AnimatedSprite" parent="CastMagic"]
+position = Vector2( 16, 26 )
+frames = SubResource( 15 )
+frame = 7
+playing = true
 
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
 [connection signal="player_died" from="player" to="." method="_on_player_player_died"]
@@ -209,4 +183,4 @@ text = "Line 1"
 [connection signal="enemy_died" from="enemy" to="." method="_on_enemy_enemy_died"]
 [connection signal="request_player_position" from="enemy" to="." method="_on_enemy_request_player_position"]
 [connection signal="dialog_complete" from="DialogBox" to="." method="_on_DialogBox_dialog_complete"]
-[connection signal="close" from="MateriaMenu" to="." method="_on_MateriaMenu_close"]
+[connection signal="cast_spell" from="MateriaMenu" to="." method="_on_MateriaMenu_cast_spell"]

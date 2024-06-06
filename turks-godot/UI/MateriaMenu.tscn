@@ -1,0 +1,106 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://UI/MateriaMenu.gd" type="Script" id=1]
+[ext_resource path="res://UI/menu-box.png" type="Texture" id=2]
+[ext_resource path="res://UI/battle-magic-menu-sheet.png" type="Texture" id=3]
+[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 128, 128, 128 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": false,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": false,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ) ],
+"loop": false,
+"name": "3",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": false,
+"name": "4",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=6]
+size = 11
+font_data = ExtResource( 5 )
+fallback/0 = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 12
+font_data = ExtResource( 5 )
+fallback/0 = ExtResource( 4 )
+
+[node name="MateriaMenu" type="AnimatedSprite"]
+position = Vector2( 64, 64 )
+frames = SubResource( 5 )
+animation = "1"
+script = ExtResource( 1 )
+
+[node name="MateriaSlot1" type="Label" parent="."]
+margin_left = -36.0
+margin_top = -34.0
+margin_right = 42.0
+margin_bottom = -17.0
+custom_fonts/font = SubResource( 6 )
+text = "Materia Slot 1"
+
+[node name="MateriaSlot2" type="Label" parent="."]
+margin_left = -36.0
+margin_top = -16.0
+margin_right = 42.0
+margin_bottom = 1.0
+custom_fonts/font = SubResource( 6 )
+text = "Materia Slot 2"
+
+[node name="MateriaSlot3" type="Label" parent="."]
+margin_left = -36.0
+margin_top = 2.0
+margin_right = 42.0
+margin_bottom = 19.0
+custom_fonts/font = SubResource( 6 )
+text = "Materia Slot 3"
+
+[node name="MateriaSupport" type="Label" parent="."]
+margin_left = -36.0
+margin_top = 20.0
+margin_right = 42.0
+margin_bottom = 37.0
+custom_fonts/font = SubResource( 6 )
+text = "Materia Support"
+
+[node name="MateriaDialogBox" type="Sprite" parent="."]
+position = Vector2( 26, 144 )
+texture = ExtResource( 2 )
+
+[node name="MateriaDialogLabel" type="Label" parent="."]
+margin_left = -46.0
+margin_top = 116.0
+margin_right = 94.0
+margin_bottom = 133.0
+custom_fonts/font = SubResource( 7 )
+text = "Line 1"
