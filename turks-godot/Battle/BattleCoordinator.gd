@@ -17,6 +17,7 @@ var player_hp: int
 var player_max_mp: int
 var player_mp: int
 var has_shown_dialog: bool = false
+
 signal player_won_battle
 
 # Called when the node enters the scene tree for the first time.
@@ -163,3 +164,19 @@ func _on_MateriaMenu_cast_spell(item):
 func _on_CastMagic_close():
 	cast_magic.visible = false
 	materia_menu.visible = true
+
+
+func _on_CastMagic_cast_spell():
+	if player.has_method("cast_spell"):
+		player.cast_spell()
+
+
+func _on_player_finished_casting():
+	if cast_magic.has_method("animate_spell"):
+		cast_magic.animate_spell()
+
+
+func _on_CastMagic_finished():
+	print("finished casting spell")
+#	cast_magic.visible = false
+#	_enable_actors()

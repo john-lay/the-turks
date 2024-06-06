@@ -1,23 +1,33 @@
 extends Node2D
 
 signal close
+signal cast_spell
+signal finished
 
 onready var magic_cursor = $MagicCursor
+onready var thunder_animation = $ThunderAnimation
 
 var initial_offset:Vector2 = Vector2(16, 26)
 var tile_size: int = 52
 var max_offset_x:int = initial_offset.x + (tile_size * 3)
 var max_offset_y:int = initial_offset.y + (tile_size * 2)
+var animation_started:bool = false
+var animation_finished:bool = false
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	thunder_animation.visible = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if (self.is_visible_in_tree()):
 		_get_input()
+		if (animation_started && !animation_finished):
+			_has_finished_thunder_animation()
+			
 
 
 func _get_input():
@@ -35,6 +45,10 @@ func _get_input():
 			magic_cursor.position.x -= tile_size
 	if (Input.is_action_just_pressed("ui_cancel")):
 		emit_signal("close")
+	# TODO: change this to ui_accept
+	if (Input.is_action_just_pressed("ui_select")):
+		emit_signal("cast_spell")
+
 
 func set_cursor_position(player_position: Vector2):
 	magic_cursor.position = initial_offset
@@ -64,3 +78,18 @@ func _set_cursor_position_y(y):
 		magic_cursor.position.y += (tile_size * 2)
 	else:
 		magic_cursor.position.y += (tile_size * 3)
+
+
+func _has_finished_thunder_animation():
+	var last_thunder_frame: int = 4
+	if (thunder_animation.get_frame() == last_thunder_frame): 
+		thunder_animation.visible = false
+		animation_finished = true
+		emit_signal("finished")
+
+
+func animate_spell():
+	magic_cursor.visible = false
+	thunder_animation.visible = true
+	animation_started = true
+

@@ -7,7 +7,8 @@ enum STATE {
 	ATTACK,
 	STUNNED,
 	DIED,
-	DISABLED
+	DISABLED,
+	CASTING
 }
 
 onready var animatedSprite = $AnimatedSprite
@@ -18,6 +19,7 @@ onready var shotgunAttackAudio = $ShotgunAttackAudio
 signal player_health_changed(health)
 signal player_died
 signal materia_menu_invoked()
+signal finished_casting
 
 const SPEED: int = 175  # speed in pixels/sec
 var velocity: Vector2 = Vector2.ZERO
@@ -164,6 +166,14 @@ func has_finished_dying():
 			emit_signal("player_died")
 
 
+func has_finished_casting():
+	if (state == STATE.CASTING):
+		var last_magic_frame: int = 14
+		if (animatedSprite.get_frame() == last_magic_frame):
+			state = STATE.DISABLED
+			emit_signal("finished_casting")
+
+
 #func animation_finished():
 #	var completedAnimation = animatedSprite.get_animation()
 #	print("completedAnimation = ", completedAnimation)
@@ -211,9 +221,12 @@ func _physics_process(_delta):
 		return
 	if (state == STATE.MOVE):
 		get_input()
+	if (state == STATE.CASTING):
+		animatedSprite.animation = "magic"
 	should_launch_projectile()
 	has_finished_recoil()
 	has_finished_dying()
+	has_finished_casting()
 	velocity = velocity.normalized() * SPEED
 	velocity = move_and_slide(velocity)
 
@@ -266,7 +279,12 @@ func init_player_attack_power(shotgun_attack_power: int):
 
 func disable_player():
 	state = STATE.DISABLED
-	
+
+
 func enable_player():
 	state = STATE.MOVE
+
+
+func cast_spell():
+	state = STATE.CASTING
 
