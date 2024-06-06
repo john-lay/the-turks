@@ -79,3 +79,4 @@ func _get_input():
 		emit_signal("close")
 	if Input.is_action_just_pressed("ui_accept"):
 		emit_signal("cast_spell", current_selection)
+

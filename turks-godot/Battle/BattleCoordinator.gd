@@ -154,6 +154,12 @@ func _on_MateriaMenu_close():
 
 
 func _on_MateriaMenu_cast_spell(item):
-	print("beginning casting spell for item: ", item)
 	materia_menu.visible = false
 	cast_magic.visible = true
+	if cast_magic.has_method("set_cursor_position"):
+		cast_magic.set_cursor_position(player.position)
+
+
+func _on_CastMagic_close():
+	cast_magic.visible = false
+	materia_menu.visible = true

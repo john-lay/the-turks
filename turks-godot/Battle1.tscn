@@ -174,7 +174,7 @@ script = ExtResource( 16 )
 [node name="MagicCursor" type="AnimatedSprite" parent="CastMagic"]
 position = Vector2( 16, 26 )
 frames = SubResource( 15 )
-frame = 7
+frame = 12
 playing = true
 
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
@@ -184,3 +184,5 @@ playing = true
 [connection signal="request_player_position" from="enemy" to="." method="_on_enemy_request_player_position"]
 [connection signal="dialog_complete" from="DialogBox" to="." method="_on_DialogBox_dialog_complete"]
 [connection signal="cast_spell" from="MateriaMenu" to="." method="_on_MateriaMenu_cast_spell"]
+[connection signal="close" from="MateriaMenu" to="." method="_on_MateriaMenu_close"]
+[connection signal="close" from="CastMagic" to="." method="_on_CastMagic_close"]
