@@ -157,6 +157,7 @@ func _on_MateriaMenu_close():
 
 
 func _on_MateriaMenu_cast_spell(item):
+#	print("showing magic cursor")
 	materia_menu.visible = false
 	cast_magic.visible = true
 	if cast_magic.has_method("set_cursor_position"):
@@ -178,11 +179,12 @@ func _on_CastMagic_cast_spell():
 
 
 func _on_player_finished_casting():
+#	print("shotgun finished casting spell, animating spell")
 	if cast_magic.has_method("animate_spell"):
 		cast_magic.animate_spell()
 
 
 func _on_CastMagic_finished():
-	print("finished casting spell")
+#	print("finished casting spell")
 	cast_magic.visible = false
 	_enable_actors()

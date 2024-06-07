@@ -200,7 +200,7 @@ script = ExtResource( 16 )
 [node name="MagicCursor" type="AnimatedSprite" parent="CastMagic"]
 position = Vector2( 16, 26 )
 frames = SubResource( 15 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="ThunderAnimation" type="AnimatedSprite" parent="CastMagic"]

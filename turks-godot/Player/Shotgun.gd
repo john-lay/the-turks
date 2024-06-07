@@ -170,8 +170,11 @@ func has_finished_casting():
 	if (state == STATE.CASTING):
 		var last_magic_frame: int = 14
 		if (animatedSprite.get_frame() == last_magic_frame):
-			state = STATE.DISABLED
+			animatedSprite.stop()
+			animatedSprite.set_frame(0)
 			emit_signal("finished_casting")
+			disable_player()
+			animatedSprite.play()
 
 
 #func animation_finished():
@@ -222,7 +225,7 @@ func _physics_process(_delta):
 	if (state == STATE.MOVE):
 		get_input()
 	if (state == STATE.CASTING):
-		animatedSprite.animation = "magic"
+		animatedSprite.play("magic")
 	should_launch_projectile()
 	has_finished_recoil()
 	has_finished_dying()
@@ -279,6 +282,8 @@ func init_player_attack_power(shotgun_attack_power: int):
 
 func disable_player():
 	state = STATE.DISABLED
+	direction = Vector2.DOWN
+	animatedSprite.animation = "idle-down"
 
 
 func enable_player():
