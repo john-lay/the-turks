@@ -17,7 +17,7 @@ export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 var scene_battle: Node = BATTLE1.instance()
 var scene1_1: Node = SCENE1_1.instance()
 
-# Called when the node enters the scene tree for the first time.
+	# Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().current_scene.add_child(scene_battle)
 	scene_battle.connect("player_won_battle", self, "_on_battle_player_won_battle")

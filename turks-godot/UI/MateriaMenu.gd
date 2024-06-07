@@ -13,6 +13,7 @@ onready var global = get_node("/root/Global")
 
 var current_selection = 1
 var _lang: String
+var manage_input: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,7 +40,7 @@ func _setLabelText():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if (self.is_visible_in_tree()):
+	if (self.is_visible_in_tree() && manage_input):
 		_get_input()
 
 func _set_selection():
@@ -76,7 +77,12 @@ func _get_input():
 			current_selection -=1
 			_set_selection()
 	if (Input.is_action_just_pressed("ui_cancel")):
+#		print("materia menu emitting close signal")
+		manage_input = false
 		emit_signal("close")
 	if Input.is_action_just_pressed("ui_accept"):
+#		print("materia menu emitting cast spell signal")
 		emit_signal("cast_spell", current_selection)
 
+func should_manage_input():
+	manage_input = true

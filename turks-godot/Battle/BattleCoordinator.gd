@@ -147,6 +147,8 @@ func _on_DialogBox_dialog_complete(dialog_type):
 func _on_player_materia_menu_invoked():
 	_disable_actors()
 	materia_menu.visible = true
+	if materia_menu.has_method("should_manage_input"):
+		materia_menu.should_manage_input()
 
 
 func _on_MateriaMenu_close():
@@ -159,11 +161,15 @@ func _on_MateriaMenu_cast_spell(item):
 	cast_magic.visible = true
 	if cast_magic.has_method("set_cursor_position"):
 		cast_magic.set_cursor_position(player.position)
+	if cast_magic.has_method("should_manage_input"):
+		cast_magic.should_manage_input()
 
 
 func _on_CastMagic_close():
 	cast_magic.visible = false
 	materia_menu.visible = true
+	if materia_menu.has_method("should_manage_input"):
+		materia_menu.should_manage_input()
 
 
 func _on_CastMagic_cast_spell():
@@ -178,5 +184,5 @@ func _on_player_finished_casting():
 
 func _on_CastMagic_finished():
 	print("finished casting spell")
-#	cast_magic.visible = false
-#	_enable_actors()
+	cast_magic.visible = false
+	_enable_actors()

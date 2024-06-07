@@ -13,7 +13,7 @@ var max_offset_x:int = initial_offset.x + (tile_size * 3)
 var max_offset_y:int = initial_offset.y + (tile_size * 2)
 var animation_started:bool = false
 var animation_finished:bool = false
-
+var manage_input: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,11 +23,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if (self.is_visible_in_tree()):
+	if (self.is_visible_in_tree() && manage_input):
 		_get_input()
 		if (animation_started && !animation_finished):
 			_has_finished_thunder_animation()
-			
 
 
 func _get_input():
@@ -44,13 +43,16 @@ func _get_input():
 		if magic_cursor.position.x > initial_offset.x:
 			magic_cursor.position.x -= tile_size
 	if (Input.is_action_just_pressed("ui_cancel")):
+#		print("magic emitting close signal")
+		manage_input = false
 		emit_signal("close")
-	# TODO: change this to ui_accept
-	if (Input.is_action_just_pressed("ui_select")):
+	if (Input.is_action_just_pressed("ui_accept")):
+#		print("magic emitting cast spell signal")
 		emit_signal("cast_spell")
 
 
 func set_cursor_position(player_position: Vector2):
+	
 	magic_cursor.position = initial_offset
 	_set_cursor_position_x(player_position.x)
 	_set_cursor_position_y(player_position.y)
@@ -82,14 +84,23 @@ func _set_cursor_position_y(y):
 
 func _has_finished_thunder_animation():
 	var last_thunder_frame: int = 4
-	if (thunder_animation.get_frame() == last_thunder_frame): 
+	if (thunder_animation.get_frame() == last_thunder_frame):
 		thunder_animation.visible = false
 		animation_finished = true
+		thunder_animation.stop()
+		thunder_animation.set_frame(0)
 		emit_signal("finished")
 
 
 func animate_spell():
 	magic_cursor.visible = false
 	thunder_animation.visible = true
+	thunder_animation.play("default")
+	animation_finished = false
 	animation_started = true
 
+
+func should_manage_input():
+	# add a slight delay to prevent materia menu input being read here
+	yield(get_tree().create_timer(0.5), "timeout")
+	manage_input = true

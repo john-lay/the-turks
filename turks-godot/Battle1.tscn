@@ -97,9 +97,9 @@ region = Rect2( 0, 0, 96, 200 )
 [sub_resource type="SpriteFrames" id=19]
 animations = [ {
 "frames": [ SubResource( 18 ), SubResource( 18 ), SubResource( 17 ), SubResource( 16 ), null ],
-"loop": true,
+"loop": false,
 "name": "default",
-"speed": 5.0
+"speed": 10.0
 } ]
 
 [node name="BattleCoordinator" type="Node2D"]
@@ -188,24 +188,25 @@ text = "3380/3380"
 align = 2
 
 [node name="DialogBox" parent="." instance=ExtResource( 13 )]
+visible = false
 
 [node name="MateriaMenu" parent="." instance=ExtResource( 15 )]
+visible = false
 
 [node name="CastMagic" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 16 )
 
 [node name="MagicCursor" type="AnimatedSprite" parent="CastMagic"]
 position = Vector2( 16, 26 )
 frames = SubResource( 15 )
-frame = 14
+frame = 5
 playing = true
 
 [node name="ThunderAnimation" type="AnimatedSprite" parent="CastMagic"]
 position = Vector2( 100, 100 )
 z_index = 1
 frames = SubResource( 19 )
-frame = 2
-playing = true
 
 [connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
