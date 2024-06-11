@@ -91,6 +91,8 @@ func _has_finished_thunder_animation():
 	if (thunder_animation.get_frame() == last_thunder_frame):
 		thunder_animation.visible = false
 		animation_finished = true
+		animation_started = false
+		manage_input = false
 		thunder_animation.stop()
 		thunder_animation.set_frame(0)
 		emit_signal("finished", should_do_damage, damage)

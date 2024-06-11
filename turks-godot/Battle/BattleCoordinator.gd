@@ -171,11 +171,15 @@ func _on_CastMagic_close():
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):
 		materia_menu.should_manage_input()
+	if enemy.has_method("hide_finger"):
+		enemy.hide_finger()
 
 
 func _on_CastMagic_cast_spell():
 	if player.has_method("cast_spell"):
 		player.cast_spell()
+	if enemy.has_method("hide_finger"):
+		enemy.hide_finger()
 
 
 func _on_player_finished_casting():
