@@ -107,3 +107,17 @@ func should_manage_input():
 	# add a slight delay to prevent materia menu input being read here
 	yield(get_tree().create_timer(0.5), "timeout")
 	manage_input = true
+
+
+func _on_MagicCursor_body_entered(body):
+	if body.is_in_group("enemy_group"):
+#		print("cursor collided with ", body.name)
+		if body.has_method("show_finger"):
+					body.show_finger()
+
+
+func _on_MagicCursor_body_exited(body):
+	if body.is_in_group("enemy_group"):
+#		print("cursor no longer collided with ", body.name)
+		if body.has_method("hide_finger"):
+					body.hide_finger()

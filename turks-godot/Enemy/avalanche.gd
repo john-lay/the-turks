@@ -31,11 +31,15 @@ onready var damageLabelTimer = $DamageLabelTimer
 onready var bulletTimer = $BulletTimer
 onready var animatedSprite = $AnimatedSprite
 onready var enemyAttackAudio = $EnemyAttackAudio
+onready var finger_left = $FingerLeft
+onready var finger_right = $FingerRight
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	damageLabel.visible = false
+	finger_left.visible = false
+	finger_right.visible = false
 	randomize()
 
 
@@ -90,6 +94,7 @@ func has_finished_dying():
 		var last_death_frame: int = 3
 		if (animatedSprite.get_frame() == last_death_frame): 
 			emit_signal("enemy_died")
+
 
 func set_stun_direction():
 	if (playerPosition.x > self.position.x):
@@ -279,3 +284,16 @@ func disable_enemy():
 
 func enable_enemy():
 	state = STATE.MOVE
+
+
+func show_finger():
+	if self.position.x < 120:
+		finger_right.visible = true
+	else:
+		finger_left.visible = true
+
+
+func hide_finger():
+	finger_left.visible = false
+	finger_right.visible = false
+

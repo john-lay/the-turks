@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -81,6 +81,8 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=20]
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 17 )
@@ -194,14 +196,20 @@ visible = false
 visible = false
 
 [node name="CastMagic" type="Node2D" parent="."]
-visible = false
 script = ExtResource( 16 )
 
-[node name="MagicCursor" type="AnimatedSprite" parent="CastMagic"]
+[node name="MagicCursor" type="Area2D" parent="CastMagic"]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="CastMagic/MagicCursor"]
 position = Vector2( 16, 26 )
 frames = SubResource( 15 )
-frame = 15
+frame = 2
 playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CastMagic/MagicCursor"]
+position = Vector2( 16, 26 )
+scale = Vector2( 2.6, 2.6 )
+shape = SubResource( 20 )
 
 [node name="ThunderAnimation" type="AnimatedSprite" parent="CastMagic"]
 position = Vector2( 100, 100 )
@@ -220,3 +228,5 @@ frames = SubResource( 19 )
 [connection signal="cast_spell" from="CastMagic" to="." method="_on_CastMagic_cast_spell"]
 [connection signal="close" from="CastMagic" to="." method="_on_CastMagic_close"]
 [connection signal="finished" from="CastMagic" to="." method="_on_CastMagic_finished"]
+[connection signal="body_entered" from="CastMagic/MagicCursor" to="CastMagic" method="_on_MagicCursor_body_entered"]
+[connection signal="body_exited" from="CastMagic/MagicCursor" to="CastMagic" method="_on_MagicCursor_body_exited"]
