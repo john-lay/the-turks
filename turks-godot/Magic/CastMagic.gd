@@ -14,11 +14,15 @@ var max_offset_y:int = initial_offset.y + (tile_size * 2)
 var animation_started:bool = false
 var animation_finished:bool = false
 var manage_input: bool = false
+var should_do_damage: bool = false
+var damage: int
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	thunder_animation.visible = false
+	# Materia Lv x 25 + Magic x Character Lv + 25
+	damage = 1 * 25 + 0 * 1 + 25
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,7 +93,7 @@ func _has_finished_thunder_animation():
 		animation_finished = true
 		thunder_animation.stop()
 		thunder_animation.set_frame(0)
-		emit_signal("finished")
+		emit_signal("finished", should_do_damage, damage)
 
 
 func animate_spell():
@@ -113,11 +117,13 @@ func _on_MagicCursor_body_entered(body):
 	if body.is_in_group("enemy_group"):
 #		print("cursor collided with ", body.name)
 		if body.has_method("show_finger"):
-					body.show_finger()
+			body.show_finger()
+			should_do_damage = true
 
 
 func _on_MagicCursor_body_exited(body):
 	if body.is_in_group("enemy_group"):
 #		print("cursor no longer collided with ", body.name)
 		if body.has_method("hide_finger"):
-					body.hide_finger()
+			body.hide_finger()
+			should_do_damage = false

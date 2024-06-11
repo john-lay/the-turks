@@ -184,7 +184,9 @@ func _on_player_finished_casting():
 		cast_magic.animate_spell()
 
 
-func _on_CastMagic_finished():
+func _on_CastMagic_finished(should_do_damage: bool, damage: int):
 #	print("finished casting spell")
 	cast_magic.visible = false
 	_enable_actors()
+	if should_do_damage && enemy.has_method("enemy_hit"):
+		enemy.enemy_hit(damage)
