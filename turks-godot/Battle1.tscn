@@ -203,7 +203,7 @@ script = ExtResource( 16 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="CastMagic/MagicCursor"]
 position = Vector2( 16, 26 )
 frames = SubResource( 15 )
-frame = 2
+frame = 7
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CastMagic/MagicCursor"]

@@ -53,7 +53,7 @@ func _get_input():
 
 func set_cursor_position(player_position: Vector2):
 	magic_cursor.visible = true
-	magic_cursor.position = initial_offset
+	magic_cursor.position = Vector2.ZERO
 	_set_cursor_position_x(player_position.x)
 	_set_cursor_position_y(player_position.y)
 	
