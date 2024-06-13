@@ -148,7 +148,7 @@ func _on_player_materia_menu_invoked():
 	_disable_actors()
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):
-		materia_menu.should_manage_input()
+		materia_menu.should_manage_input(true)
 
 
 func _on_MateriaMenu_close():
@@ -170,12 +170,13 @@ func _on_CastMagic_close():
 	cast_magic.visible = false
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):
-		materia_menu.should_manage_input()
+		materia_menu.should_manage_input(false)
 	if enemy.has_method("hide_finger"):
 		enemy.hide_finger()
 
 
 func _on_CastMagic_cast_spell():
+	print("requesting player to cast spell")
 	if player.has_method("cast_spell"):
 		player.cast_spell()
 	if enemy.has_method("hide_finger"):

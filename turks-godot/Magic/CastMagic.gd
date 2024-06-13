@@ -6,6 +6,9 @@ signal finished
 
 onready var magic_cursor = $MagicCursor
 onready var thunder_animation = $ThunderAnimation
+onready var navigate_audio = $NavigateAudio
+onready var cast_spell_audio = $CastSpellAudio
+onready var thunder_audio = $ThunderAudio
 
 var initial_offset:Vector2 = Vector2(16, 26)
 var tile_size: int = 52
@@ -36,23 +39,29 @@ func _process(delta):
 func _get_input():
 	if (Input.is_action_just_pressed("ui_down")):
 		if magic_cursor.position.y <= max_offset_y:
+			navigate_audio.play()
 			magic_cursor.position.y += tile_size
 	if (Input.is_action_just_pressed("ui_up")):
 		if magic_cursor.position.y > initial_offset.y:
 			magic_cursor.position.y -= tile_size
+			navigate_audio.play()
 	if (Input.is_action_just_pressed("ui_right")):
 		if magic_cursor.position.x <= max_offset_x:
 			magic_cursor.position.x += tile_size
+			navigate_audio.play()
 	if (Input.is_action_just_pressed("ui_left")):
 		if magic_cursor.position.x > initial_offset.x:
 			magic_cursor.position.x -= tile_size
+			navigate_audio.play()
 	if (Input.is_action_just_pressed("ui_cancel")):
 #		print("magic emitting close signal")
 		manage_input = false
 		emit_signal("close")
+		navigate_audio.play()
 	if (Input.is_action_just_pressed("ui_accept")):
 #		print("magic emitting cast spell signal")
 		emit_signal("cast_spell")
+		cast_spell_audio.play()
 
 
 func set_cursor_position(player_position: Vector2):
@@ -105,6 +114,7 @@ func animate_spell():
 	thunder_animation.position.y = magic_cursor.position.y - tile_size	
 	thunder_animation.visible = true
 	thunder_animation.play("default")
+	thunder_audio.play()
 	animation_finished = false
 	animation_started = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=2]
@@ -13,96 +13,8 @@
 [ext_resource path="res://Audio/survive-phone.ogg" type="AudioStream" id=11]
 [ext_resource path="res://Battle/game-over.png" type="Texture" id=12]
 [ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Magic/magic-cursor.png" type="Texture" id=14]
+[ext_resource path="res://Magic/CastMagic.tscn" type="PackedScene" id=14]
 [ext_resource path="res://UI/MateriaMenu.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Magic/CastMagic.gd" type="Script" id=16]
-[ext_resource path="res://Magic/thunder-sprite.png" type="Texture" id=17]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 14 )
-region = Rect2( 52, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 14 )
-region = Rect2( 104, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 14 )
-region = Rect2( 156, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 14 )
-region = Rect2( 52, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 14 )
-region = Rect2( 104, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 14 )
-region = Rect2( 156, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 14 )
-region = Rect2( 104, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 14 )
-region = Rect2( 52, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 52, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 14 )
-region = Rect2( 156, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 14 )
-region = Rect2( 104, 0, 52, 52 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 14 )
-region = Rect2( 52, 0, 52, 52 )
-
-[sub_resource type="SpriteFrames" id=15]
-animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 1 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="RectangleShape2D" id=20]
-
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 17 )
-region = Rect2( 192, 0, 96, 200 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 17 )
-region = Rect2( 96, 0, 96, 200 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 0, 96, 200 )
-
-[sub_resource type="SpriteFrames" id=19]
-animations = [ {
-"frames": [ SubResource( 18 ), SubResource( 18 ), SubResource( 17 ), SubResource( 16 ), null ],
-"loop": false,
-"name": "default",
-"speed": 10.0
-} ]
 
 [node name="BattleCoordinator" type="Node2D"]
 script = ExtResource( 10 )
@@ -175,7 +87,7 @@ polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background Collisions"]
 polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
 volume_db = -10.0
 autoplay = true
@@ -195,26 +107,7 @@ visible = false
 [node name="MateriaMenu" parent="." instance=ExtResource( 15 )]
 visible = false
 
-[node name="CastMagic" type="Node2D" parent="."]
-script = ExtResource( 16 )
-
-[node name="MagicCursor" type="Area2D" parent="CastMagic"]
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="CastMagic/MagicCursor"]
-position = Vector2( 16, 26 )
-frames = SubResource( 15 )
-frame = 4
-playing = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CastMagic/MagicCursor"]
-position = Vector2( 16, 26 )
-scale = Vector2( 2.6, 2.6 )
-shape = SubResource( 20 )
-
-[node name="ThunderAnimation" type="AnimatedSprite" parent="CastMagic"]
-position = Vector2( 100, 100 )
-z_index = 1
-frames = SubResource( 19 )
+[node name="CastMagic" parent="." instance=ExtResource( 14 )]
 
 [connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
@@ -228,5 +121,3 @@ frames = SubResource( 19 )
 [connection signal="cast_spell" from="CastMagic" to="." method="_on_CastMagic_cast_spell"]
 [connection signal="close" from="CastMagic" to="." method="_on_CastMagic_close"]
 [connection signal="finished" from="CastMagic" to="." method="_on_CastMagic_finished"]
-[connection signal="body_entered" from="CastMagic/MagicCursor" to="CastMagic" method="_on_MagicCursor_body_entered"]
-[connection signal="body_exited" from="CastMagic/MagicCursor" to="CastMagic" method="_on_MagicCursor_body_exited"]

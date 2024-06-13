@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://UI/MateriaMenu.gd" type="Script" id=1]
 [ext_resource path="res://UI/menu-box.png" type="Texture" id=2]
 [ext_resource path="res://UI/battle-magic-menu-sheet.png" type="Texture" id=3]
 [ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Audio/select.wav" type="AudioStream" id=6]
+[ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -104,3 +106,9 @@ margin_right = 94.0
 margin_bottom = 133.0
 custom_fonts/font = SubResource( 7 )
 text = "Line 1"
+
+[node name="SelectAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="NavigateAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )

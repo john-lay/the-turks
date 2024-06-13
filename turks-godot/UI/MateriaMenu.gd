@@ -9,6 +9,8 @@ onready var materia_slot2 = $MateriaSlot2
 onready var materia_slot3 = $MateriaSlot3
 onready var materia_support = $MateriaSupport
 onready var materia_dialog = $MateriaDialogLabel
+onready var select_audio = $SelectAudio
+onready var navigate_audio = $NavigateAudio
 onready var global = get_node("/root/Global")
 
 var current_selection = 1
@@ -69,20 +71,26 @@ func _get_input():
 			return
 		else:
 			current_selection +=1
+			navigate_audio.play()
 			_set_selection()
 	if (Input.is_action_just_pressed("ui_up")):
 		if current_selection == 1:
 			return
 		else:
 			current_selection -=1
+			navigate_audio.play()
 			_set_selection()
 	if (Input.is_action_just_pressed("ui_cancel")):
 #		print("materia menu emitting close signal")
 		manage_input = false
 		emit_signal("close")
+		navigate_audio.play()
 	if Input.is_action_just_pressed("ui_accept"):
 #		print("materia menu emitting cast spell signal")
 		emit_signal("cast_spell", current_selection)
+		select_audio.play()
 
-func should_manage_input():
+func should_manage_input(play_audio: bool):
 	manage_input = true
+	if play_audio:
+		select_audio.play()
