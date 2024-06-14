@@ -18,6 +18,7 @@ var current_selection = 1
 var _lang: String
 var manage_input: bool = false
 var spell_cost: int = 0
+var player_mp: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -89,13 +90,18 @@ func _get_input():
 		navigate_audio.play()
 	if Input.is_action_just_pressed("ui_accept"):
 #		print("materia menu emitting cast spell signal")
-		if current_selection == 4:
-			unavailable_audio.play()
-		else:
+		if current_selection == 1 && player_mp >= spell_cost:
 			emit_signal("cast_spell", spell_cost)
 			select_audio.play()
+		else:
+			unavailable_audio.play()
+
 
 func should_manage_input(play_audio: bool):
 	manage_input = true
 	if play_audio:
 		select_audio.play()
+
+
+func init_player_mp(mp: int):
+	player_mp = mp

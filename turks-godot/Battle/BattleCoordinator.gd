@@ -159,6 +159,8 @@ func _on_player_materia_menu_invoked():
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):
 		materia_menu.should_manage_input(true)
+	if materia_menu.has_method("init_player_mp"):
+		materia_menu.init_player_mp(player_mp)
 
 
 func _on_MateriaMenu_close():
@@ -187,7 +189,7 @@ func _on_CastMagic_close():
 
 
 func _on_CastMagic_cast_spell():
-	print("requesting player to cast spell")
+#	print("requesting player to cast spell")
 	_player_magic_changed()
 	if player.has_method("cast_spell"):
 		player.cast_spell()
@@ -207,3 +209,4 @@ func _on_CastMagic_finished(should_do_damage: bool, damage: int):
 	_enable_actors()
 	if should_do_damage && enemy.has_method("enemy_hit"):
 		enemy.enemy_hit(damage)
+
