@@ -101,6 +101,15 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3380/3380"
 align = 2
 
+[node name="MagicLabel" type="Label" parent="."]
+margin_left = 160.0
+margin_top = 220.0
+margin_right = 229.0
+margin_bottom = 234.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "120/120"
+align = 2
+
 [node name="DialogBox" parent="." instance=ExtResource( 13 )]
 visible = false
 
@@ -108,6 +117,7 @@ visible = false
 visible = false
 
 [node name="CastMagic" parent="." instance=ExtResource( 14 )]
+visible = false
 
 [connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]

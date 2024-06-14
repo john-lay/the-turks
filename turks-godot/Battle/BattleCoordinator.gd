@@ -6,6 +6,7 @@ onready var enemy = $enemy
 onready var health_bar = $HealthBar
 onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
+onready var magic_label = $MagicLabel
 onready var game_over = $GameOver
 onready var dialog_box = $DialogBox
 onready var materia_menu = $MateriaMenu
@@ -80,6 +81,7 @@ func init_player_stats(hp: int, mp: int, attack_power: int):
 	
 	player_max_mp = mp
 	player_mp = mp
+	magic_label.text = player_mp as String + "/" + player_max_mp as String
 	magic_bar.value = (player_mp / player_max_mp) * 100
 
 
