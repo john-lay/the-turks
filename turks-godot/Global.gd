@@ -22,6 +22,10 @@ var g_strings: Dictionary = {
 			"en": "Comet Lv %d",
 			"jp": "コメットLv %d"
 		},
+		"materia_thunder": {
+			"en": "Thunder Lv %d",
+			"jp": "サンダーLv %d"
+		},
 		"materia_curaga": {
 			"en": "Curaga Lv %d",
 			"jp": "ケアルガLv %d"

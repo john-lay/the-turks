@@ -11,6 +11,7 @@ onready var materia_support = $MateriaSupport
 onready var materia_dialog = $MateriaDialogLabel
 onready var select_audio = $SelectAudio
 onready var navigate_audio = $NavigateAudio
+onready var unavailable_audio = $UnavailableAudio
 onready var global = get_node("/root/Global")
 
 var current_selection = 1
@@ -25,9 +26,9 @@ func _ready():
 
 
 func _setLabelText():
-	var comet_text = global.g_strings["battle"]["materia_comet"][_lang]
-	var comet_lv = 9
-	materia_slot1.text = comet_text % comet_lv
+	var thunder_text = global.g_strings["battle"]["materia_thunder"][_lang]
+	var thunder_lv = 1
+	materia_slot1.text = thunder_text % thunder_lv
 	
 	var curaga_text = global.g_strings["battle"]["materia_curaga"][_lang]
 	var curaga_lv = 9
@@ -38,6 +39,7 @@ func _setLabelText():
 	materia_slot3.text = blizzara_text % blizzara_lv
 
 	materia_support.text = global.g_strings["battle"]["materia_support"][_lang]
+#	materia_support.add_color_override("font_color", Color("333333"))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -50,7 +52,7 @@ func _set_selection():
 	var materia_mp = 0
 	if current_selection == 1:
 		self.animation = "1"
-		materia_mp = 6
+		materia_mp = 10
 		materia_dialog.text = dialog_text % materia_mp
 	if current_selection == 2:
 		self.animation = "2"
@@ -87,8 +89,11 @@ func _get_input():
 		navigate_audio.play()
 	if Input.is_action_just_pressed("ui_accept"):
 #		print("materia menu emitting cast spell signal")
-		emit_signal("cast_spell", current_selection)
-		select_audio.play()
+		if current_selection == 4:
+			unavailable_audio.play()
+		else:
+			emit_signal("cast_spell", current_selection)
+			select_audio.play()
 
 func should_manage_input(play_audio: bool):
 	manage_input = true

@@ -111,7 +111,7 @@ func animate_spell():
 	magic_cursor.visible = false
 	
 	thunder_animation.position.x = magic_cursor.position.x
-	thunder_animation.position.y = magic_cursor.position.y - tile_size	
+	thunder_animation.position.y = magic_cursor.position.y - tile_size
 	thunder_animation.visible = true
 	thunder_animation.play("default")
 	thunder_audio.play()

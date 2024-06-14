@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://UI/MateriaMenu.gd" type="Script" id=1]
 [ext_resource path="res://UI/menu-box.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Audio/select.wav" type="AudioStream" id=6]
 [ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=7]
+[ext_resource path="res://Audio/unavailable.wav" type="AudioStream" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -112,3 +113,7 @@ stream = ExtResource( 6 )
 
 [node name="NavigateAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+
+[node name="UnavailableAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = 4.0
