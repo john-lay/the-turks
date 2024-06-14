@@ -18,6 +18,7 @@ var player_hp: int
 var player_max_mp: int
 var player_mp: int
 var has_shown_dialog: bool = false
+var spell_cost: int = 0
 
 signal player_won_battle
 
@@ -96,6 +97,12 @@ func _on_player_player_health_changed(health):
 	health_bar.value = (player_hp as float / player_max_hp as float) * 100
 
 
+func _player_magic_changed():
+	player_mp = player_mp - spell_cost
+	magic_label.text = player_mp as String + "/" + player_max_mp as String
+	magic_bar.value = (player_mp as float / player_max_mp as float) * 100
+
+
 func _on_player_player_died():
 	game_over.visible = true
 	get_tree().paused = true
@@ -132,6 +139,7 @@ func _show_exp_dialog():
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP)
 		dialog_box.visible = true
 
+
 func _return_to_map():
 	# returning player to exploration mode
 	yield(get_tree().create_timer(0.5), "timeout")
@@ -158,8 +166,9 @@ func _on_MateriaMenu_close():
 	materia_menu.visible = false
 
 
-func _on_MateriaMenu_cast_spell(item):
+func _on_MateriaMenu_cast_spell(mp):
 #	print("showing magic cursor")
+	spell_cost = mp
 	materia_menu.visible = false
 	cast_magic.visible = true
 	if cast_magic.has_method("set_cursor_position"):
@@ -179,6 +188,7 @@ func _on_CastMagic_close():
 
 func _on_CastMagic_cast_spell():
 	print("requesting player to cast spell")
+	_player_magic_changed()
 	if player.has_method("cast_spell"):
 		player.cast_spell()
 	if enemy.has_method("hide_finger"):

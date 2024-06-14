@@ -17,6 +17,7 @@ onready var global = get_node("/root/Global")
 var current_selection = 1
 var _lang: String
 var manage_input: bool = false
+var spell_cost: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -49,19 +50,18 @@ func _process(delta):
 
 func _set_selection():
 	var dialog_text = global.g_strings["battle"]["materia_spend"][_lang]
-	var materia_mp = 0
 	if current_selection == 1:
 		self.animation = "1"
-		materia_mp = 10
-		materia_dialog.text = dialog_text % materia_mp
+		spell_cost = 10
+		materia_dialog.text = dialog_text % spell_cost
 	if current_selection == 2:
 		self.animation = "2"
-		materia_mp = 90
-		materia_dialog.text = dialog_text % materia_mp
+		spell_cost = 90
+		materia_dialog.text = dialog_text % spell_cost
 	if current_selection == 3:
 		self.animation = "3"
-		materia_mp = 35
-		materia_dialog.text = dialog_text % materia_mp
+		spell_cost = 35
+		materia_dialog.text = dialog_text % spell_cost
 	if current_selection == 4:
 		self.animation = "4"
 		materia_dialog.text = "???"
@@ -92,7 +92,7 @@ func _get_input():
 		if current_selection == 4:
 			unavailable_audio.play()
 		else:
-			emit_signal("cast_spell", current_selection)
+			emit_signal("cast_spell", spell_cost)
 			select_audio.play()
 
 func should_manage_input(play_audio: bool):
