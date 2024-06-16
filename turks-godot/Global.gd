@@ -1,5 +1,10 @@
 extends Node
 
+var g_colors: Dictionary = {
+	"turquoise": Color("66ffff"),
+	"pink": Color("b41f76")
+}
+
 var g_strings: Dictionary = {
 	"battle": {
 		"blizzara_exp_points": {
@@ -42,17 +47,83 @@ var g_strings: Dictionary = {
 			"en": "Spend %d MP",
 			"jp": "消費MP %d"
 		}
+	},
+	"combat_tutorial": {
+		"shotgun": {
+			"en": "[Shotgun]",
+			"jp": "【シオン】",
+			"color": g_colors["turquoise"]
+		},
+		"page1line1": {
+			"en": "Ellen!?",
+			"jp": "エレン!?"
+		},
+		"page1line2": {
+			"en": "What's wrong?",
+			"jp": "どうした?"
+		},
+		"page2line1": {
+			"en": "Why are you fighting?",
+			"jp": "なぜ、"
+		},
+		"page2line2": {
+			"en": "",
+			"jp": "戦闘をしている?"
+		},
+		"page3line1": {
+			"en": "Learn how to fight?",
+			"jp": "戦闘方法を教える"
+		},
+		"interested": {
+			"en": "I want to hear it",
+			"jp": "聞きたいわ"
+		},
+		"not_interested": {
+			"en": "I'm not interested",
+			"jp": "興味なしです"
+		},
+		"page4line1": {
+			"en": "If you bump into someone hostile,",
+			"jp": "敵意を持つ奴と"
+		},
+		"page4line2": {
+			"en": "combat will begin.",
+			"jp": "ぶつかると戦闘開始だ"
+		},
+		"page5line1": {
+			"en": "Hold down a key",
+			"jp": "キーを押し続ける"
+		},
+		"page5line2": {
+			"en": "to automatically track",
+			"jp": "自動的に敵を追って"
+		},
+		"page5line3": {
+			"en": "and attack enemies.",
+			"jp": "攻撃する"
+		},
+		"page6line1": {
+			"en": "Proceed with caution.",
+			"jp": "慎重に行け"
+		},
 	}
 }
 
 var g_settings: Dictionary = {
-	"lang": "en"
+	"lang": "en",
+	"player_name": "エレン"
 }
 
 enum g_DIALOG_TYPE {
 	UNKNOWN,
 	BATTLE_INIT_ENEMY,
-	BATTLE_PLAYER_EXP
+	BATTLE_PLAYER_EXP,
+	BATTLE_COMBAT_TUTORIAL
+}
+
+enum g_PORTRAITS {
+	UNKNOWN,
+	TSUNG
 }
 
 # Declare member variables here. Examples:
@@ -73,6 +144,7 @@ func _ready():
 class DialogLine:
 	var PathToSentence: Array
 	var FormatSentence: Array
+	var Colour: Color
 	
 	func _init(pathToSentence: Array, formatSentence: Array = []):
 		PathToSentence = pathToSentence
@@ -81,6 +153,7 @@ class DialogLine:
 
 class DialogPage:
 	var Lines: Array
+	var Portrait: String
 	
 	func _init(lines: Array):
 		Lines = lines

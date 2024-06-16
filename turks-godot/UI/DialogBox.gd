@@ -5,7 +5,9 @@ signal dialog_complete
 
 
 onready var dialog_box = $ContentLabel
+onready var heading = $HeadingLabel
 onready var more_arrow = $MoreArrow
+onready var tsung_portrait = $TsungPortrait
 onready var global = get_node("/root/Global")
 
 var _current_page: int = 0
@@ -19,6 +21,8 @@ func _ready():
 	more_arrow.visible = false
 	_lang = global.g_settings["lang"]
 	_dialog_type = global.g_DIALOG_TYPE.UNKNOWN
+	tsung_portrait.visible = false
+
 
 func _debugPrintDialogPages(pages: Array):
 	print("book contains: " + pages.size() as String + " pages")
@@ -33,13 +37,24 @@ func _debugPrintDialogPages(pages: Array):
 
 func _setPagesFromDialogPages(pages: Array):
 	var dict = global.g_strings
+	heading.text = ""
 	for page in pages:
 		var page_contents: String
 		for line in page.Lines.size():
+			var copy = page.Lines[line].PathToSentence.duplicate()
+			copy.push_back("color")
+			var hasColor: Array = copy
+			var color_value = get_value_from_path(dict, hasColor)
+			if color_value != null:
+				heading.add_color_override("font_color", color_value)
+				
 			page.Lines[line].PathToSentence.push_back(_lang)
 			var localizedSentence: Array = page.Lines[line].PathToSentence
 			var raw_value = get_value_from_path(dict, localizedSentence)
-			if raw_value != null:
+			if raw_value != null && color_value != null:
+				heading.text = raw_value
+				page_contents += "\n"
+			elif raw_value != null:
 				var formatted_value = raw_value % page.Lines[line].FormatSentence
 				page_contents += formatted_value
 				if line <= page.Lines.size():

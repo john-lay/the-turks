@@ -46,6 +46,19 @@ func _show_enemy_info_dialog_box():
 		dialog_box.visible = true
 
 
+func _show_combat_tutorial_dialog_box():
+	_disable_actors()
+	if (dialog_box.has_method("write_pages")):
+		var enemy_lv = 1
+		var pathToPageSentence = ["combat_tutorial", "shotgun"]
+		var pageline = global.DialogLine.new(pathToPageSentence)
+		var page = global.DialogPage.new([pageline])
+		var pages: Array = [page]
+
+		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL)
+		dialog_box.visible = true
+
+
 func _enable_actors():
 	if (player.has_method("enable_player")):
 		player.enable_player()
@@ -148,6 +161,8 @@ func _return_to_map():
 
 func _on_DialogBox_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_INIT_ENEMY:
+		_show_combat_tutorial_dialog_box()
+	if dialog_type == global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL:
 		dialog_box.visible = false
 		_enable_actors()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
