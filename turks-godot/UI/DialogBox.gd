@@ -12,6 +12,7 @@ onready var global = get_node("/root/Global")
 
 var _current_page: int = 0
 var _pages: Array
+var _portraits: Array
 var _lang: String
 var _dialog_type
 
@@ -62,6 +63,18 @@ func _setPagesFromDialogPages(pages: Array):
 			else:
 				print("Key not found in the dictionary")
 		_pages.push_back(page_contents)
+		_portraits.push_back(page.Portrait)
+
+
+func show_portrait():
+	if _portraits[_current_page] == global.g_PORTRAITS.UNKNOWN:
+		hide_portraits()
+	elif _portraits[_current_page] == global.g_PORTRAITS.TSUNG:
+		tsung_portrait.visible = true
+
+
+func hide_portraits():
+	tsung_portrait.visible = false
 
 
 func write_pages(pages: Array, dialog_type):
@@ -71,6 +84,7 @@ func write_pages(pages: Array, dialog_type):
 #	if (pages.size() > 1):
 	more_arrow.visible = true
 	dialog_box.text = _pages[_current_page]
+	show_portrait()
 
 
 func _get_input():
@@ -78,6 +92,7 @@ func _get_input():
 		_current_page+=1
 		if (_pages.size() > _current_page):
 			dialog_box.text = _pages[_current_page]
+			show_portrait()
 		else:
 			more_arrow.visible = false
 			emit_signal("dialog_complete", _dialog_type)

@@ -49,10 +49,9 @@ func _show_enemy_info_dialog_box():
 func _show_combat_tutorial_dialog_box():
 	_disable_actors()
 	if (dialog_box.has_method("write_pages")):
-		var enemy_lv = 1
 		var pathToPageSentence = ["combat_tutorial", "shotgun"]
 		var pageline = global.DialogLine.new(pathToPageSentence)
-		var page = global.DialogPage.new([pageline])
+		var page = global.DialogPage.new([pageline], global.g_PORTRAITS.TSUNG)
 		var pages: Array = [page]
 
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL)

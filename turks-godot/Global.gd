@@ -54,10 +54,6 @@ var g_strings: Dictionary = {
 			"jp": "【シオン】",
 			"color": g_colors["turquoise"]
 		},
-		"page1line1": {
-			"en": "Ellen!?",
-			"jp": "エレン!?"
-		},
 		"page1line2": {
 			"en": "What's wrong?",
 			"jp": "どうした?"
@@ -111,7 +107,7 @@ var g_strings: Dictionary = {
 
 var g_settings: Dictionary = {
 	"lang": "en",
-	"player_name": "エレン"
+	"player_name": "エレン" # Ellen
 }
 
 enum g_DIALOG_TYPE {
@@ -153,8 +149,9 @@ class DialogLine:
 
 class DialogPage:
 	var Lines: Array
-	var Portrait: String
+	var Portrait: int
 	
-	func _init(lines: Array):
+	func _init(lines: Array, portrait: int = g_PORTRAITS.UNKNOWN):
 		Lines = lines
+		Portrait = portrait
 

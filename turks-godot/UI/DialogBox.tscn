@@ -51,7 +51,7 @@ margin_top = 2.0
 margin_right = 152.0
 margin_bottom = 59.0
 custom_fonts/font = SubResource( 3 )
-text = "Line 1
+text = "
 Line 2
 Line 3"
 
