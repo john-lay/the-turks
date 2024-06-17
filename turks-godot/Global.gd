@@ -56,7 +56,7 @@ var g_strings: Dictionary = {
 			"jp": "【シオン】",
 			"color": g_colors["turquoise"]
 		},
-		"page1line2": {
+		"page1line3": {
 			"en": "What's wrong?",
 			"jp": "どうした?"
 		},
