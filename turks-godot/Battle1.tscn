@@ -111,7 +111,6 @@ text = "120/120"
 align = 2
 
 [node name="DialogBox" parent="." instance=ExtResource( 13 )]
-visible = false
 
 [node name="MateriaMenu" parent="." instance=ExtResource( 15 )]
 visible = false

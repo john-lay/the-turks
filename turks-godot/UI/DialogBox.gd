@@ -42,13 +42,22 @@ func _setPagesFromDialogPages(pages: Array):
 	for page in pages:
 		var page_contents: String
 		for line in page.Lines.size():
+			# Handle case where we need to display the player name
+			if line == global.DISPLAY_PLAYER_NAME:
+				page_contents += global.g_settings.player_name
+				if line <= page.Lines.size():
+					page_contents += "\n"
+				continue
+			
+			# Handle case where the text should be coloured
 			var copy = page.Lines[line].PathToSentence.duplicate()
 			copy.push_back("color")
 			var hasColor: Array = copy
 			var color_value = get_value_from_path(dict, hasColor)
 			if color_value != null:
 				heading.add_color_override("font_color", color_value)
-				
+			
+			# Grab the text from the look up table and localise
 			page.Lines[line].PathToSentence.push_back(_lang)
 			var localizedSentence: Array = page.Lines[line].PathToSentence
 			var raw_value = get_value_from_path(dict, localizedSentence)

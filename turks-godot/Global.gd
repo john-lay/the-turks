@@ -1,5 +1,7 @@
 extends Node
 
+const DISPLAY_PLAYER_NAME = 1
+
 var g_colors: Dictionary = {
 	"turquoise": Color("66ffff"),
 	"pink": Color("b41f76")
