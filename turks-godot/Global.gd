@@ -157,3 +157,12 @@ class DialogPage:
 		Lines = lines
 		Portrait = portrait
 
+
+class DialogHeading:
+	var Text: String
+	var Colour: Color
+	
+	func _init(text: String, colour: Color):
+		Text = text
+		Colour = colour
+

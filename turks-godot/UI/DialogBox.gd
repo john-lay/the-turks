@@ -11,6 +11,7 @@ onready var tsung_portrait = $TsungPortrait
 onready var global = get_node("/root/Global")
 
 var _current_page: int = 0
+var _headings: Array
 var _pages: Array
 var _portraits: Array
 var _lang: String
@@ -41,28 +42,30 @@ func _setPagesFromDialogPages(pages: Array):
 	heading.text = ""
 	for page in pages:
 		var page_contents: String
+		var heading = null
 		for line in page.Lines.size():
 			# Handle case where we need to display the player name
 			if line == global.DISPLAY_PLAYER_NAME:
+				print("displaying player name")
 				page_contents += global.g_settings.player_name
 				if line <= page.Lines.size():
 					page_contents += "\n"
 				continue
 			
-			# Handle case where the text should be coloured
+			# Handle case where the heading should be coloured
 			var copy = page.Lines[line].PathToSentence.duplicate()
 			copy.push_back("color")
 			var hasColor: Array = copy
 			var color_value = get_value_from_path(dict, hasColor)
-			if color_value != null:
-				heading.add_color_override("font_color", color_value)
+#			if color_value != null:
+#				heading.add_color_override("font_color", color_value)
 			
 			# Grab the text from the look up table and localise
 			page.Lines[line].PathToSentence.push_back(_lang)
 			var localizedSentence: Array = page.Lines[line].PathToSentence
 			var raw_value = get_value_from_path(dict, localizedSentence)
 			if raw_value != null && color_value != null:
-				heading.text = raw_value
+				heading = global.DialogHeading.new(raw_value, color_value)
 				page_contents += "\n"
 			elif raw_value != null:
 				var formatted_value = raw_value % page.Lines[line].FormatSentence
@@ -73,6 +76,7 @@ func _setPagesFromDialogPages(pages: Array):
 				print("Key not found in the dictionary")
 		_pages.push_back(page_contents)
 		_portraits.push_back(page.Portrait)
+		_headings.push_back(heading)
 
 
 func show_portrait():
@@ -86,6 +90,15 @@ func hide_portraits():
 	tsung_portrait.visible = false
 
 
+func show_heading():
+	print(_headings[_current_page] is global.DialogHeading)
+	if _headings[_current_page] is global.DialogHeading:
+		heading.text = _headings[_current_page].Text
+		heading.add_color_override("font_color", _headings[_current_page].Colour)
+	else:
+		heading.text = ""
+
+
 func write_pages(pages: Array, dialog_type):
 	_dialog_type = dialog_type
 #	_debugPrintDialogPages(pages)
@@ -94,6 +107,7 @@ func write_pages(pages: Array, dialog_type):
 	more_arrow.visible = true
 	dialog_box.text = _pages[_current_page]
 	show_portrait()
+	show_heading()
 
 
 func _get_input():
@@ -102,6 +116,7 @@ func _get_input():
 		if (_pages.size() > _current_page):
 			dialog_box.text = _pages[_current_page]
 			show_portrait()
+			show_heading()
 		else:
 			more_arrow.visible = false
 			emit_signal("dialog_complete", _dialog_type)
