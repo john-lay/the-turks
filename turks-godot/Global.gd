@@ -57,8 +57,8 @@ var g_strings: Dictionary = {
 			"color": g_colors["turquoise"]
 		},
 		"page1line2": {
-			"en": "DISPLAY_PLAYER_NAME",
-			"jp": "DISPLAY_PLAYER_NAME"
+			"en": g_DISPLAY_PLAYER_NAME,
+			"jp": g_DISPLAY_PLAYER_NAME
 		},
 		"page1line3": {
 			"en": "What's wrong?",

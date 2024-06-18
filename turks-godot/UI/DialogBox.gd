@@ -86,10 +86,10 @@ func show_portrait():
 
 func hide_portraits():
 	tsung_portrait.visible = false
+	tsung_portrait.visible = false
 
 
 func show_heading():
-	print(_headings[_current_page] is global.DialogHeading)
 	if _headings[_current_page] is global.DialogHeading:
 		heading.text = _headings[_current_page].Text
 		heading.add_color_override("font_color", _headings[_current_page].Colour)
