@@ -51,9 +51,10 @@ func _show_combat_tutorial_dialog_box():
 	if (dialog_box.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["combat_tutorial", "shotgun"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
-		var page1line2 = global.DISPLAY_PLAYER_NAME
-		var pathToPage1Sentence2 = ["combat_tutorial", "page1line3"]
-		var page1line3 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence2 = ["combat_tutorial", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["combat_tutorial", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
 		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSUNG)
 		
 		var pathToPage2Sentence1 = ["combat_tutorial", "page2line1"]

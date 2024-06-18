@@ -1,6 +1,6 @@
 extends Node
 
-const DISPLAY_PLAYER_NAME = 1
+const g_DISPLAY_PLAYER_NAME = "DISPLAY_PLAYER_NAME"
 
 var g_colors: Dictionary = {
 	"turquoise": Color("66ffff"),
@@ -55,6 +55,10 @@ var g_strings: Dictionary = {
 			"en": "[Shotgun]",
 			"jp": "【シオン】",
 			"color": g_colors["turquoise"]
+		},
+		"page1line2": {
+			"en": "DISPLAY_PLAYER_NAME",
+			"jp": "DISPLAY_PLAYER_NAME"
 		},
 		"page1line3": {
 			"en": "What's wrong?",
