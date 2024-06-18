@@ -55,7 +55,13 @@ func _show_combat_tutorial_dialog_box():
 		var pathToPage1Sentence2 = ["combat_tutorial", "page1line3"]
 		var page1line3 = global.DialogLine.new(pathToPage1Sentence2)
 		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSUNG)
-		var pages: Array = [page1]
+		
+		var pathToPage2Sentence1 = ["combat_tutorial", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["combat_tutorial", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.TSUNG)
+		var pages: Array = [page1, page2]
 
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL)
 		dialog_box.visible = true
