@@ -9,6 +9,7 @@ onready var magic_bar = $MagicBar
 onready var magic_label = $MagicLabel
 onready var game_over = $GameOver
 onready var dialog_box = $DialogBox
+onready var dialog_menu = $DialogMenu
 onready var materia_menu = $MateriaMenu
 onready var cast_magic = $CastMagic
 onready var global = get_node("/root/Global")
@@ -27,6 +28,7 @@ func _ready():
 	_enable_player_attack()
 	game_over.visible = false
 	dialog_box.visible = false
+	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
 	_show_enemy_info_dialog_box()
@@ -177,7 +179,9 @@ func _on_DialogBox_dialog_complete(dialog_type):
 		_show_combat_tutorial_dialog_box()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL:
 		dialog_box.visible = false
-		_enable_actors()
+		dialog_menu.visible = true
+		if dialog_menu.has_method("should_manage_input"):
+			dialog_menu.should_manage_input()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
 		_return_to_map()
 
@@ -237,4 +241,14 @@ func _on_CastMagic_finished(should_do_damage: bool, damage: int):
 	_enable_actors()
 	if should_do_damage && enemy.has_method("enemy_hit"):
 		enemy.enemy_hit(damage)
+
+
+
+func _on_DialogMenu_menu_complete(option: int):
+#	print("closing dialog menu, selected option = ", option)
+	if option == 0:
+		pass # show more dialog
+	elif option == 1:
+		dialog_menu.visible = false
+		_enable_actors()
 

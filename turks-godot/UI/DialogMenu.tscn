@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/DialogMenu.gd" type="Script" id=3]
+[ext_resource path="res://UI/menu-box.png" type="Texture" id=4]
+[ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 12
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 2 )
+
+[node name="DialogMenu" type="Node2D"]
+position = Vector2( 10, 178 )
+script = ExtResource( 3 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 80, 30 )
+texture = ExtResource( 4 )
+
+[node name="OptionsLabel" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 2.0
+margin_right = 152.0
+margin_bottom = 59.0
+custom_fonts/font = SubResource( 1 )
+text = "Interested
+Not Interested"
+
+[node name="OptionOne" type="Label" parent="."]
+margin_left = 10.0
+margin_top = -2.0
+margin_right = 26.0
+margin_bottom = 21.0
+custom_fonts/font = SubResource( 2 )
+text = "»"
+
+[node name="OptionTwo" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 18.0
+margin_right = 26.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 2 )
+text = "»"
+
+[node name="NavigateAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
