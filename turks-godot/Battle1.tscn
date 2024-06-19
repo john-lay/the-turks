@@ -68,7 +68,7 @@ texture_progress = ExtResource( 6 )
 
 [node name="player" parent="." groups=["player_group"] instance=ExtResource( 8 )]
 position = Vector2( 40, 120 )
-z_index = 1
+z_index = 2
 
 [node name="enemy" parent="." groups=["enemy_group"] instance=ExtResource( 9 )]
 position = Vector2( 128, 128 )
@@ -112,14 +112,17 @@ text = "120/120"
 align = 2
 
 [node name="DialogBox" parent="." instance=ExtResource( 13 )]
+z_index = 3
 
 [node name="MateriaMenu" parent="." instance=ExtResource( 15 )]
 visible = false
+z_index = 3
 
 [node name="CastMagic" parent="." instance=ExtResource( 14 )]
 visible = false
 
 [node name="DialogMenu" parent="." instance=ExtResource( 16 )]
+z_index = 3
 
 [connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
