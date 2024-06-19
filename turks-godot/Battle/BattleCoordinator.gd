@@ -182,7 +182,7 @@ func _show_exp_dialog():
 		var materia_exp = 1
 		var player_exp = 2
 		
-		var pathToPage1Sentence = ["battle", "blizzara_exp_points"]
+		var pathToPage1Sentence = ["battle", "thunder_exp_points"]
 		var formatPage1Sentence = [materia_exp]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence, formatPage1Sentence)
 		var page1 = global.DialogPage.new([page1line1])

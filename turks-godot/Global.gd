@@ -9,9 +9,9 @@ var g_colors: Dictionary = {
 
 var g_strings: Dictionary = {
 	"battle": {
-		"blizzara_exp_points": {
-			"en": "Blizzara exp. points      %d",
-			"jp": "ブリザラ 経験値   %d"
+		"thunder_exp_points": {
+			"en": "Thunder exp. points      %d",
+			"jp": "サンダー 経験値   %d"
 		},
 		"exp_point": {
 			"en": "Experience point            %d",
