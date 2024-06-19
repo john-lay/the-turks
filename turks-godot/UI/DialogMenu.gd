@@ -6,12 +6,17 @@ onready var options_label = $OptionsLabel
 onready var option1 = $OptionOne
 onready var option2 = $OptionTwo
 onready var navigate_audio = $NavigateAudio
+onready var global = get_node("/root/Global")
 
 var current_selection: int = 0
 var manage_input: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var lang = global.g_settings["lang"]
+	var option1Text = global.g_strings["combat_tutorial"]["interested"][lang]
+	var option2Text = global.g_strings["combat_tutorial"]["not_interested"][lang]
+	options_label.text = option1Text + "\n" + option2Text
 	option2.visible = false
 
 

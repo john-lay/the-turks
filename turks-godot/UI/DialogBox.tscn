@@ -67,6 +67,7 @@ text = "[Heading]"
 [node name="MoreArrow" type="AnimatedSprite" parent="."]
 position = Vector2( 152, 52 )
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="TsungPortrait" type="AnimatedSprite" parent="."]
