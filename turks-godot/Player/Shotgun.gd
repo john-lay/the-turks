@@ -239,6 +239,12 @@ func set_stun_direction(projectileDirection: Vector2):
 		animatedSprite.animation = "hit-right"
 	elif (projectileDirection == Vector2.RIGHT):
 		animatedSprite.animation = "hit-left"
+	elif (projectileDirection == Vector2.UP):
+		print("TODO: Shotgun reeling from projectile below")
+		state = STATE.MOVE
+	elif (projectileDirection == Vector2.DOWN):
+		print("TODO: Shotgun reeling from projectile above")
+		state = STATE.MOVE
 
 
 func set_death_direction(projectileDirection: Vector2):
