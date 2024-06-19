@@ -85,16 +85,21 @@ var g_strings: Dictionary = {
 			"jp": "興味なしです"
 		},
 		"page4line1": {
-			"en": "If you bump into someone hostile,",
+			"en": "If you bump into",
 			"jp": "敵意を持つ奴と"
 		},
 		"page4line2": {
-			"en": "combat will begin.",
+			"en": "someone hostile,",
 			"jp": "ぶつかると戦闘開始だ"
+		},
+		"page4line3": {
+			"en": "combat will begin.",
+			"jp": ""
 		},
 		"page5line1": {
 			"en": "Hold down a key",
-			"jp": "キーを押し続ける"
+			"jp": "キーを押し続ける",
+			"color": g_colors["pink"]
 		},
 		"page5line2": {
 			"en": "to automatically track",
@@ -120,7 +125,8 @@ enum g_DIALOG_TYPE {
 	UNKNOWN,
 	BATTLE_INIT_ENEMY,
 	BATTLE_PLAYER_EXP,
-	BATTLE_COMBAT_TUTORIAL
+	BATTLE_COMBAT_TUTORIAL,
+	BATTLE_MORE_COMBAT_TUTORIAL
 }
 
 enum g_PORTRAITS {

@@ -74,6 +74,38 @@ func _show_combat_tutorial_dialog_box():
 		dialog_box.visible = true
 
 
+func _show_more_combat_tutorial_dialog_box():
+	_disable_actors()
+	if (dialog_box.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["combat_tutorial", "page4line1"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["combat_tutorial", "page4line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["combat_tutorial", "page4line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSUNG)
+		
+		var pathToPage2Sentence1 = ["combat_tutorial", "page5line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["combat_tutorial", "page5line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["combat_tutorial", "page5line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.TSUNG)
+		
+		var pathToPage3Sentence1 = ["combat_tutorial", "shotgun"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["combat_tutorial", "page6line1"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		
+		var page3 = global.DialogPage.new([page3line1, page3line2], global.g_PORTRAITS.TSUNG)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL)
+		dialog_box.visible = true
+
 func _enable_actors():
 	if (player.has_method("enable_player")):
 		player.enable_player()
@@ -182,6 +214,9 @@ func _on_DialogBox_dialog_complete(dialog_type):
 		dialog_menu.visible = true
 		if dialog_menu.has_method("should_manage_input"):
 			dialog_menu.should_manage_input()
+	if dialog_type == global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL:
+		dialog_box.visible = false
+		_enable_actors()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
 		_return_to_map()
 
@@ -246,9 +281,9 @@ func _on_CastMagic_finished(should_do_damage: bool, damage: int):
 
 func _on_DialogMenu_menu_complete(option: int):
 #	print("closing dialog menu, selected option = ", option)
+	dialog_menu.visible = false
 	if option == 0:
-		pass # show more dialog
+		_show_more_combat_tutorial_dialog_box()
 	elif option == 1:
-		dialog_menu.visible = false
 		_enable_actors()
 
