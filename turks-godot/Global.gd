@@ -61,63 +61,59 @@ var g_strings: Dictionary = {
 			"jp": g_DISPLAY_PLAYER_NAME
 		},
 		"page1line3": {
-			"en": "What's wrong?",
+			"en": "What's going on?",
 			"jp": "どうした?"
 		},
 		"page2line1": {
-			"en": "Why are you fighting?",
+			"en": "Why are you engaging",
 			"jp": "なぜ、"
 		},
 		"page2line2": {
-			"en": "",
+			"en": "in battle?",
 			"jp": "戦闘をしている?"
 		},
 		"page3line1": {
-			"en": "Learn how to fight?",
+			"en": "You do know how to fight, \ndon't you?",
 			"jp": "戦闘方法を教える"
 		},
 		"interested": {
-			"en": "I want to hear it",
+			"en": "No, teach me",
 			"jp": "聞きたいわ"
 		},
 		"not_interested": {
-			"en": "I'm not interested",
+			"en": "I already know",
 			"jp": "興味なしです"
 		},
 		"page4line1": {
-			"en": "If you bump into",
+			"en": "If you bump into someone",
 			"jp": "敵意を持つ奴と"
 		},
 		"page4line2": {
-			"en": "someone hostile,",
+			"en": "hostile, combat will begin.",
 			"jp": "ぶつかると戦闘開始だ"
 		},
-		"page4line3": {
-			"en": "combat will begin.",
-			"jp": ""
-		},
 		"page5line1": {
-			"en": "Hold down a key",
+			"en": "Press the Enter key",
 			"jp": "キーを押し続ける",
 			"color": g_colors["pink"]
 		},
 		"page5line2": {
-			"en": "to automatically track",
+			"en": "to attack the enemy",
 			"jp": "自動的に敵を追って"
 		},
 		"page5line3": {
-			"en": "and attack enemies.",
+			"en": "",
 			"jp": "攻撃する"
 		},
 		"page6line1": {
-			"en": "Proceed with caution.",
+			"en": "Be careful out there.",
 			"jp": "慎重に行け"
 		},
 	}
 }
 
 var g_settings: Dictionary = {
-	"lang": "en",
+	"lang": "en", # jp
 	"player_name": "エレン" # Ellen
 }
 

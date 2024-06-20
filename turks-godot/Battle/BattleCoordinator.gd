@@ -81,10 +81,8 @@ func _show_more_combat_tutorial_dialog_box():
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
 		var pathToPage1Sentence2 = ["combat_tutorial", "page4line2"]
 		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
-		var pathToPage1Sentence3 = ["combat_tutorial", "page4line3"]
-		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
 		
-		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSUNG)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.TSUNG)
 		
 		var pathToPage2Sentence1 = ["combat_tutorial", "page5line1"]
 		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
