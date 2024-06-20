@@ -9,6 +9,7 @@ onready var heading = $HeadingLabel
 onready var more_arrow = $MoreArrow
 onready var tsung_portrait = $TsungPortrait
 onready var global = get_node("/root/Global")
+onready var label_style = preload("res://UI/DialogBoxFont.tres")
 
 var _current_page: int = 0
 var _headings: Array
@@ -22,6 +23,8 @@ var _dialog_type
 func _ready():
 	more_arrow.visible = false
 	_lang = global.g_settings["lang"]
+	if _lang == "en":
+		label_style.size = 10
 	_dialog_type = global.g_DIALOG_TYPE.UNKNOWN
 	tsung_portrait.visible = false
 
