@@ -7,6 +7,7 @@ onready var option1 = $OptionOne
 onready var option2 = $OptionTwo
 onready var navigate_audio = $NavigateAudio
 onready var global = get_node("/root/Global")
+onready var label_style = preload("res://UI/DialogBoxFont.tres")
 
 var current_selection: int = 0
 var manage_input: bool = false
@@ -14,6 +15,10 @@ var manage_input: bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var lang = global.g_settings["lang"]
+	if lang == "en":
+		label_style.size = 10
+		option1.rect_position.y -= 1
+		option2.rect_position.y -= 4
 	var option1Text = global.g_strings["combat_tutorial"]["interested"][lang]
 	var option2Text = global.g_strings["combat_tutorial"]["not_interested"][lang]
 	options_label.text = option1Text + "\n" + option2Text
