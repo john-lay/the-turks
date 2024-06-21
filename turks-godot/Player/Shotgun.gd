@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/ProjectileSprite.tscn")
+export(PackedScene) var PROJECTILE: PackedScene = preload("res://Battle/PlayerProjectile.tscn")
 
 enum STATE {
 	MOVE,
@@ -31,11 +31,11 @@ var health: int
 var attack_power: int
 
 # the below line is equivalent to
-#onready var projectile = $ProjectileSprite
+#onready var projectile = $PlayerProjectile
 # the below 3 lines
 #var projectile
 #func _ready():
-#	projectile = get_node("ProjectileSprite")
+#	projectile = get_node("PlayerProjectile")
 
 #func _ready():
 #	animatedSprite.connect("animation_finished",self, "animation_finished")
