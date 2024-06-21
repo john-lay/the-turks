@@ -25,12 +25,47 @@ position = Vector2( 120, 120 )
 z_index = 100
 texture = ExtResource( 11 )
 
-[node name="TileMap BG" type="TileMap" parent="."]
-position = Vector2( -8, 0 )
+[node name="Battle1" type="Node2D" parent="."]
+position = Vector2( 120, 120 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TileMap" type="TileMap" parent="Battle1"]
+position = Vector2( -128, -120 )
 tile_set = ExtResource( 8 )
 cell_size = Vector2( 52, 52 )
 format = 1
 tile_data = PoolIntArray( 0, 8, 0, 1, 30, 0, 2, 7, 0, 3, 34, 0, 4, 17, 0, 65536, 17, 0, 65537, 29, 0, 65538, 16, 0, 65539, 21, 0, 65540, 12, 0, 131072, 13, 0, 131073, 4, 0, 131074, 13, 0, 131075, 4, 0, 131076, 20, 0, 196608, 12, 0, 196609, 12, 0, 196610, 12, 0, 196611, 12, 0, 196612, 13, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle1" groups=["bg"]]
+position = Vector2( -120, -120 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle1/StaticBody2D"]
+polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle1/StaticBody2D"]
+polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
+
+[node name="Battle2" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Battle2"]
+position = Vector2( -8, 0 )
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 0, 9, 0, 1, 10, 0, 2, 25, 0, 3, 8, 0, 4, 30, 0, 65536, 4, 0, 65537, 33, 0, 65538, 34, 0, 65539, 17, 0, 65540, 29, 0, 131072, 12, 0, 131073, 13, 0, 131074, 4, 0, 131075, 13, 0, 131076, 4, 0, 196608, 21, 0, 196609, 12, 0, 196610, 20, 0, 196611, 21, 0, 196612, 12, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle2" groups=["bg"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle2/StaticBody2D"]
+polygon = PoolVector2Array( -16, 40, 96, 40, 96, 96, 256, 96, 256, 0, -16, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle2/StaticBody2D"]
+polygon = PoolVector2Array( -16, 240, 256, 240, 256, 96, 232, 96, 232, 192, 8, 192, 8, 40, -16, 40 )
 
 [node name="TileMap HUD" type="TileMap" parent="."]
 tile_set = ExtResource( 9 )
@@ -66,19 +101,8 @@ texture_under = ExtResource( 12 )
 texture_progress = ExtResource( 16 )
 
 [node name="player" parent="." groups=["player_group"] instance=ExtResource( 2 )]
-position = Vector2( 90, 70 )
+position = Vector2( 80, 100 )
 z_index = 2
-
-[node name="Background Collisions" type="StaticBody2D" parent="." groups=["bg"]]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Background Collisions"]
-polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
-
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Background Collisions"]
-polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
 
 [node name="BattleMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
@@ -104,6 +128,7 @@ text = "120/120"
 align = 2
 
 [node name="DialogBox" parent="." instance=ExtResource( 6 )]
+visible = false
 z_index = 3
 
 [node name="MateriaMenu" parent="." instance=ExtResource( 3 )]
@@ -114,6 +139,7 @@ z_index = 3
 visible = false
 
 [node name="DialogMenu" parent="." instance=ExtResource( 4 )]
+visible = false
 z_index = 3
 
 [connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]

@@ -13,6 +13,8 @@ onready var dialog_box = $DialogBox
 onready var dialog_menu = $DialogMenu
 onready var materia_menu = $MateriaMenu
 onready var cast_magic = $CastMagic
+onready var battle1 = $Battle1
+onready var battle2 = $Battle2
 onready var global = get_node("/root/Global")
 
 var player_max_hp: int
@@ -34,6 +36,8 @@ func _ready():
 	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
+	disable_battle(battle1)
+	disable_battle(battle2)
 
 
 func _show_enemy_info_dialog_box():
@@ -306,14 +310,42 @@ func _on_DialogMenu_menu_complete(option: int):
 		_enable_actors()
 
 
-func init_first_battle():
-	is_first_battle = true
+func _add_enemy(enemy_position: Vector2):
 	if ENEMY:
 		var enemy = ENEMY.instance()
 		enemy.add_to_group("enemy_group")
 		enemy.connect("request_player_position", self, "_on_enemy_request_player_position")
 		enemy.connect("enemy_died", self, "_on_enemy_enemy_died")
-		enemy.position = Vector2(200, 100)
+		enemy.position = enemy_position
 		enemies.push_back(enemy)
 		get_tree().current_scene.add_child(enemy)
+
+
+func init_first_battle():
+	is_first_battle = true
+	player.position = Vector2(90, 70)
+	enable_battle(battle1)
+	var enemy_position = Vector2(200, 100)
+	_add_enemy(enemy_position)
 	_show_enemy_info_dialog_box()
+
+
+func init_second_battle():
+	player.position = Vector2(190, 80)
+	enable_battle(battle2)
+	var enemy_position = Vector2(70, 100)
+	_add_enemy(enemy_position)
+	_show_enemy_info_dialog_box()
+
+
+func disable_battle(battle: Node2D):
+	battle.visible = false
+	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D").disabled = true
+	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D2").disabled = true
+
+
+func enable_battle(battle: Node2D):
+	battle.visible = true
+	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D").disabled = false
+	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D2").disabled = false
+

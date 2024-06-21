@@ -27,6 +27,8 @@ func _ready():
 		battle.init_enemy_stats(enemy_hp, enemy_attack_power)
 	if battle.has_method("init_first_battle"):
 		battle.init_first_battle()
+#	if battle.has_method("init_second_battle"):
+#		battle.init_second_battle()
 
 
 func _on_battle_player_won_battle():
