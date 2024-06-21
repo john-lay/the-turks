@@ -22,6 +22,7 @@ var player_mp: int
 var has_shown_dialog: bool = false
 var spell_cost: int = 0
 var enemies: Array
+var is_first_battle: bool = false
 
 signal player_won_battle
 
@@ -33,15 +34,6 @@ func _ready():
 	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
-	if ENEMY:
-		var enemy = ENEMY.instance()
-		enemy.add_to_group("enemy_group")
-		enemy.connect("request_player_position", self, "_on_enemy_request_player_position")
-		enemy.connect("enemy_died", self, "_on_enemy_enemy_died")
-		enemy.position = Vector2(148, 128)
-		enemies.push_back(enemy)
-		get_tree().current_scene.add_child(enemy)
-	_show_enemy_info_dialog_box()
 
 
 func _show_enemy_info_dialog_box():
@@ -222,17 +214,24 @@ func _return_to_map():
 
 func _on_DialogBox_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_INIT_ENEMY:
-		_show_combat_tutorial_dialog_box()
+		if is_first_battle:
+			_show_combat_tutorial_dialog_box()
+		else:
+			_begin_battle()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL:
 		dialog_box.visible = false
 		dialog_menu.visible = true
 		if dialog_menu.has_method("should_manage_input"):
 			dialog_menu.should_manage_input()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL:
-		dialog_box.visible = false
-		_enable_actors()
+		_begin_battle()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
 		_return_to_map()
+
+
+func _begin_battle():
+	dialog_box.visible = false
+	_enable_actors()
 
 
 func _on_player_materia_menu_invoked():
@@ -306,3 +305,15 @@ func _on_DialogMenu_menu_complete(option: int):
 	elif option == 1:
 		_enable_actors()
 
+
+func init_first_battle():
+	is_first_battle = true
+	if ENEMY:
+		var enemy = ENEMY.instance()
+		enemy.add_to_group("enemy_group")
+		enemy.connect("request_player_position", self, "_on_enemy_request_player_position")
+		enemy.connect("enemy_died", self, "_on_enemy_enemy_died")
+		enemy.position = Vector2(200, 100)
+		enemies.push_back(enemy)
+		get_tree().current_scene.add_child(enemy)
+	_show_enemy_info_dialog_box()

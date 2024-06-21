@@ -66,7 +66,7 @@ texture_under = ExtResource( 12 )
 texture_progress = ExtResource( 16 )
 
 [node name="player" parent="." groups=["player_group"] instance=ExtResource( 2 )]
-position = Vector2( 40, 120 )
+position = Vector2( 90, 70 )
 z_index = 2
 
 [node name="Background Collisions" type="StaticBody2D" parent="." groups=["bg"]]
