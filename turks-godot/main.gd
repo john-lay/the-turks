@@ -11,10 +11,10 @@ var shotgun_defence_power: int = player_level + 14
 var enemy_hp: int = 20
 var enemy_attack_power: int = 5
 
-export(PackedScene) var BATTLE1: PackedScene = preload("res://Battle1.tscn")
+export(PackedScene) var BATTLE: PackedScene = preload("res://Battle.tscn")
 export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 
-var scene_battle: Node = BATTLE1.instance()
+var scene_battle: Node = BATTLE.instance()
 var scene1_1: Node = SCENE1_1.instance()
 
 	# Called when the node enters the scene tree for the first time.
