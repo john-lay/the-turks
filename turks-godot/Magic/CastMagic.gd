@@ -17,7 +17,7 @@ var max_offset_y:int = initial_offset.y + (tile_size * 2)
 var animation_started:bool = false
 var animation_finished:bool = false
 var manage_input: bool = false
-var should_do_damage: bool = false
+var should_do_damage: Dictionary
 var damage: int
 
 
@@ -127,15 +127,15 @@ func should_manage_input():
 
 func _on_MagicCursor_body_entered(body):
 	if body.is_in_group("enemy_group"):
-#		print("cursor collided with ", body.name)
+#		print("cursor collided with ", body.name, body.get_instance_id())
 		if body.has_method("show_finger"):
 			body.show_finger()
-			should_do_damage = true
+			should_do_damage[body.get_instance_id()] = true
 
 
 func _on_MagicCursor_body_exited(body):
 	if body.is_in_group("enemy_group"):
-#		print("cursor no longer collided with ", body.name)
+#		print("cursor no longer collided with ", body.name, body.get_instance_id())
 		if body.has_method("hide_finger"):
 			body.hide_finger()
-			should_do_damage = false
+			should_do_damage[body.get_instance_id()] = false

@@ -1,8 +1,9 @@
 extends Node2D
 
+export(PackedScene) var ENEMY: PackedScene = preload("res://Enemy/avalanche.tscn")
+
 # Declare member variables here. Examples:
 onready var player = $player
-onready var enemy = $enemy
 onready var health_bar = $HealthBar
 onready var health_label = $HealthLabel
 onready var magic_bar = $MagicBar
@@ -20,6 +21,7 @@ var player_max_mp: int
 var player_mp: int
 var has_shown_dialog: bool = false
 var spell_cost: int = 0
+var enemies: Array
 
 signal player_won_battle
 
@@ -31,6 +33,14 @@ func _ready():
 	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
+	if ENEMY:
+		var enemy = ENEMY.instance()
+		enemy.add_to_group("enemy_group")
+		enemy.connect("request_player_position", self, "_on_enemy_request_player_position")
+		enemy.connect("enemy_died", self, "_on_enemy_enemy_died")
+		enemy.position = Vector2(148, 128)
+		enemies.push_back(enemy)
+		get_tree().current_scene.add_child(enemy)
 	_show_enemy_info_dialog_box()
 
 
@@ -107,15 +117,17 @@ func _show_more_combat_tutorial_dialog_box():
 func _enable_actors():
 	if (player.has_method("enable_player")):
 		player.enable_player()
-	if (enemy.has_method("enable_enemy")):
-		enemy.enable_enemy()
+	for enemy in enemies:
+		if (enemy.has_method("enable_enemy")):
+			enemy.enable_enemy()
 
 
 func _disable_actors():
 	if (player.has_method("disable_player")):
 		player.disable_player()
-	if (enemy.has_method("disable_enemy")):
-		enemy.disable_enemy()
+	for enemy in enemies:
+		if (enemy.has_method("disable_enemy")):
+			enemy.disable_enemy()
 
 
 func _enable_player_attack():
@@ -124,8 +136,10 @@ func _enable_player_attack():
 
 
 func _on_enemy_request_player_position():
-	if (enemy.has_method("player_position_received")):
-		enemy.player_position_received(player.position)
+#	print("enemy requested player position")
+	for enemy in enemies:
+		if (enemy.has_method("player_position_received")):
+			enemy.player_position_received(player.position)
 
 
 func init_player_stats(hp: int, mp: int, attack_power: int):
@@ -145,8 +159,9 @@ func init_player_stats(hp: int, mp: int, attack_power: int):
 
 
 func init_enemy_stats(hp: int, attack_power: int):
-	if (enemy.has_method("init_enemy_stats")):
-		enemy.init_enemy_stats(hp, attack_power)
+	for enemy in enemies:
+		if (enemy.has_method("init_enemy_stats")):
+			enemy.init_enemy_stats(hp, attack_power)
 
 
 func _on_player_player_health_changed(health):
@@ -167,6 +182,7 @@ func _on_player_player_died():
 
 
 func _on_enemy_enemy_died():
+#	print("enemy emitted died signal")
 	if (player.has_method("disable_player")):
 		player.disable_player()
 	if (!has_shown_dialog):
@@ -249,8 +265,9 @@ func _on_CastMagic_close():
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):
 		materia_menu.should_manage_input(false)
-	if enemy.has_method("hide_finger"):
-		enemy.hide_finger()
+	for enemy in enemies:
+		if enemy.has_method("hide_finger"):
+			enemy.hide_finger()
 
 
 func _on_CastMagic_cast_spell():
@@ -258,8 +275,9 @@ func _on_CastMagic_cast_spell():
 	_player_magic_changed()
 	if player.has_method("cast_spell"):
 		player.cast_spell()
-	if enemy.has_method("hide_finger"):
-		enemy.hide_finger()
+	for enemy in enemies:
+		if enemy.has_method("hide_finger"):
+			enemy.hide_finger()
 
 
 func _on_player_finished_casting():
@@ -268,13 +286,16 @@ func _on_player_finished_casting():
 		cast_magic.animate_spell()
 
 
-func _on_CastMagic_finished(should_do_damage: bool, damage: int):
+func _on_CastMagic_finished(should_do_damage: Dictionary, damage: int):
 #	print("finished casting spell")
 	cast_magic.visible = false
 	_enable_actors()
-	if should_do_damage && enemy.has_method("enemy_hit"):
-		enemy.enemy_hit(damage)
-
+	for enemy in enemies:
+		for instance_id in should_do_damage:
+			if enemy.get_instance_id() == instance_id:
+				var do_damage = should_do_damage[instance_id]
+				if do_damage && enemy.has_method("enemy_hit"):
+					enemy.enemy_hit(damage)
 
 
 func _on_DialogMenu_menu_complete(option: int):

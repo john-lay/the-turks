@@ -24,6 +24,7 @@ var collidedWithBackground: bool = false
 var playerPosition: Vector2
 var health: int
 var attack_power: int
+var has_died: bool = false
 
 onready var stateTimer = $StateTimer
 onready var damageLabel = $DamageLabel
@@ -90,9 +91,10 @@ func should_launch_projectile():
 
 
 func has_finished_dying():
-	if (state == STATE.DIED):
+	if state == STATE.DIED:
 		var last_death_frame: int = 3
-		if (animatedSprite.get_frame() == last_death_frame): 
+		if animatedSprite.get_frame() == last_death_frame && !has_died:
+			has_died = true
 			emit_signal("enemy_died")
 
 
