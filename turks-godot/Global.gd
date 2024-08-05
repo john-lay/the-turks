@@ -109,6 +109,32 @@ var g_strings: Dictionary = {
 			"en": "Be careful out there.",
 			"jp": "慎重に行け"
 		},
+	},
+	"overworld_menu": {
+		"status": {
+			"en": "Status",
+			"jp": "ステータス"
+		},
+		"item": {
+			"en": "Item",
+			"jp": "アイテム"
+		},
+		"materia_equipment": {
+			"en": "Materia Equip.",
+			"jp": "マテリア装備"
+		},
+		"member_list": {
+			"en": "Member List",
+			"jp": "メンバーリスト"
+		},
+		"options": {
+			"en": "Options",
+			"jp": "オプション"
+		},
+		"return_to_hq": {
+			"en": "Return to HQ",
+			"jp": "本部に戻る"
+		}
 	}
 }
 

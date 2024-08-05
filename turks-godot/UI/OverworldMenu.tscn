@@ -1,0 +1,136 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=1]
+[ext_resource path="res://UI/OverworldMenu.gd" type="Script" id=2]
+[ext_resource path="res://Audio/select.wav" type="AudioStream" id=3]
+[ext_resource path="res://Audio/unavailable.wav" type="AudioStream" id=4]
+[ext_resource path="res://UI/overworld-menu.png" type="Texture" id=5]
+[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 128, 160 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 0, 128, 160 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 0, 128, 160 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 160, 128, 160 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 160, 128, 160 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 160, 128, 160 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": false,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": false,
+"name": "2",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 3 ) ],
+"loop": false,
+"name": "3",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": false,
+"name": "4",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": false,
+"name": "5",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 6 ) ],
+"loop": false,
+"name": "6",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=8]
+size = 11
+font_data = ExtResource( 7 )
+fallback/0 = ExtResource( 6 )
+
+[node name="OverworldMenu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 64, 80 )
+frames = SubResource( 7 )
+animation = "1"
+
+[node name="NavigateAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+
+[node name="UnavailableAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[node name="SelectAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="Option1Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 30.0
+margin_right = 124.0
+margin_bottom = 46.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 1"
+
+[node name="Option2Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 48.0
+margin_right = 124.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 2"
+
+[node name="Option3Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 66.0
+margin_right = 124.0
+margin_bottom = 82.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 3"
+
+[node name="Option4Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 84.0
+margin_right = 124.0
+margin_bottom = 100.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 4"
+
+[node name="Option5Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 102.0
+margin_right = 124.0
+margin_bottom = 118.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 5"
+
+[node name="Option6Text" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 120.0
+margin_right = 124.0
+margin_bottom = 136.0
+custom_fonts/font = SubResource( 8 )
+text = "Option 6"

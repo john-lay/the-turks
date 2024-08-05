@@ -49,6 +49,7 @@ func _process(delta):
 	if (self.is_visible_in_tree() && manage_input):
 		_get_input()
 
+
 func _set_selection():
 	var dialog_text = global.g_strings["battle"]["materia_spend"][_lang]
 	if current_selection == 1:

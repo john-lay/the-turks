@@ -19,6 +19,16 @@ var scene1_1: Node = SCENE1_1.instance()
 
 	# Called when the node enters the scene tree for the first time.
 func _ready():
+#	_load_battle()
+	get_tree().current_scene.add_child(scene1_1)
+
+
+func _on_battle_player_won_battle():
+	get_tree().current_scene.remove_child(battle)
+	get_tree().current_scene.add_child(scene1_1)
+
+
+func _load_battle():
 	get_tree().current_scene.add_child(battle)
 	battle.connect("player_won_battle", self, "_on_battle_player_won_battle")
 	if battle.has_method("init_player_stats"):
@@ -29,8 +39,3 @@ func _ready():
 		battle.init_first_battle()
 #	if battle.has_method("init_second_battle"):
 #		battle.init_second_battle()
-
-
-func _on_battle_player_won_battle():
-	get_tree().current_scene.remove_child(battle)
-	get_tree().current_scene.add_child(scene1_1)

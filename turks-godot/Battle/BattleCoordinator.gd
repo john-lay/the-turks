@@ -238,7 +238,7 @@ func _begin_battle():
 	_enable_actors()
 
 
-func _on_player_materia_menu_invoked():
+func _on_player_player_select():
 	_disable_actors()
 	materia_menu.visible = true
 	if materia_menu.has_method("should_manage_input"):

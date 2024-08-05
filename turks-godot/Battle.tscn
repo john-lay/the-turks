@@ -146,6 +146,7 @@ z_index = 3
 [connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
 [connection signal="player_died" from="player" to="." method="_on_player_player_died"]
 [connection signal="player_health_changed" from="player" to="." method="_on_player_player_health_changed"]
+[connection signal="player_select" from="player" to="." method="_on_player_player_select"]
 [connection signal="dialog_complete" from="DialogBox" to="." method="_on_DialogBox_dialog_complete"]
 [connection signal="cast_spell" from="MateriaMenu" to="." method="_on_MateriaMenu_cast_spell"]
 [connection signal="close" from="MateriaMenu" to="." method="_on_MateriaMenu_close"]
