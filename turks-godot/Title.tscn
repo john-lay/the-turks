@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://UI/NotoSans-VariableFont_wdth,wght.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/NotoSansJP-VariableFont_wght.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=3]
+[ext_resource path="res://UI/Title.gd" type="Script" id=4]
+[ext_resource path="res://Audio/select.wav" type="AudioStream" id=5]
+[ext_resource path="res://UI/background.png" type="Texture" id=6]
+[ext_resource path="res://UI/title-menu.png" type="Texture" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 128, 80 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 7 )
+region = Rect2( 128, 0, 128, 80 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": false,
+"name": "1",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ) ],
+"loop": false,
+"name": "2",
+"speed": 5.0
+} ]
+
+[sub_resource type="Theme" id=4]
+
+[sub_resource type="DynamicFont" id=5]
+size = 11
+font_data = ExtResource( 1 )
+fallback/0 = ExtResource( 2 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="BG" type="Sprite" parent="."]
+position = Vector2( 120, 120 )
+texture = ExtResource( 6 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 120, 164 )
+frames = SubResource( 3 )
+animation = "1"
+
+[node name="NavigateAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="SelectAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="EnglishLabel" type="Label" parent="."]
+margin_left = 82.0
+margin_top = 151.0
+margin_right = 122.0
+margin_bottom = 167.0
+theme = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+text = "English"
+
+[node name="JapaneseLabel" type="Label" parent="."]
+margin_left = 81.0
+margin_top = 170.0
+margin_right = 121.0
+margin_bottom = 186.0
+theme = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+text = "日本語"

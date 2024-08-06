@@ -11,15 +11,35 @@ var shotgun_defence_power: int = player_level + 14
 var enemy_hp: int = 20
 var enemy_attack_power: int = 5
 
+onready var global = get_node("/root/Global")
+
+export(PackedScene) var TITLE: PackedScene = preload("res://Title.tscn")
 export(PackedScene) var BATTLE: PackedScene = preload("res://Battle.tscn")
 export(PackedScene) var SCENE1_1: PackedScene = preload("res://Scene1-1.tscn")
 
+var title: Node = TITLE.instance()
 var battle: Node = BATTLE.instance()
 var scene1_1: Node = SCENE1_1.instance()
 
 	# Called when the node enters the scene tree for the first time.
 func _ready():
+	get_tree().current_scene.add_child(title)
+	title.connect("select", self, "_on_title_language_select")
+	if title.has_method("should_manage_input"):
+		title.should_manage_input()
 #	_load_battle()
+
+
+func _on_title_language_select(lang):
+	if lang == 1:
+		global.g_settings["lang"] = "en"
+	else:
+		global.g_settings["lang"] = "jp"
+	yield(get_tree().create_timer(0.5), "timeout")
+	_load_scene1_1()
+
+
+func _load_scene1_1():
 	get_tree().current_scene.add_child(scene1_1)
 
 
