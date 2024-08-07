@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Audio/mission-theme.ogg" type="AudioStream" id=3]
 [ext_resource path="res://UI/OverworldMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Audio/cell-phone.wav" type="AudioStream" id=5]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
 
 [node name="Overworld" type="Node2D"]
@@ -47,6 +48,9 @@ autoplay = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="OverworldMenu" parent="CanvasLayer" instance=ExtResource( 4 )]
+
+[node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
 
 [connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
 [connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]

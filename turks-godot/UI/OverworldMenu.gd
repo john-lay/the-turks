@@ -77,10 +77,10 @@ func _get_input():
 		navigate_audio.play()
 	if Input.is_action_just_pressed("ui_accept"):
 #		print("overworld menu emitting select signal")
-		if current_selection == 1:
-			emit_signal("select", current_selection)
-			select_audio.play()
-		else:
+#		if current_selection == 1:
+#			emit_signal("select", current_selection)
+#			select_audio.play()
+#		else:
 			unavailable_audio.play()
 
 
