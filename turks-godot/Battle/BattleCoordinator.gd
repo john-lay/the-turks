@@ -57,23 +57,23 @@ func _show_enemy_info_dialog_box():
 func _show_combat_tutorial_dialog_box():
 	_disable_actors()
 	if (dialog_box.has_method("write_pages")):
-		var pathToPage1Sentence1 = ["combat_tutorial", "shotgun"]
+		var pathToPage1Sentence1 = ["character", "shotgun"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
 		var pathToPage1Sentence2 = ["combat_tutorial", "page1line2"]
 		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
 		var pathToPage1Sentence3 = ["combat_tutorial", "page1line3"]
 		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
-		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSUNG)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
 		
 		var pathToPage2Sentence1 = ["combat_tutorial", "page2line1"]
 		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
 		var pathToPage2Sentence2 = ["combat_tutorial", "page2line2"]
 		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
-		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.TSUNG)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.TSENG)
 
 		var pathToPage3Sentence1 = ["combat_tutorial", "page3line1"]
 		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
-		var page3 = global.DialogPage.new([page3line1], global.g_PORTRAITS.TSUNG)
+		var page3 = global.DialogPage.new([page3line1], global.g_PORTRAITS.TSENG)
 		
 		var pages: Array = [page1, page2, page3]
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_COMBAT_TUTORIAL)
@@ -88,7 +88,7 @@ func _show_more_combat_tutorial_dialog_box():
 		var pathToPage1Sentence2 = ["combat_tutorial", "page4line2"]
 		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
 		
-		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.TSUNG)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.TSENG)
 		
 		var pathToPage2Sentence1 = ["combat_tutorial", "page5line1"]
 		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
@@ -97,14 +97,14 @@ func _show_more_combat_tutorial_dialog_box():
 		var pathToPage2Sentence3 = ["combat_tutorial", "page5line3"]
 		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
 		
-		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.TSUNG)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.TSENG)
 		
-		var pathToPage3Sentence1 = ["combat_tutorial", "shotgun"]
+		var pathToPage3Sentence1 = ["character", "shotgun"]
 		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
 		var pathToPage3Sentence2 = ["combat_tutorial", "page6line1"]
 		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
 		
-		var page3 = global.DialogPage.new([page3line1, page3line2], global.g_PORTRAITS.TSUNG)
+		var page3 = global.DialogPage.new([page3line1, page3line2], global.g_PORTRAITS.TSENG)
 		
 		var pages: Array = [page1, page2, page3]
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL)

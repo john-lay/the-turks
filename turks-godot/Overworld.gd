@@ -2,7 +2,10 @@ extends Node2D
 
 onready var player = $Player
 onready var phone_audio = $PhoneAudio
+onready var global = get_node("/root/Global")
 onready var overworld_menu = get_node("CanvasLayer/OverworldMenu")
+onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
+onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
 
 enum STATE {
 	PLAYER_INTRO,
@@ -11,12 +14,16 @@ enum STATE {
 
 var state = STATE.PLAYER_INTRO
 var has_played_phone_audio: bool = false
-
+var has_played_player_intro: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	overworld_menu.visible = false
+	dialog_box_top.visible = false
+	if dialog_box_top.has_method("set_portrait_top_left"):
+		dialog_box_top.set_portrait_top_left()
+	dialog_box_bottom.visible = false
 	_player_intro()
 
 
@@ -40,8 +47,189 @@ func _process(delta):
 			_show_initial_dialog()
 
 
+# cater for debounce in _process
 func _show_initial_dialog():
-	print("show initial dialog")
+	if !has_played_player_intro:
+		has_played_player_intro = true
+		_show_initial_dialog1()
+
+
+func _show_initial_dialog1():
+	_disable_actors()
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["intro_dialog_1", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["intro_dialog_1", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
+		
+		var pathToPage2Sentence1 = ["intro_dialog_1", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["intro_dialog_1", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.TSENG)
+
+		var pathToPage3Sentence1 = ["intro_dialog_1", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var page3 = global.DialogPage.new([page3line1], global.g_PORTRAITS.TSENG)
+		
+		var pathToPage4Sentence1 = ["intro_dialog_1", "page4line1"]
+		var page4line1 = global.DialogLine.new(pathToPage4Sentence1)
+		var pathToPage4Sentence2 = ["intro_dialog_1", "page4line2"]
+		var page4line2 = global.DialogLine.new(pathToPage4Sentence2)
+		var pathToPage4Sentence3 = ["intro_dialog_1", "page4line3"]
+		var page4line3 = global.DialogLine.new(pathToPage4Sentence3)
+		var page4 = global.DialogPage.new([page4line1, page4line2, page4line3], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1, page2, page3, page4]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.INTRO_DIALOG_1)
+		dialog_box_top.visible = true
+
+
+func _show_initial_dialog2():
+	_disable_actors()
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["intro_dialog_2", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.SHOTGUN)
+				
+		var pathToPage2Sentence1 = ["intro_dialog_2", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["intro_dialog_2", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["intro_dialog_2", "page2line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pages: Array = [page1, page2]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.INTRO_DIALOG_2)
+		dialog_box_bottom.visible = true
+
+
+func _show_initial_dialog3():
+	_disable_actors()
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["intro_dialog_3", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["intro_dialog_3", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
+		
+		var pathToPage2Sentence1 = ["intro_dialog_3", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["intro_dialog_3", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["intro_dialog_3", "page2line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.TSENG)
+
+		var pathToPage3Sentence1 = ["intro_dialog_3", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["intro_dialog_3", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var pathToPage3Sentence3 = ["intro_dialog_3", "page3line3"]
+		var page3line3 = global.DialogLine.new(pathToPage3Sentence3)
+		var page3 = global.DialogPage.new([page3line1, page3line2, page3line3], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.INTRO_DIALOG_3)
+		dialog_box_top.visible = true
+
+
+func _show_initial_dialog4():
+	_disable_actors()
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["intro_dialog_4", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.SHOTGUN)
+
+		var pathToPage2Sentence1 = ["intro_dialog_4", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["intro_dialog_4", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.SHOTGUN)
+		
+		var pathToPage3Sentence1 = ["intro_dialog_4", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["intro_dialog_4", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var pathToPage3Sentence3 = ["intro_dialog_4", "page3line3"]
+		var page3line3 = global.DialogLine.new(pathToPage3Sentence3)
+		var page3 = global.DialogPage.new([page3line1, page3line2, page3line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.INTRO_DIALOG_4)
+		dialog_box_bottom.visible = true
+
+
+func _show_initial_dialog5():
+	_disable_actors()
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["intro_dialog_5", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["intro_dialog_5", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
+		
+		var pathToPage2Sentence1 = ["intro_dialog_5", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["intro_dialog_5", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["intro_dialog_5", "page2line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.TSENG)
+
+		var pathToPage3Sentence1 = ["intro_dialog_5", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["intro_dialog_5", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var pathToPage3Sentence3 = ["intro_dialog_5", "page3line3"]
+		var page3line3 = global.DialogLine.new(pathToPage3Sentence3)
+		var page3 = global.DialogPage.new([page3line1, page3line2, page3line3], global.g_PORTRAITS.TSENG)
+		
+		var pathTopage4Sentence1 = ["intro_dialog_5", "page4line1"]
+		var page4line1 = global.DialogLine.new(pathTopage4Sentence1)
+		var pathTopage4Sentence2 = ["intro_dialog_5", "page4line2"]
+		var page4line2 = global.DialogLine.new(pathTopage4Sentence2)
+		var pathTopage4Sentence3 = ["intro_dialog_5", "page4line3"]
+		var page4line3 = global.DialogLine.new(pathTopage4Sentence3)
+		var page4 = global.DialogPage.new([page4line1, page4line2, page4line3], global.g_PORTRAITS.TSENG)
+		
+		var pathTopage5Sentence1 = ["intro_dialog_5", "page5line1"]
+		var page5line1 = global.DialogLine.new(pathTopage5Sentence1)
+		var pathTopage5Sentence2 = ["intro_dialog_5", "page5line2"]
+		var page5line2 = global.DialogLine.new(pathTopage5Sentence2)
+		var page5 = global.DialogPage.new([page5line1, page5line2], global.g_PORTRAITS.TSENG)
+		
+		var pathTopage6Sentence1 = ["intro_dialog_5", "page6line1"]
+		var page6line1 = global.DialogLine.new(pathTopage6Sentence1)
+		var pathTopage6Sentence2 = ["intro_dialog_5", "page6line2"]
+		var page6line2 = global.DialogLine.new(pathTopage6Sentence2)
+		var pathTopage6Sentence3 = ["intro_dialog_5", "page6line3"]
+		var page6line3 = global.DialogLine.new(pathTopage6Sentence3)
+		var page6 = global.DialogPage.new([page6line1, page6line2, page6line3], global.g_PORTRAITS.TSENG)
+		
+		var pathTopage7Sentence1 = ["intro_dialog_5", "page7line1"]
+		var page7line1 = global.DialogLine.new(pathTopage7Sentence1)
+		var pathTopage7Sentence2 = ["intro_dialog_5", "page7line2"]
+		var page7line2 = global.DialogLine.new(pathTopage7Sentence2)
+		var pathTopage7Sentence3 = ["intro_dialog_5", "page7line3"]
+		var page7line3 = global.DialogLine.new(pathTopage7Sentence3)
+		var page7 = global.DialogPage.new([page7line1, page7line2, page7line3], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1, page2, page3, page4, page5, page6, page7]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.INTRO_DIALOG_5)
+		dialog_box_top.visible = true
 
 
 func _play_phone_audio():
@@ -74,3 +262,37 @@ func _on_OverworldMenu_close():
 
 func _on_OverworldMenu_select(option):
 	print("overworld menu option selected: ", option)
+
+
+func _on_DialogBoxTop_dialog_complete(dialog_type):
+#	print("dialog complete", dialog_type)
+	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_1:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		_show_initial_dialog2()
+	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_3:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		_show_initial_dialog4()
+	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_5:
+#		print("finished!")
+		dialog_box_top.visible = false
+		dialog_box_bottom.visible = false
+		_enable_actors()
+	
+
+func _on_DialogBoxBottom_dialog_complete(dialog_type):
+	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_2:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_initial_dialog3()
+	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_4:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_initial_dialog5()

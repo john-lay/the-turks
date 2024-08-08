@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Audio/mission-theme.ogg" type="AudioStream" id=3]
 [ext_resource path="res://UI/OverworldMenu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Audio/cell-phone.wav" type="AudioStream" id=5]
+[ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
 
 [node name="Overworld" type="Node2D"]
@@ -38,7 +39,7 @@ polygon = PoolVector2Array( 0, 176, 256, 176, 256, 120, 616, 120, 616, -32, 528,
 polygon = PoolVector2Array( 0, -136, 424, -136, 424, -264, 464, -264, 464, -280, 424, -280, 0, -280 )
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 0, 120, 216, 120, 216, 72, 328, 72, 328, -24, 320, -24, 320, -88, 0, -88 )
+polygon = PoolVector2Array( -16, 176, 0, 176, 0, 120, 216, 120, 216, 72, 328, 72, 328, -24, 320, -24, 320, -88, -16, -88 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
@@ -49,9 +50,16 @@ autoplay = true
 
 [node name="OverworldMenu" parent="CanvasLayer" instance=ExtResource( 4 )]
 
+[node name="DialogBoxBottom" parent="CanvasLayer" instance=ExtResource( 6 )]
+
+[node name="DialogBoxTop" parent="CanvasLayer" instance=ExtResource( 6 )]
+position = Vector2( 72, 14 )
+
 [node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 
 [connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
 [connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]
 [connection signal="select" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_select"]
+[connection signal="dialog_complete" from="CanvasLayer/DialogBoxBottom" to="." method="_on_DialogBoxBottom_dialog_complete"]
+[connection signal="dialog_complete" from="CanvasLayer/DialogBoxTop" to="." method="_on_DialogBoxTop_dialog_complete"]
