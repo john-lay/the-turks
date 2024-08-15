@@ -2,6 +2,8 @@ extends Node2D
 
 onready var player = $Player
 onready var phone_audio = $PhoneAudio
+onready var mission_theme_audio = $MissionThemeAudio
+onready var turks_theme_audio = $TurksThemeAudio
 onready var global = get_node("/root/Global")
 onready var overworld_menu = get_node("CanvasLayer/OverworldMenu")
 onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
@@ -10,11 +12,13 @@ onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
 enum STATE {
 	PLAYER_INTRO,
 	INITIAL_DIALOG,
+	ENEMY_SPOTTED,
 }
 
 var state = STATE.PLAYER_INTRO
 var has_played_phone_audio: bool = false
-var has_played_player_intro: bool = false
+var has_played_player_intro: bool = false # cater for debounce in _process
+var has_spotted_enemy: bool = false # cater for debounce in _process
 
 
 # Called when the node enters the scene tree for the first time.
@@ -24,6 +28,7 @@ func _ready():
 	if dialog_box_top.has_method("set_portrait_top_left"):
 		dialog_box_top.set_portrait_top_left()
 	dialog_box_bottom.visible = false
+	turks_theme_audio.play()
 	_player_intro()
 
 
@@ -45,17 +50,31 @@ func _process(delta):
 			player.get_node("AnimatedSprite").animation = "phone"
 			state = STATE.INITIAL_DIALOG
 			_show_initial_dialog()
+	if state == STATE.ENEMY_SPOTTED:
+		if player.position.x > 255:
+			player.get_node("AnimatedSprite").animation = "move-left"
+			player.position.x-=1.5
+		else:
+			if player.position.y > 45:
+				player.get_node("AnimatedSprite").animation = "move-up"
+				player.position.y-=1.5
+			else:
+				player.get_node("AnimatedSprite").animation = "idle-down"
+				_show_enemy_plan_dialog()
 
+func _show_enemy_plan_dialog():
+	if !has_spotted_enemy:
+		has_spotted_enemy = true
+		print("show enemy plan")
 
-# cater for debounce in _process
 func _show_initial_dialog():
 	if !has_played_player_intro:
 		has_played_player_intro = true
+		_disable_actors() # causes player to idle-animation
 		_show_initial_dialog1()
 
 
 func _show_initial_dialog1():
-	_disable_actors()
 	if (dialog_box_top.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["character", "tseng"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
@@ -89,7 +108,6 @@ func _show_initial_dialog1():
 
 
 func _show_initial_dialog2():
-	_disable_actors()
 	if (dialog_box_bottom.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["character", "shotgun"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
@@ -111,7 +129,6 @@ func _show_initial_dialog2():
 
 
 func _show_initial_dialog3():
-	_disable_actors()
 	if (dialog_box_top.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["character", "tseng"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
@@ -143,7 +160,6 @@ func _show_initial_dialog3():
 
 
 func _show_initial_dialog4():
-	_disable_actors()
 	if (dialog_box_bottom.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["character", "shotgun"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
@@ -171,7 +187,6 @@ func _show_initial_dialog4():
 
 
 func _show_initial_dialog5():
-	_disable_actors()
 	if (dialog_box_top.has_method("write_pages")):
 		var pathToPage1Sentence1 = ["character", "tseng"]
 		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
@@ -280,6 +295,8 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 #		print("finished!")
 		dialog_box_top.visible = false
 		dialog_box_bottom.visible = false
+		turks_theme_audio.stop()
+		mission_theme_audio.play()
 		_enable_actors()
 	
 
@@ -296,3 +313,13 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 		if dialog_box_top.has_method("show_text_box"):
 			dialog_box_top.show_text_box()
 		_show_initial_dialog5()
+
+
+func _on_EnemySpotted_body_entered(body):
+	if body.name == player.name:
+		if player.has_method("show_emote") && player.has_method("hide_emote"):
+			_disable_actors()
+			player.show_emote()
+			yield(get_tree().create_timer(0.5), "timeout")
+			player.hide_emote()
+			state = STATE.ENEMY_SPOTTED

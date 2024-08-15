@@ -15,6 +15,7 @@ onready var animatedSprite = $AnimatedSprite
 onready var damageLabel = $DamageLabel
 onready var damageLabelTimer = $DamageLabelTimer
 onready var shotgunAttackAudio = $ShotgunAttackAudio
+onready var emote = $Emote
 
 signal player_health_changed(health)
 signal player_died
@@ -42,6 +43,7 @@ var attack_power: int
 #	animatedSprite.connect("animation_finished",self, "animation_finished")
 func _ready():
 	damageLabel.visible = false
+	emote.visible = false
 
 
 func set_idle_direction():
@@ -299,4 +301,12 @@ func enable_player():
 
 func cast_spell():
 	state = STATE.CASTING
+
+
+func show_emote():
+	emote.visible = true
+
+
+func hide_emote():
+	emote.visible = false
 

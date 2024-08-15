@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
@@ -6,7 +6,10 @@
 [ext_resource path="res://UI/OverworldMenu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Audio/cell-phone.wav" type="AudioStream" id=5]
 [ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Audio/turks-theme.ogg" type="AudioStream" id=7]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource( 9 )
@@ -41,10 +44,13 @@ polygon = PoolVector2Array( 0, -136, 424, -136, 424, -264, 464, -264, 464, -280,
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( -16, 176, 0, 176, 0, 120, 216, 120, 216, 72, 328, 72, 328, -24, 320, -24, 320, -88, -16, -88 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MissionThemeAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -10.0
-autoplay = true
+
+[node name="TurksThemeAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -10.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -58,8 +64,17 @@ position = Vector2( 72, 14 )
 [node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 
+[node name="EnemySpotted" type="Area2D" parent="."]
+position = Vector2( 312, 96 )
+scale = Vector2( 1, 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpotted"]
+shape = SubResource( 1 )
+
 [connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
 [connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]
 [connection signal="select" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_select"]
 [connection signal="dialog_complete" from="CanvasLayer/DialogBoxBottom" to="." method="_on_DialogBoxBottom_dialog_complete"]
 [connection signal="dialog_complete" from="CanvasLayer/DialogBoxTop" to="." method="_on_DialogBoxTop_dialog_complete"]
+[connection signal="body_entered" from="EnemySpotted" to="." method="_on_EnemySpotted_body_entered"]
+[connection signal="child_entered_tree" from="EnemySpotted/CollisionShape2D" to="." method="_on_EnemySpotted_child_entered_tree"]
