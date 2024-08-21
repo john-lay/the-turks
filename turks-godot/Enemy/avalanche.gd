@@ -279,8 +279,15 @@ func init_enemy_stats(hp, enemy_attack_power):
 	attack_power = enemy_attack_power
 
 
-func disable_enemy():
-	animatedSprite.animation = "stationary"
+func disable_enemy(direction: Vector2 = Vector2.DOWN):
+	if direction == Vector2.UP:
+		animatedSprite.animation = "stationary-up"
+	elif direction == Vector2.DOWN:
+		animatedSprite.animation = "stationary-down"
+	elif direction == Vector2.LEFT:
+		animatedSprite.animation = "stationary-left"
+	elif direction == Vector2.RIGHT:
+		animatedSprite.animation = "stationary-right"
 	state = STATE.DISABLED
 	
 

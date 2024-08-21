@@ -1,6 +1,8 @@
 extends Node2D
 
 onready var player = $Player
+onready var enemy1 = $Enemy1
+onready var enemy2 = $Enemy2
 onready var phone_audio = $PhoneAudio
 onready var mission_theme_audio = $MissionThemeAudio
 onready var turks_theme_audio = $TurksThemeAudio
@@ -8,18 +10,22 @@ onready var global = get_node("/root/Global")
 onready var overworld_menu = get_node("CanvasLayer/OverworldMenu")
 onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
 onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
+onready var camera = get_node("Player/Camera2D")
 
 enum STATE {
 	PLAYER_INTRO,
 	INITIAL_DIALOG,
 	ENEMY_SPOTTED,
+	PAN_CAMERA_TO_ENEMY,
 }
 
 var state = STATE.PLAYER_INTRO
-var has_played_phone_audio: bool = false
-var has_played_player_intro: bool = false # cater for debounce in _process
-var has_spotted_enemy: bool = false # cater for debounce in _process
-
+var _has_played_phone_audio: bool = false
+var _has_played_player_intro: bool = false # cater for debounce in _process
+var _has_spotted_enemy: bool = false # cater for debounce in _process
+var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
+var _camera_before_enemy_spotted: Vector2
+var _camera_after_enemy_spotted: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,6 +36,10 @@ func _ready():
 	dialog_box_bottom.visible = false
 	turks_theme_audio.play()
 	_player_intro()
+	if enemy1.has_method("disable_enemy"):
+		enemy1.disable_enemy(Vector2.UP)
+	if enemy2.has_method("disable_enemy"):
+		enemy2.disable_enemy()
 
 
 func _player_intro():
@@ -39,7 +49,7 @@ func _player_intro():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if state == STATE.PLAYER_INTRO:
-		if player.position.x > 140 && !has_played_phone_audio:
+		if player.position.x > 140 && !_has_played_phone_audio:
 			_play_phone_audio()
 		if player.position.x < 160:
 			player.get_node("AnimatedSprite").animation = "move-right"
@@ -60,16 +70,43 @@ func _process(delta):
 				player.position.y-=1.5
 			else:
 				player.get_node("AnimatedSprite").animation = "idle-down"
-				_show_enemy_plan_dialog()
+				_enemy_spotted()
+	if state == STATE.PAN_CAMERA_TO_ENEMY:
+		var camera_move_complete_x = false
+		var camera_move_complete_y = false
+		if camera.position.x < _camera_after_enemy_spotted.x:
+			camera.position.x += 1
+		else:
+			camera_move_complete_x = true
+		if camera.position.y > _camera_after_enemy_spotted.y:
+			camera.position.y -= 1
+		else:
+			camera_move_complete_y = true
+		if camera_move_complete_x && camera_move_complete_y:
+			_show_enemy_plan_dialog()
+
+
+func _enemy_spotted():
+	if !_has_spotted_enemy:
+		_has_spotted_enemy = true
+		_pan_camera_to_enemy()
+
+
+func _pan_camera_to_enemy():
+	_camera_before_enemy_spotted = camera.position
+	_camera_after_enemy_spotted = Vector2(camera.position.x + 100, camera.position.y - 25)
+	state = STATE.PAN_CAMERA_TO_ENEMY
+
 
 func _show_enemy_plan_dialog():
-	if !has_spotted_enemy:
-		has_spotted_enemy = true
-		print("show enemy plan")
+	if !_has_panned_camera_to_enemy:
+		_has_panned_camera_to_enemy = true
+	print("show enemy plan")
+
 
 func _show_initial_dialog():
-	if !has_played_player_intro:
-		has_played_player_intro = true
+	if !_has_played_player_intro:
+		_has_played_player_intro = true
 		_disable_actors() # causes player to idle-animation
 		_show_initial_dialog1()
 
@@ -248,8 +285,8 @@ func _show_initial_dialog5():
 
 
 func _play_phone_audio():
-	if !has_played_phone_audio:
-		has_played_phone_audio = true
+	if !_has_played_phone_audio:
+		_has_played_phone_audio = true
 		phone_audio.play()
 
 

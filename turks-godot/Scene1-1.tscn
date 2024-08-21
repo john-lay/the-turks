@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Audio/cell-phone.wav" type="AudioStream" id=5]
 [ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Audio/turks-theme.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -70,6 +71,12 @@ scale = Vector2( 1, 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpotted"]
 shape = SubResource( 1 )
+
+[node name="Enemy1" parent="." instance=ExtResource( 8 )]
+position = Vector2( 388, 32 )
+
+[node name="Enemy2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 388, -24 )
 
 [connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
 [connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]
