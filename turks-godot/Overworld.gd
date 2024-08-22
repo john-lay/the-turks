@@ -28,6 +28,10 @@ var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 
+# debug flags to skip dialog
+var _debug_skip_initial_dialog: bool = true
+var _debug_skip_avalanche_dialog: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	overworld_menu.visible = false
@@ -103,7 +107,10 @@ func _show_avalanche_dialog():
 	if !_has_panned_camera_to_enemy:
 		_has_panned_camera_to_enemy = true
 		state = STATE.AVALANCHE_DIALOG
-		_show_avalanche_dialog1()
+		if _debug_skip_avalanche_dialog:
+			_dialog_finished()
+		else:
+			_show_avalanche_dialog1()
 
 
 func _show_avalanche_dialog1():
@@ -174,7 +181,10 @@ func _show_initial_dialog():
 	if !_has_played_player_intro:
 		_has_played_player_intro = true
 		_disable_actors() # causes player to idle-animation
-		_show_initial_dialog1()
+		if _debug_skip_initial_dialog:
+			_dialog_finished()
+		else:
+			_show_initial_dialog1()
 
 
 func _show_initial_dialog1():
