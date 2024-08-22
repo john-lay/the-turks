@@ -18,6 +18,8 @@ enum STATE {
 	ENEMY_SPOTTED,
 	PAN_CAMERA_TO_ENEMY,
 	AVALANCHE_DIALOG,
+	PAN_CAMERA_TO_PLAYER,
+	SPOTTED_DIALOG,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -25,6 +27,7 @@ var _has_played_phone_audio: bool = false
 var _has_played_player_intro: bool = false # cater for debounce in _process
 var _has_spotted_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
+var _has_panned_camera_to_player: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 
@@ -59,7 +62,8 @@ func _process(delta):
 		_play_enemy_spotted()
 	if state == STATE.PAN_CAMERA_TO_ENEMY:
 		_play_pan_camera_to_enemy()
-
+	if state == STATE.PAN_CAMERA_TO_PLAYER:
+		_play_pan_camera_to_player()
 
 func _play_player_intro():
 	if player.position.x > 140 && !_has_played_phone_audio:
@@ -103,6 +107,21 @@ func _play_pan_camera_to_enemy():
 		_show_avalanche_dialog()
 
 
+func _play_pan_camera_to_player():
+	var camera_move_complete_x = false
+	var camera_move_complete_y = false
+	if camera.position.x > _camera_before_enemy_spotted.x:
+		camera.position.x -= 1
+	else:
+		camera_move_complete_x = true
+	if camera.position.y < _camera_before_enemy_spotted.y:
+		camera.position.y += 1
+	else:
+		camera_move_complete_y = true
+	if camera_move_complete_x && camera_move_complete_y:
+		_avalanche_alerted_by_phone()
+
+
 func _enemy_spotted():
 	if !_has_spotted_enemy:
 		_has_spotted_enemy = true
@@ -113,6 +132,20 @@ func _pan_camera_to_enemy():
 	_camera_before_enemy_spotted = camera.position
 	_camera_after_enemy_spotted = Vector2(camera.position.x + 100, camera.position.y - 25)
 	state = STATE.PAN_CAMERA_TO_ENEMY
+
+
+func _avalanche_alerted_by_phone():
+	if !_has_panned_camera_to_player:
+		_has_panned_camera_to_player = true
+		state = STATE.SPOTTED_DIALOG
+#		if _debug_skip_avalanche_dialog:
+#			_dialog_finished()
+#		else:
+#			_show_avalanche_dialog1()
+		_has_played_phone_audio = false
+		_play_phone_audio()
+		yield(get_tree().create_timer(1.0), "timeout")
+		print("show enemy alerted!")
 
 
 func _show_avalanche_dialog():
@@ -188,6 +221,7 @@ func _show_avalanche_dialog3():
 		if dialog_box_bottom.has_method("show_text_box"):
 			dialog_box_bottom.show_text_box()
 		dialog_box_bottom.visible = true
+
 
 func _show_initial_dialog():
 	if !_has_played_player_intro:
@@ -449,7 +483,8 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 			dialog_box_top.show_text_box()
 		_show_avalanche_dialog2()
 	if dialog_type == global.g_DIALOG_TYPE.AVALANCHE_DIALOG_3:
-		print("player's phone rings!")
+		dialog_box_bottom.visible = false
+		state = STATE.PAN_CAMERA_TO_PLAYER
 
 
 func _dialog_finished():
