@@ -54,41 +54,53 @@ func _player_intro():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if state == STATE.PLAYER_INTRO:
-		if player.position.x > 140 && !_has_played_phone_audio:
-			_play_phone_audio()
-		if player.position.x < 160:
-			player.get_node("AnimatedSprite").animation = "move-right"
-			player.position.x+=1.5
-		else:
-			player.get_node("AnimatedSprite").animation = "idle-right"
-			yield(get_tree().create_timer(1.0), "timeout")
-			player.get_node("AnimatedSprite").animation = "phone"
-			state = STATE.INITIAL_DIALOG
-			_show_initial_dialog()
+		_play_player_intro()
 	if state == STATE.ENEMY_SPOTTED:
-		if player.position.x > 255:
-			player.get_node("AnimatedSprite").animation = "move-left"
-			player.position.x-=1.5
-		else:
-			if player.position.y > 45:
-				player.get_node("AnimatedSprite").animation = "move-up"
-				player.position.y-=1.5
-			else:
-				player.get_node("AnimatedSprite").animation = "idle-down"
-				_enemy_spotted()
+		_play_enemy_spotted()
 	if state == STATE.PAN_CAMERA_TO_ENEMY:
-		var camera_move_complete_x = false
-		var camera_move_complete_y = false
-		if camera.position.x < _camera_after_enemy_spotted.x:
-			camera.position.x += 1
+		_play_pan_camera_to_enemy()
+
+
+func _play_player_intro():
+	if player.position.x > 140 && !_has_played_phone_audio:
+		_play_phone_audio()
+	if player.position.x < 160:
+		player.get_node("AnimatedSprite").animation = "move-right"
+		player.position.x+=1.5
+	else:
+		player.get_node("AnimatedSprite").animation = "idle-right"
+		yield(get_tree().create_timer(1.0), "timeout")
+		player.get_node("AnimatedSprite").animation = "phone"
+		state = STATE.INITIAL_DIALOG
+		_show_initial_dialog()
+
+
+func _play_enemy_spotted():
+	if player.position.x > 255:
+		player.get_node("AnimatedSprite").animation = "move-left"
+		player.position.x-=1.5
+	else:
+		if player.position.y > 45:
+			player.get_node("AnimatedSprite").animation = "move-up"
+			player.position.y-=1.5
 		else:
-			camera_move_complete_x = true
-		if camera.position.y > _camera_after_enemy_spotted.y:
-			camera.position.y -= 1
-		else:
-			camera_move_complete_y = true
-		if camera_move_complete_x && camera_move_complete_y:
-			_show_avalanche_dialog()
+			player.get_node("AnimatedSprite").animation = "idle-down"
+			_enemy_spotted()
+
+
+func _play_pan_camera_to_enemy():
+	var camera_move_complete_x = false
+	var camera_move_complete_y = false
+	if camera.position.x < _camera_after_enemy_spotted.x:
+		camera.position.x += 1
+	else:
+		camera_move_complete_x = true
+	if camera.position.y > _camera_after_enemy_spotted.y:
+		camera.position.y -= 1
+	else:
+		camera_move_complete_y = true
+	if camera_move_complete_x && camera_move_complete_y:
+		_show_avalanche_dialog()
 
 
 func _enemy_spotted():
