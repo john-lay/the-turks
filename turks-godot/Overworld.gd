@@ -17,6 +17,7 @@ enum STATE {
 	INITIAL_DIALOG,
 	ENEMY_SPOTTED,
 	PAN_CAMERA_TO_ENEMY,
+	AVALANCHE_DIALOG,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -83,7 +84,7 @@ func _process(delta):
 		else:
 			camera_move_complete_y = true
 		if camera_move_complete_x && camera_move_complete_y:
-			_show_enemy_plan_dialog()
+			_show_avalanche_dialog()
 
 
 func _enemy_spotted():
@@ -98,11 +99,76 @@ func _pan_camera_to_enemy():
 	state = STATE.PAN_CAMERA_TO_ENEMY
 
 
-func _show_enemy_plan_dialog():
+func _show_avalanche_dialog():
 	if !_has_panned_camera_to_enemy:
 		_has_panned_camera_to_enemy = true
-	print("show enemy plan")
+		state = STATE.AVALANCHE_DIALOG
+		_show_avalanche_dialog1()
 
+
+func _show_avalanche_dialog1():
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["avalanche_dialog_1", "page1line1"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["avalanche_dialog_1", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["avalanche_dialog_1", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.AVALANCHE)
+
+		var pathToPage2Sentence1 = ["avalanche_dialog_1", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var page2 = global.DialogPage.new([page2line1], global.g_PORTRAITS.AVALANCHE)
+		
+		var pathToPage3Sentence1 = ["avalanche_dialog_1", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["avalanche_dialog_1", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var page3 = global.DialogPage.new([page3line1, page3line2], global.g_PORTRAITS.AVALANCHE)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.AVALANCHE_DIALOG_1)
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		dialog_box_bottom.visible = true
+
+
+func _show_avalanche_dialog2():
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["avalanche_dialog_2", "page1line1"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["avalanche_dialog_2", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.AVALANCHE)
+
+		var pages: Array = [page1]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.AVALANCHE_DIALOG_2)
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		dialog_box_top.visible = true
+
+
+func _show_avalanche_dialog3():
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["avalanche_dialog_3", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.SHOTGUN)
+				
+		var pathToPage2Sentence1 = ["avalanche_dialog_3", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["avalanche_dialog_3", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["avalanche_dialog_3", "page2line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pages: Array = [page1, page2]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.AVALANCHE_DIALOG_3)
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		dialog_box_bottom.visible = true
 
 func _show_initial_dialog():
 	if !_has_played_player_intro:
@@ -317,7 +383,7 @@ func _on_OverworldMenu_select(option):
 
 
 func _on_DialogBoxTop_dialog_complete(dialog_type):
-#	print("dialog complete", dialog_type)
+#	print("dialog box top complete [", dialog_type, "]")
 	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_1:
 		if dialog_box_top.has_method("hide_text_box"):
 			dialog_box_top.hide_text_box()
@@ -329,15 +395,19 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 			dialog_box_bottom.show_text_box()
 		_show_initial_dialog4()
 	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_5:
-#		print("finished!")
+		_dialog_finished()
+	if dialog_type == global.g_DIALOG_TYPE.AVALANCHE_DIALOG_2:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
 		dialog_box_top.visible = false
 		dialog_box_bottom.visible = false
-		turks_theme_audio.stop()
-		mission_theme_audio.play()
-		_enable_actors()
-	
+		_show_avalanche_dialog3()
+
 
 func _on_DialogBoxBottom_dialog_complete(dialog_type):
+#	print("dialog box bottom complete [", dialog_type, "]")
 	if dialog_type == global.g_DIALOG_TYPE.INTRO_DIALOG_2:
 		if dialog_box_bottom.has_method("hide_text_box"):
 			dialog_box_bottom.hide_text_box()
@@ -350,6 +420,22 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 		if dialog_box_top.has_method("show_text_box"):
 			dialog_box_top.show_text_box()
 		_show_initial_dialog5()
+	if dialog_type == global.g_DIALOG_TYPE.AVALANCHE_DIALOG_1:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_avalanche_dialog2()
+	if dialog_type == global.g_DIALOG_TYPE.AVALANCHE_DIALOG_3:
+		print("player's phone rings!")
+
+
+func _dialog_finished():
+	dialog_box_top.visible = false
+	dialog_box_bottom.visible = false
+	turks_theme_audio.stop()
+	mission_theme_audio.play()
+	_enable_actors()
 
 
 func _on_EnemySpotted_body_entered(body):

@@ -21,6 +21,7 @@ var _lang: String
 var _dialog_type
 var _is_portrait_top_left: bool = false
 var _is_visible: bool = false
+var _delayed_one_page: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -124,10 +125,13 @@ func show_heading():
 		heading.text = ""
 
 
+# TODO: separate init logic from write_page logic
+# as this is always called on page set up the init logic is getting mixed in
 func write_pages(pages: Array, dialog_type):
 #	print("write_pages ", dialog_type)
 	_dialog_type = dialog_type
 	_is_visible = true
+	_delayed_one_page = false
 #	_debugPrintDialogPages(pages)
 	_setPagesFromDialogPages(pages)
 	more_arrow.visible = true
@@ -138,15 +142,19 @@ func write_pages(pages: Array, dialog_type):
 
 func _get_input():
 	if (Input.is_action_just_pressed("ui_accept")):
-		_current_page+=1
-#		print("_current_page = ", _current_page, ", _pages.size() = ", _pages.size())
-		if (_pages.size() > _current_page):
-			dialog_box.text = _pages[_current_page]
-			show_portrait()
-			show_heading()
+		if _pages.size() == 1 && !_delayed_one_page:
+			_delayed_one_page = true
+			yield(get_tree().create_timer(1), "timeout")
 		else:
-			more_arrow.visible = false
-			emit_signal("dialog_complete", _dialog_type)
+			_current_page+=1
+	#		print("_current_page = ", _current_page, ", _pages.size() = ", _pages.size())
+			if (_pages.size() > _current_page):
+				dialog_box.text = _pages[_current_page]
+				show_portrait()
+				show_heading()
+			else:
+				more_arrow.visible = false
+				emit_signal("dialog_complete", _dialog_type)
 
 
 func get_value_from_path(dict: Dictionary, path: Array):

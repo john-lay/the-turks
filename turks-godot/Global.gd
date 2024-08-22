@@ -339,6 +339,61 @@ var g_strings: Dictionary = {
 			"jp": "活用しろ"
 		},
 	},
+	"avalanche_dialog_1": {
+		"page1line1": {
+			"en": "The long awaited day",
+			"jp": "神羅 (しんら) への"
+		},
+		"page1line2": {
+			"en": "of Shinra's downfall",
+			"jp": "積年の恨みを"
+		},
+		"page1line3": {
+			"en": "is in sight.",
+			"jp": "晴らすときが来た"
+		},
+		"page2line1": {
+			"en": "Don't mess up now.",
+			"jp": "しくじるな"
+		},
+		"page3line1": {
+			"en": "Down with the Shinra!",
+			"jp": "神羅(しんら) に"
+		},
+		"page3line2": {
+			"en": "",
+			"jp": "裁きを!"
+		},
+	},
+	"avalanche_dialog_2": {
+		"page1line1": {
+			"en": "Down with the Shinra!",
+			"jp": "神羅(しんら) に"
+		},
+		"page1line2": {
+			"en": "",
+			"jp": "裁きを!"
+		},
+	},
+	"avalanche_dialog_3": {
+		# page1line1 = ["character"]["shotgun"]
+		"page1line2": {
+			"en": "I smell something big!",
+			"jp": "事件の匂い!"
+		},
+		"page2line1": {
+			"en": "It's finally getting",
+			"jp": "やっと"
+		},
+		"page2line2": {
+			"en": "interesting.",
+			"jp": "おもしろく"
+		},
+		"page2line3": {
+			"en": "",
+			"jp": "なってきたわ"
+		},
+	},
 }
 
 var g_settings: Dictionary = {
@@ -357,6 +412,9 @@ enum g_DIALOG_TYPE {
 	INTRO_DIALOG_3,
 	INTRO_DIALOG_4,
 	INTRO_DIALOG_5,
+	AVALANCHE_DIALOG_1,
+	AVALANCHE_DIALOG_2,
+	AVALANCHE_DIALOG_3,
 }
 
 enum g_PORTRAITS {
