@@ -125,16 +125,22 @@ func show_heading():
 		heading.text = ""
 
 
-# TODO: separate init logic from write_page logic
-# as this is always called on page set up the init logic is getting mixed in
-func write_pages(pages: Array, dialog_type):
-#	print("write_pages ", dialog_type)
-	_dialog_type = dialog_type
+func _reset_dialogbox():
+	_current_page = 0	
+	_headings.clear() 
+	_pages.clear() # ensures _pages.size() is properly calculated
+	_portraits.clear()
 	_is_visible = true
 	_delayed_one_page = false
+	more_arrow.visible = true
+
+
+func write_pages(pages: Array, dialog_type):
+#	print("write_pages ", dialog_type)
+	_reset_dialogbox()
+	_dialog_type = dialog_type
 #	_debugPrintDialogPages(pages)
 	_setPagesFromDialogPages(pages)
-	more_arrow.visible = true
 	dialog_box.text = _pages[_current_page]
 	show_portrait()
 	show_heading()
