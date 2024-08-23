@@ -20,6 +20,9 @@ enum STATE {
 	AVALANCHE_DIALOG,
 	PAN_CAMERA_TO_PLAYER,
 	SPOTTED_DIALOG,
+	CONFRONT_PLAYER,
+	PAN_CAMERA_TO_CONFRONTATION,
+	CONFRONTATION_DIALOG,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -28,6 +31,7 @@ var _has_played_player_intro: bool = false # cater for debounce in _process
 var _has_spotted_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_player: bool = false # cater for debounce in _process
+var _has_panned_camera_to_confrontation: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 var _camera_after_player_spotted: Vector2
@@ -65,6 +69,10 @@ func _process(delta):
 		_play_pan_camera_to_enemy()
 	if state == STATE.PAN_CAMERA_TO_PLAYER:
 		_play_pan_camera_to_player()
+	if state == STATE.CONFRONT_PLAYER:
+		_play_confront_player()
+	if state == STATE.PAN_CAMERA_TO_CONFRONTATION:
+		_play_pan_camera_to_confrontation()
 
 func _play_player_intro():
 	if player.position.x > 140 && !_has_played_phone_audio:
@@ -120,8 +128,24 @@ func _play_pan_camera_to_player():
 	else:
 		camera_move_complete_y = true
 	if camera_move_complete_x && camera_move_complete_y:
-		_avalanche_alerted_by_phone()
+		_show_player_spotted_dialog()
 
+
+func _play_confront_player():
+	if enemy1.position.y < player.position.y + 32:
+		enemy1.get_node("AnimatedSprite").animation = "move-down"
+		enemy1.position.y += 1.5
+	else:
+		player.get_node("AnimatedSprite").animation = "idle-right"
+		enemy1.get_node("AnimatedSprite").animation = "stationary-left"
+		state = STATE.PAN_CAMERA_TO_CONFRONTATION
+
+
+func _play_pan_camera_to_confrontation():
+	if camera.position.x < _camera_after_player_spotted.x + 52:
+		camera.position.x += 1
+	else:
+		_show_confrontation_dialog()
 
 func _enemy_spotted():
 	if !_has_spotted_enemy:
@@ -135,7 +159,22 @@ func _pan_camera_to_enemy():
 	state = STATE.PAN_CAMERA_TO_ENEMY
 
 
-func _avalanche_alerted_by_phone():
+func _show_confrontation_dialog():
+	if !_has_panned_camera_to_confrontation:
+		_has_panned_camera_to_confrontation = true
+		state = STATE.CONFRONTATION_DIALOG
+#		if _debug_skip_avalanche_dialog:
+#			_dialog_finished()
+#		else:
+#			_show_avalanche_dialog1()
+		_show_confrontation_dialog1()
+
+
+func _show_confrontation_dialog1():
+	print("show confrontation dialog")
+
+
+func _show_player_spotted_dialog():
 	if !_has_panned_camera_to_player:
 		_has_panned_camera_to_player = true
 		state = STATE.SPOTTED_DIALOG
@@ -525,7 +564,7 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.PLAYER_SPOTTED_DIALOG_1:
 		_show_player_spotted_dialog2()
 	if dialog_type == global.g_DIALOG_TYPE.PLAYER_SPOTTED_DIALOG_2:
-		print("confront player")
+		_confront_player()
 
 
 func _player_spotted():
@@ -533,6 +572,15 @@ func _player_spotted():
 	_play_phone_audio()
 	_camera_after_player_spotted = Vector2(_camera_before_enemy_spotted.x, _camera_before_enemy_spotted.y + 20)
 	state = STATE.PAN_CAMERA_TO_PLAYER
+
+
+func _confront_player():
+	if player.has_method("hide_emote"):
+		player.hide_emote()
+	if enemy1.has_method("hide_emote"):
+			enemy1.hide_emote()
+	dialog_box_bottom.visible = false
+	state = STATE.CONFRONT_PLAYER
 
 
 func _dialog_finished():
