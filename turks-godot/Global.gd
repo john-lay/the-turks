@@ -411,6 +411,45 @@ var g_strings: Dictionary = {
 			"jp": "見つかった?"
 		},
 	},
+	"confrontation_1": {
+		"page1line1": {
+			"en": "That uniform...",
+			"jp": "その制服は・・・"
+		},
+		"page2line1": {
+			"en": "The Shinra Company's",
+			"jp": "神羅(しんら)の"
+		},
+		"page2line2": {
+			"en": "Turks!?",
+			"jp": "タークス!?"
+		},
+	},
+	"confrontation_2": {
+		# page1line1 = ["character"]["shotgun"]
+		"page1line2": {
+			"en": "You have a problem",
+			"jp": "それが何か問題でも?"
+		},
+		"page1line3": {
+			"en": "with that?",
+			"jp": ""
+		},
+	},
+	"confrontation_3": {
+		"page1line1": {
+			"en": "Since you overheard",
+			"jp": "計画を開かれちゃ"
+		},
+		"page1line2": {
+			"en": "our plans, we'll have",
+			"jp": "死んでもらうしかない!"
+		},
+		"page1line3": {
+			"en": "to get rid of you!",
+			"jp": ""
+		},
+	},
 }
 
 var g_settings: Dictionary = {
@@ -434,6 +473,9 @@ enum g_DIALOG_TYPE {
 	AVALANCHE_DIALOG_3,
 	PLAYER_SPOTTED_DIALOG_1,
 	PLAYER_SPOTTED_DIALOG_2,
+	CONFRONTATION_1,
+	CONFRONTATION_2,
+	CONFRONTATION_3,
 }
 
 enum g_PORTRAITS {

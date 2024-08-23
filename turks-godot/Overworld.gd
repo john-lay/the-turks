@@ -147,6 +147,7 @@ func _play_pan_camera_to_confrontation():
 	else:
 		_show_confrontation_dialog()
 
+
 func _enemy_spotted():
 	if !_has_spotted_enemy:
 		_has_spotted_enemy = true
@@ -171,7 +172,54 @@ func _show_confrontation_dialog():
 
 
 func _show_confrontation_dialog1():
-	print("show confrontation dialog")
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["confrontation_1", "page1line1"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var page1 = global.DialogPage.new([page1line1], global.g_PORTRAITS.AVALANCHE)
+		
+		var pathToPage2Sentence1 = ["confrontation_1", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["confrontation_1", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.AVALANCHE)
+
+		var pages: Array = [page1, page2]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.CONFRONTATION_1)
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		dialog_box_top.visible = true
+
+
+func _show_confrontation_dialog2():
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["confrontation_2", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["confrontation_2", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pages: Array = [page1]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.CONFRONTATION_2)
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		dialog_box_bottom.visible = true
+
+
+func _show_confrontation_dialog3():
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["confrontation_3", "page1line1"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["confrontation_3", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["confrontation_3", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.AVALANCHE)
+		
+		var pages: Array = [page1]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.CONFRONTATION_3)
+		dialog_box_top.visible = true
 
 
 func _show_player_spotted_dialog():
@@ -536,6 +584,12 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 		dialog_box_top.visible = false
 		dialog_box_bottom.visible = false
 		_show_avalanche_dialog3()
+	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_1:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		_show_confrontation_dialog2()
+	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_3:
+		print("end confrontation")
 
 
 func _on_DialogBoxBottom_dialog_complete(dialog_type):
@@ -565,6 +619,12 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 		_show_player_spotted_dialog2()
 	if dialog_type == global.g_DIALOG_TYPE.PLAYER_SPOTTED_DIALOG_2:
 		_confront_player()
+	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_2:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_confrontation_dialog3()
 
 
 func _player_spotted():
