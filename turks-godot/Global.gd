@@ -394,6 +394,23 @@ var g_strings: Dictionary = {
 			"jp": "なってきたわ"
 		},
 	},
+	"player_spotted_1": {
+		"page1line1": {
+			"en": "Who's there!?",
+			"jp": "誰だ!?"
+		},
+	},
+	"player_spotted_2": {
+		# page1line1 = ["character"]["shotgun"]
+		"page1line2": {
+			"en": "No way.",
+			"jp": "うそ"
+		},
+		"page2line1": {
+			"en": "They spotted me?",
+			"jp": "見つかった?"
+		},
+	},
 }
 
 var g_settings: Dictionary = {
@@ -415,6 +432,8 @@ enum g_DIALOG_TYPE {
 	AVALANCHE_DIALOG_1,
 	AVALANCHE_DIALOG_2,
 	AVALANCHE_DIALOG_3,
+	PLAYER_SPOTTED_DIALOG_1,
+	PLAYER_SPOTTED_DIALOG_2,
 }
 
 enum g_PORTRAITS {

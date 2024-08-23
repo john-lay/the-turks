@@ -34,6 +34,7 @@ onready var animatedSprite = $AnimatedSprite
 onready var enemyAttackAudio = $EnemyAttackAudio
 onready var finger_left = $FingerLeft
 onready var finger_right = $FingerRight
+onready var emote = $Emote
 
 
 # Called when the node enters the scene tree for the first time.
@@ -41,6 +42,7 @@ func _ready():
 	damageLabel.visible = false
 	finger_left.visible = false
 	finger_right.visible = false
+	emote.visible = false
 	randomize()
 
 
@@ -306,3 +308,10 @@ func hide_finger():
 	finger_left.visible = false
 	finger_right.visible = false
 
+
+func show_emote():
+	emote.visible = true
+
+
+func hide_emote():
+	emote.visible = false
