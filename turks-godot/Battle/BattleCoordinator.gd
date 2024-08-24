@@ -15,7 +15,17 @@ onready var materia_menu = $MateriaMenu
 onready var cast_magic = $CastMagic
 onready var battle1 = $Battle1
 onready var battle2 = $Battle2
+onready var transition = $Transition
 onready var global = get_node("/root/Global")
+
+enum STATE {
+	UNKNOWN,
+	PLAY_INTRO_TRANSITION,
+	PLAY_OUTTRO_TRANSITION,
+}
+var state = STATE.UNKNOWN
+var _battle_index
+var _intro_transition_complete: bool = false # cater for debounce in _process
 
 var player_max_hp: int
 var player_hp: int
@@ -36,12 +46,39 @@ func _ready():
 	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
+	transition.visible = false
+	_battle_index = global.g_ORDINAL.UNKNOWN
+	state = STATE.PLAY_INTRO_TRANSITION
 	disable_battle(battle1)
 	disable_battle(battle2)
 
 
+func _process(delta):
+	if state == STATE.PLAY_INTRO_TRANSITION:
+		transition.visible = true
+		if transition.scale.y > 0.01:
+			transition.scale.y -= 0.02
+		else:
+			_intro_transition_complete()
+	if state == STATE.PLAY_OUTTRO_TRANSITION:
+		pass
+
+
+func _intro_transition_complete():
+	if !_intro_transition_complete && _battle_index != global.g_ORDINAL.UNKNOWN:
+		transition.visible = false
+		_intro_transition_complete = true
+		state == STATE.UNKNOWN
+		yield(get_tree().create_timer(0.5), "timeout")
+		if _battle_index == global.g_ORDINAL.FIRST :
+			_show_enemy_info_dialog_box()
+		if _battle_index == global.g_ORDINAL.SECOND:
+			_show_enemy_info_dialog_box()
+		else:
+			print("_intro_transition_complete: unknown battle index [",_battle_index,"]")
+
+
 func _show_enemy_info_dialog_box():
-	_disable_actors()
 	if (dialog_box.has_method("write_pages")):
 		var enemy_lv = 1
 		var pathToPageSentence = ["battle", "avalanche_soldier"]
@@ -109,6 +146,7 @@ func _show_more_combat_tutorial_dialog_box():
 		var pages: Array = [page1, page2, page3]
 		dialog_box.write_pages(pages, global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL)
 		dialog_box.visible = true
+
 
 func _enable_actors():
 	if (player.has_method("enable_player")):
@@ -327,7 +365,7 @@ func init_first_battle():
 	enable_battle(battle1)
 	var enemy_position = Vector2(200, 100)
 	_add_enemy(enemy_position)
-	_show_enemy_info_dialog_box()
+	_disable_actors()
 
 
 func init_second_battle():
@@ -335,7 +373,7 @@ func init_second_battle():
 	enable_battle(battle2)
 	var enemy_position = Vector2(70, 100)
 	_add_enemy(enemy_position)
-	_show_enemy_info_dialog_box()
+	_disable_actors()
 
 
 func disable_battle(battle: Node2D):
@@ -348,4 +386,14 @@ func enable_battle(battle: Node2D):
 	battle.visible = true
 	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D").disabled = false
 	battle.get_node("StaticBody2D").get_node("CollisionPolygon2D2").disabled = false
+
+
+func set_battle_index(battle_index):
+	_battle_index = battle_index
+	if _battle_index == global.g_ORDINAL.FIRST:
+		init_first_battle()
+	elif _battle_index == global.g_ORDINAL.SECOND:
+		init_second_battle()
+	else:
+		print("set_battle_index: unknown battle index [",_battle_index,"]")
 

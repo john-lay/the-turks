@@ -457,6 +457,12 @@ var g_settings: Dictionary = {
 	"player_name": "エレン" # Ellen
 }
 
+enum g_ORDINAL {
+	UNKNOWN,
+	FIRST,
+	SECOND,
+}
+
 enum g_DIALOG_TYPE {
 	UNKNOWN,
 	BATTLE_INIT_ENEMY,
