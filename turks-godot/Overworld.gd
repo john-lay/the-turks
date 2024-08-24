@@ -43,7 +43,7 @@ var _camera_after_player_spotted: Vector2
 
 # debug flags to skip dialog
 var _debug_skip_initial_dialog: bool = true
-var _debug_skip_avalanche_dialog: bool = false
+var _debug_skip_avalanche_dialog: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -196,10 +196,9 @@ func _show_confrontation_dialog():
 	if !_has_panned_camera_to_confrontation:
 		_has_panned_camera_to_confrontation = true
 		state = STATE.CONFRONTATION_DIALOG
-#		if _debug_skip_avalanche_dialog:
-#			_dialog_finished()
-#		else:
-#			_show_avalanche_dialog1()
+	if _debug_skip_avalanche_dialog:
+		state = STATE.ENEMY1_ENGAGE_PLAYER
+	else:
 		_show_confrontation_dialog1()
 
 
@@ -258,11 +257,6 @@ func _show_player_spotted_dialog():
 	if !_has_panned_camera_to_player:
 		_has_panned_camera_to_player = true
 		state = STATE.SPOTTED_DIALOG
-#		if _debug_skip_avalanche_dialog:
-#			_dialog_finished()
-#		else:
-#			_show_avalanche_dialog1()
-		
 		if player.has_method("show_emote"):
 			player.show_emote()
 		if enemy1.has_method("disable_enemy"):
@@ -309,7 +303,7 @@ func _show_avalanche_dialog():
 		_has_panned_camera_to_enemy = true
 		state = STATE.AVALANCHE_DIALOG
 		if _debug_skip_avalanche_dialog:
-			_dialog_finished()
+			_confront_player()
 		else:
 			_show_avalanche_dialog1()
 
