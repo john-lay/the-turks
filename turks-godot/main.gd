@@ -50,9 +50,12 @@ func _on_scene1_1_load_battle_1():
 	get_tree().current_scene.remove_child(scene1_1)
 	_load_battle(global.g_ORDINAL.FIRST)
 
-func _on_battle_player_won_battle():
+func _on_battle_player_won_battle(battle_index):
 	get_tree().current_scene.remove_child(battle)
 	get_tree().current_scene.add_child(scene1_1)
+	if battle_index == global.g_ORDINAL.FIRST:
+		if scene1_1.has_method("_resume_after_battle_1"):
+			scene1_1._resume_after_battle_1()
 
 
 func _load_battle(battle_index):

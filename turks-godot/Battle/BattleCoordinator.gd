@@ -23,9 +23,11 @@ enum STATE {
 	PLAY_INTRO_TRANSITION,
 	PLAY_OUTTRO_TRANSITION,
 }
+
 var state = STATE.UNKNOWN
 var _battle_index
 var _intro_transition_complete: bool = false # cater for debounce in _process
+var _outtro_transition_complete: bool = false # cater for debounce in _process
 
 var player_max_hp: int
 var player_hp: int
@@ -46,7 +48,6 @@ func _ready():
 	dialog_menu.visible = false
 	materia_menu.visible = false
 	cast_magic.visible = false
-	transition.visible = false
 	_battle_index = global.g_ORDINAL.UNKNOWN
 	state = STATE.PLAY_INTRO_TRANSITION
 	disable_battle(battle1)
@@ -61,7 +62,11 @@ func _process(delta):
 		else:
 			_intro_transition_complete()
 	if state == STATE.PLAY_OUTTRO_TRANSITION:
-		pass
+		transition.visible = true
+		if transition.scale.y < 1:
+			transition.scale.y += 0.02
+		else:
+			_outtro_transition_complete()
 
 
 func _intro_transition_complete():
@@ -70,12 +75,19 @@ func _intro_transition_complete():
 		_intro_transition_complete = true
 		state == STATE.UNKNOWN
 		yield(get_tree().create_timer(0.5), "timeout")
-		if _battle_index == global.g_ORDINAL.FIRST :
+		if _battle_index == global.g_ORDINAL.FIRST:
 			_show_enemy_info_dialog_box()
-		if _battle_index == global.g_ORDINAL.SECOND:
+		elif _battle_index == global.g_ORDINAL.SECOND:
 			_show_enemy_info_dialog_box()
 		else:
 			print("_intro_transition_complete: unknown battle index [",_battle_index,"]")
+
+
+func _outtro_transition_complete():
+	if !_outtro_transition_complete:
+		_outtro_transition_complete = true
+		yield(get_tree().create_timer(0.5), "timeout")
+		_return_to_map()
 
 
 func _show_enemy_info_dialog_box():
@@ -250,8 +262,7 @@ func _show_exp_dialog():
 
 func _return_to_map():
 	# returning player to exploration mode
-	yield(get_tree().create_timer(0.5), "timeout")
-	emit_signal("player_won_battle")
+	emit_signal("player_won_battle", _battle_index)
 
 
 func _on_DialogBox_dialog_complete(dialog_type):
@@ -268,7 +279,7 @@ func _on_DialogBox_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_MORE_COMBAT_TUTORIAL:
 		_begin_battle()
 	if dialog_type == global.g_DIALOG_TYPE.BATTLE_PLAYER_EXP:
-		_return_to_map()
+		state = STATE.PLAY_OUTTRO_TRANSITION
 
 
 func _begin_battle():

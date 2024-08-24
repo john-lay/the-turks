@@ -27,6 +27,7 @@ enum STATE {
 	PAN_CAMERA_TO_CONFRONTATION,
 	CONFRONTATION_DIALOG,
 	ENEMY1_ENGAGE_PLAYER,
+	RESUME_FROM_BATTLE_1,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -40,6 +41,7 @@ var _has_transition_to_battle1: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 var _camera_after_player_spotted: Vector2
+var _has_finished_first_battle: bool = false
 
 # debug flags to skip dialog
 var _debug_skip_initial_dialog: bool = true
@@ -679,10 +681,22 @@ func _dialog_finished():
 
 
 func _on_EnemySpotted_body_entered(body):
-	if body.name == player.name:
+	if body.name == player.name && !_has_finished_first_battle:
 		if player.has_method("show_emote") && player.has_method("hide_emote"):
 			_disable_actors()
 			player.show_emote()
 			yield(get_tree().create_timer(0.5), "timeout")
 			player.hide_emote()
 			state = STATE.ENEMY_SPOTTED
+
+
+func _resume_after_battle_1():
+#	print("resuming after first battle...")
+	_has_finished_first_battle = true
+	transition.scale.y = 0.01
+	transition.visible = false
+	state = STATE.RESUME_FROM_BATTLE_1
+	enemy1.queue_free()
+	_enable_actors()
+	# recenter camera on player
+	camera.position = _camera_before_enemy_spotted
