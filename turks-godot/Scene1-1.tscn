@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Audio/turks-theme.ogg" type="AudioStream" id=7]
 [ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
+[ext_resource path="res://UI/transition.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -61,6 +62,11 @@ volume_db = -10.0
 
 [node name="DialogBoxTop" parent="CanvasLayer" instance=ExtResource( 6 )]
 position = Vector2( 72, 14 )
+
+[node name="Transition" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 120, 120 )
+scale = Vector2( 1, 0.01 )
+texture = ExtResource( 10 )
 
 [node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )

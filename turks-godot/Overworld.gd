@@ -1,5 +1,7 @@
 extends Node2D
 
+signal load_battle_1
+
 onready var player = $Player
 onready var enemy1 = $Enemy1
 onready var enemy2 = $Enemy2
@@ -10,6 +12,7 @@ onready var global = get_node("/root/Global")
 onready var overworld_menu = get_node("CanvasLayer/OverworldMenu")
 onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
 onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
+onready var transition = get_node("CanvasLayer/Transition")
 onready var camera = get_node("Player/Camera2D")
 
 enum STATE {
@@ -23,6 +26,7 @@ enum STATE {
 	CONFRONT_PLAYER,
 	PAN_CAMERA_TO_CONFRONTATION,
 	CONFRONTATION_DIALOG,
+	ENEMY1_ENGAGE_PLAYER,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -32,6 +36,7 @@ var _has_spotted_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_player: bool = false # cater for debounce in _process
 var _has_panned_camera_to_confrontation: bool = false # cater for debounce in _process
+var _has_transition_to_battle1: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 var _camera_after_player_spotted: Vector2
@@ -44,6 +49,7 @@ var _debug_skip_avalanche_dialog: bool = false
 func _ready():
 	overworld_menu.visible = false
 	dialog_box_top.visible = false
+	transition.visible = false
 	if dialog_box_top.has_method("set_portrait_top_left"):
 		dialog_box_top.set_portrait_top_left()
 	dialog_box_bottom.visible = false
@@ -73,6 +79,9 @@ func _process(delta):
 		_play_confront_player()
 	if state == STATE.PAN_CAMERA_TO_CONFRONTATION:
 		_play_pan_camera_to_confrontation()
+	if state == STATE.ENEMY1_ENGAGE_PLAYER:
+		_play_enemy1_engage_player()
+
 
 func _play_player_intro():
 	if player.position.x > 140 && !_has_played_phone_audio:
@@ -139,6 +148,29 @@ func _play_confront_player():
 		player.get_node("AnimatedSprite").animation = "idle-right"
 		enemy1.get_node("AnimatedSprite").animation = "stationary-left"
 		state = STATE.PAN_CAMERA_TO_CONFRONTATION
+
+
+func _play_enemy1_engage_player():
+	if enemy1.position.x > player.position.x + 90:
+		enemy1.get_node("AnimatedSprite").animation = "move-left"
+		enemy1.position.x -= 1.5
+	else:
+		enemy1.get_node("AnimatedSprite").animation = "stationary-left"
+		_play_battle_transition()
+
+
+func _play_battle_transition():
+	transition.visible = true
+	if transition.scale.y < 1:
+		transition.scale.y += 0.02
+	else:
+		_transition_to_battle1()
+
+
+func _transition_to_battle1():
+	if !_has_transition_to_battle1:
+		_has_transition_to_battle1 = true
+		emit_signal("load_battle_1")
 
 
 func _play_pan_camera_to_confrontation():
@@ -589,7 +621,8 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 			dialog_box_top.hide_text_box()
 		_show_confrontation_dialog2()
 	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_3:
-		print("end confrontation")
+		dialog_box_top.visible = false
+		state = STATE.ENEMY1_ENGAGE_PLAYER
 
 
 func _on_DialogBoxBottom_dialog_complete(dialog_type):

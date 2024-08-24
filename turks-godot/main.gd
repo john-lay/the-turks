@@ -21,6 +21,11 @@ var title: Node = TITLE.instance()
 var battle: Node = BATTLE.instance()
 var scene1_1: Node = SCENE1_1.instance()
 
+enum BATTLE_INDEX {
+	FIRST,
+	SECOND
+}
+
 	# Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().current_scene.add_child(title)
@@ -41,21 +46,32 @@ func _on_title_language_select(lang):
 
 func _load_scene1_1():
 	get_tree().current_scene.add_child(scene1_1)
+	scene1_1.connect("load_battle_1", self, "_on_scene1_1_load_battle_1")
 
+
+func _on_scene1_1_load_battle_1():
+	print("signal received: _on_scene1_1_load_battle_1")
+	get_tree().current_scene.remove_child(scene1_1)
+	_load_battle(BATTLE_INDEX.FIRST)
 
 func _on_battle_player_won_battle():
 	get_tree().current_scene.remove_child(battle)
 	get_tree().current_scene.add_child(scene1_1)
 
 
-func _load_battle():
+func _load_battle(battle_index):
 	get_tree().current_scene.add_child(battle)
 	battle.connect("player_won_battle", self, "_on_battle_player_won_battle")
 	if battle.has_method("init_player_stats"):
 		battle.init_player_stats(shotgun_hp, shotgun_mp, shotgun_attack_power)
 	if battle.has_method("init_enemy_stats"):
 		battle.init_enemy_stats(enemy_hp, enemy_attack_power)
-	if battle.has_method("init_first_battle"):
-		battle.init_first_battle()
-#	if battle.has_method("init_second_battle"):
-#		battle.init_second_battle()
+		
+	if battle_index == BATTLE_INDEX.FIRST:
+		if battle.has_method("init_first_battle"):
+			battle.init_first_battle()
+	elif battle_index == BATTLE_INDEX.SECOND:
+		if battle.has_method("init_second_battle"):
+			battle.init_second_battle()
+	else:
+		print("_load_battle: unknown battle index")
