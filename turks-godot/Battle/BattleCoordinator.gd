@@ -28,7 +28,7 @@ var state = STATE.UNKNOWN
 var _battle_index
 var _intro_transition_complete: bool = false # cater for debounce in _process
 var _outtro_transition_complete: bool = false # cater for debounce in _process
-
+var _debug_skip_battle: bool = true
 var player_max_hp: int
 var player_hp: int
 var player_max_mp: int
@@ -60,7 +60,10 @@ func _process(delta):
 		if transition.scale.y > 0.01:
 			transition.scale.y -= 0.02
 		else:
-			_intro_transition_complete()
+			if _debug_skip_battle:
+				state = STATE.PLAY_OUTTRO_TRANSITION
+			else:
+				_intro_transition_complete()
 	if state == STATE.PLAY_OUTTRO_TRANSITION:
 		transition.visible = true
 		if transition.scale.y < 1:
