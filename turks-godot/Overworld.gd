@@ -1,6 +1,7 @@
 extends Node2D
 
 signal load_battle_1
+signal load_battle_2
 
 onready var player = $Player
 onready var enemy1 = $Enemy1
@@ -27,7 +28,8 @@ enum STATE {
 	PAN_CAMERA_TO_CONFRONTATION,
 	CONFRONTATION_DIALOG,
 	ENEMY1_ENGAGE_PLAYER,
-	RESUME_FROM_BATTLE_1,
+	OVERWORLD_TRANSITION,
+	ENEMY2_ENGAGE_PLAYER,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -38,10 +40,16 @@ var _has_panned_camera_to_enemy: bool = false # cater for debounce in _process
 var _has_panned_camera_to_player: bool = false # cater for debounce in _process
 var _has_panned_camera_to_confrontation: bool = false # cater for debounce in _process
 var _has_transition_to_battle1: bool = false # cater for debounce in _process
+var _has_transition_to_battle2: bool = false # cater for debounce in _process
 var _camera_before_enemy_spotted: Vector2
 var _camera_after_enemy_spotted: Vector2
 var _camera_after_player_spotted: Vector2
 var _has_finished_first_battle: bool = false
+var _has_finished_second_battle: bool = false
+var _has_transition_to_overworld: bool = false
+var _enemy1_final_position: Vector2
+var _has_started_battle2_transition: bool = false
+
 
 # debug flags to skip dialog
 var _debug_skip_initial_dialog: bool = true
@@ -83,6 +91,10 @@ func _process(delta):
 		_play_pan_camera_to_confrontation()
 	if state == STATE.ENEMY1_ENGAGE_PLAYER:
 		_play_enemy1_engage_player()
+	if state == STATE.OVERWORLD_TRANSITION:
+		_play_overworld_transition()
+	if state == STATE.ENEMY2_ENGAGE_PLAYER:
+		_play_enemy2_engage_player()
 
 
 func _play_player_intro():
@@ -158,15 +170,20 @@ func _play_enemy1_engage_player():
 		enemy1.position.x -= 1.5
 	else:
 		enemy1.get_node("AnimatedSprite").animation = "stationary-left"
-		_play_battle_transition()
+		_play_battle_transition(global.g_ORDINAL.FIRST)
 
 
-func _play_battle_transition():
+func _play_battle_transition(battle_index):
 	transition.visible = true
 	if transition.scale.y < 1:
 		transition.scale.y += 0.02
 	else:
-		_transition_to_battle1()
+		if battle_index == global.g_ORDINAL.FIRST:
+			_transition_to_battle1()
+		elif battle_index == global.g_ORDINAL.SECOND:
+			_transition_to_battle2()
+		else:
+			print("_play_battle_transition: unknown battle index [",battle_index,"]")
 
 
 func _transition_to_battle1():
@@ -175,11 +192,54 @@ func _transition_to_battle1():
 		emit_signal("load_battle_1")
 
 
+func _transition_to_battle2():
+	if !_has_transition_to_battle2:
+		_has_transition_to_battle2 = true
+		emit_signal("load_battle_2")
+
+
 func _play_pan_camera_to_confrontation():
 	if camera.position.x < _camera_after_player_spotted.x + 52:
 		camera.position.x += 1
 	else:
 		_show_confrontation_dialog()
+
+
+func _play_overworld_transition():
+	transition.visible = true
+	if transition.scale.y > 0.01:
+		transition.scale.y -= 0.02
+	else:
+		transition.visible = false
+		_battle_transition_complete()
+
+
+func _battle_transition_complete():
+	if !_has_transition_to_overworld:
+		_has_transition_to_overworld = true
+		_resume_after_battle_transition()
+
+
+func _play_enemy2_engage_player():
+	if !_has_started_battle2_transition:
+		if enemy2.position.y <_enemy1_final_position.y + 10:
+			enemy2.get_node("AnimatedSprite").animation = "move-down"
+			enemy2.position.y += 1.5
+		else:
+			if enemy2.position.x > _enemy1_final_position.x:
+				enemy2.get_node("AnimatedSprite").animation = "move-left"
+				enemy2.position.x -= 1.5
+			else:
+				enemy2.get_node("AnimatedSprite").animation = "stationary-left"
+				_start_battle2_transition()
+	else:
+		_play_battle_transition(global.g_ORDINAL.SECOND)
+
+
+func _start_battle2_transition():
+	_has_started_battle2_transition = true
+	enemy2.get_node("AnimatedSprite").animation = "stationary-left"
+	_disable_actors()
 
 
 func _enemy_spotted():
@@ -680,7 +740,31 @@ func _dialog_finished():
 	_enable_actors()
 
 
-func _on_EnemySpotted_body_entered(body):
+func _transition_from_battle1():
+	_has_finished_first_battle = true
+	_enemy1_final_position = enemy1.position
+	enemy1.queue_free()
+	# recenter camera on player
+	camera.position = _camera_before_enemy_spotted
+	state = STATE.OVERWORLD_TRANSITION
+
+
+func _transition_from_battle2():
+	print("done battle2")
+	_has_finished_second_battle = true
+	_has_transition_to_overworld = false
+	enemy2.queue_free()
+	state = STATE.OVERWORLD_TRANSITION
+
+func _resume_after_battle_transition():
+	if _has_finished_first_battle && !_has_finished_second_battle:
+		state = STATE.ENEMY2_ENGAGE_PLAYER
+	if _has_finished_first_battle && _has_finished_second_battle:
+		print("tseng debrief")
+	_enable_actors()
+
+
+func _on_FirstEnemySpotted_body_entered(body):
 	if body.name == player.name && !_has_finished_first_battle:
 		if player.has_method("show_emote") && player.has_method("hide_emote"):
 			_disable_actors()
@@ -690,13 +774,6 @@ func _on_EnemySpotted_body_entered(body):
 			state = STATE.ENEMY_SPOTTED
 
 
-func _resume_after_battle_1():
-#	print("resuming after first battle...")
-	_has_finished_first_battle = true
-	transition.scale.y = 0.01
-	transition.visible = false
-	state = STATE.RESUME_FROM_BATTLE_1
-	enemy1.queue_free()
-	_enable_actors()
-	# recenter camera on player
-	camera.position = _camera_before_enemy_spotted
+func _on_SecondEnemySpotted_body_entered(body):
+	if (body.name == player.name || body.name == enemy2.name) && !_has_finished_second_battle:
+		_start_battle2_transition()

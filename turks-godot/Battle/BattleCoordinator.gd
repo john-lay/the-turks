@@ -388,6 +388,8 @@ func init_second_battle():
 	var enemy_position = Vector2(70, 100)
 	_add_enemy(enemy_position)
 	_disable_actors()
+	_outtro_transition_complete = false
+	state = STATE.PLAY_INTRO_TRANSITION
 
 
 func disable_battle(battle: Node2D):

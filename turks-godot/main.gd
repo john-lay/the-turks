@@ -43,6 +43,7 @@ func _load_scene1_1():
 	get_tree().current_scene.add_child(scene1_1)
 	get_tree().current_scene.remove_child(title)
 	scene1_1.connect("load_battle_1", self, "_on_scene1_1_load_battle_1")
+	scene1_1.connect("load_battle_2", self, "_on_scene1_1_load_battle_2")
 
 
 func _on_scene1_1_load_battle_1():
@@ -50,12 +51,22 @@ func _on_scene1_1_load_battle_1():
 	get_tree().current_scene.remove_child(scene1_1)
 	_load_battle(global.g_ORDINAL.FIRST)
 
+
+func _on_scene1_1_load_battle_2():
+	print("signal received: _on_scene1_1_load_battle_2")
+	get_tree().current_scene.remove_child(scene1_1)
+	_load_battle(global.g_ORDINAL.SECOND)
+
+
 func _on_battle_player_won_battle(battle_index):
 	get_tree().current_scene.remove_child(battle)
 	get_tree().current_scene.add_child(scene1_1)
 	if battle_index == global.g_ORDINAL.FIRST:
-		if scene1_1.has_method("_resume_after_battle_1"):
-			scene1_1._resume_after_battle_1()
+		if scene1_1.has_method("_transition_from_battle1"):
+			scene1_1._transition_from_battle1()
+	if battle_index == global.g_ORDINAL.SECOND:
+		if scene1_1.has_method("_transition_from_battle2"):
+			scene1_1._transition_from_battle2()
 
 
 func _load_battle(battle_index):
@@ -71,6 +82,6 @@ func _load_battle(battle_index):
 			battle.set_battle_index(global.g_ORDINAL.FIRST)
 	elif battle_index == global.g_ORDINAL.SECOND:
 		if battle.has_method("set_battle_index"):
-			battle.set_battle_index(global.g_ORDINAL.FIRST)
+			battle.set_battle_index(global.g_ORDINAL.SECOND)
 	else:
 		print("_load_battle: unknown battle index [",battle_index,"]")
