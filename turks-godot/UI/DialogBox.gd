@@ -80,7 +80,7 @@ func _setPagesFromDialogPages(pages: Array):
 					if line <= page.Lines.size():
 						page_contents += "\n"
 			else:
-				print("Key not found in the dictionary")
+				print("Key not found in the dictionary: ", localizedSentence)
 		_pages.push_back(page_contents)
 		_portraits.push_back(page.Portrait)
 		_headings.push_back(heading)

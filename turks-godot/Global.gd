@@ -450,6 +450,105 @@ var g_strings: Dictionary = {
 			"jp": ""
 		},
 	},
+	"player_debrief_1": {
+		# page1line1 = ["character"]["tseng"]
+		"page1line2": {
+			"en": "Give me a report of",
+			"jp": "車の経緯を"
+		},
+		"page1line3": {
+			"en": "what happened.",
+			"jp": "報告してくれ"
+		},
+	},
+	"player_debrief_2": {
+		# page1line1 = ["character"]["shotgun"]
+		"page1line2": {
+			"en": "I was attacked when",
+			"jp": "怪しい奴らの話を"
+		},
+		"page1line3": {
+			"en": "I overheard some",
+			"jp": "" # page2line1 should be here, but currently can't handle blank page
+		},
+		"page2line1": {
+			"en": "suspicious characters",
+			"jp": "聞いたら襲われたの"
+		},
+		"page2line2": {
+			"en": "talking.",
+			"jp": ""
+		},
+		"page3line1": {
+			"en": "They said something",
+			"jp": "恨みを晴らすとか"
+		},
+		"page3line2": {
+			"en": "about \"Down with",
+			"jp": "言ってたわ"
+		},
+		"page3line3": {
+			"en": "the Shinra!\".",
+			"jp": ""
+		},
+	},
+	"player_debrief_3": {
+		# page1line1 = ["character"]["tseng"]
+		"page1line2": {
+			"en": "\"Down with the",
+			"jp": "恨みを晴らす・・・?"
+		},
+		"page1line3": {
+			"en": "Shinra...?\"",
+			"jp": ""
+		},
+		"page2line1": {
+			"en": "Who could they be...?",
+			"jp": "いったい、"
+		},
+		"page2line2": {
+			"en": "",
+			"jp": "何者だ・・・ ?"
+		},
+		"page3line1": {
+			"en": "We need to know more.",
+			"jp": "調査が必要だ"
+		},
+		"page3line2": {
+			"en": "See if there are more",
+			"jp": "ほかに仲間がいないか"
+		},
+		"page3line3": {
+			"en": "of those men around.",
+			"jp": "確認しろ"
+		},
+	},
+	"player_debrief_4": {
+		# page1line1 = ["character"]["shotgun"]
+		"page1line2": {
+			"en": "Understood.",
+			"jp": "了解しました"
+		},
+		"page2line1": {
+			"en": "I'll check everyone",
+			"jp": "怪しそうなのは"
+		},
+		"page2line2": {
+			"en": "who seems suspicious.",
+			"jp": "手当たり次第"
+		},
+		"page2line3": {
+			"en": "",
+			"jp": "確認するわ"
+		},
+	},
+	"player_debrief_5": {
+		# page1line1 = ["character"]["tseng"]
+		"page1line2": {
+			"en": "Just don't overdo it.",
+			"jp": "無茶だけはするなよ"
+		},
+	},
 }
 
 var g_settings: Dictionary = {
@@ -482,6 +581,11 @@ enum g_DIALOG_TYPE {
 	CONFRONTATION_1,
 	CONFRONTATION_2,
 	CONFRONTATION_3,
+	PLAYER_DEBRIEF_1,
+	PLAYER_DEBRIEF_2,
+	PLAYER_DEBRIEF_3,
+	PLAYER_DEBRIEF_4,
+	PLAYER_DEBRIEF_5,
 }
 
 enum g_PORTRAITS {

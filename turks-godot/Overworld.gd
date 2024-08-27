@@ -30,6 +30,7 @@ enum STATE {
 	ENEMY1_ENGAGE_PLAYER,
 	OVERWORLD_TRANSITION,
 	ENEMY2_ENGAGE_PLAYER,
+	DEBRIEF_DIALOG,
 }
 
 var state = STATE.PLAYER_INTRO
@@ -679,6 +680,20 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_3:
 		dialog_box_top.visible = false
 		state = STATE.ENEMY1_ENGAGE_PLAYER
+	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_1:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		_show_debrief_dialog2()
+	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_3:
+		if dialog_box_top.has_method("hide_text_box"):
+			dialog_box_top.hide_text_box()
+		if dialog_box_bottom.has_method("show_text_box"):
+			dialog_box_bottom.show_text_box()
+		_show_debrief_dialog4()
+	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_5:
+		_debrief_finished()
 
 
 func _on_DialogBoxBottom_dialog_complete(dialog_type):
@@ -714,6 +729,18 @@ func _on_DialogBoxBottom_dialog_complete(dialog_type):
 		if dialog_box_top.has_method("show_text_box"):
 			dialog_box_top.show_text_box()
 		_show_confrontation_dialog3()
+	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_2:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_debrief_dialog3()
+	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_4:
+		if dialog_box_bottom.has_method("hide_text_box"):
+			dialog_box_bottom.hide_text_box()
+		if dialog_box_top.has_method("show_text_box"):
+			dialog_box_top.show_text_box()
+		_show_debrief_dialog5()
 
 
 func _player_spotted():
@@ -750,17 +777,143 @@ func _transition_from_battle1():
 
 
 func _transition_from_battle2():
-	print("done battle2")
 	_has_finished_second_battle = true
 	_has_transition_to_overworld = false
 	enemy2.queue_free()
 	state = STATE.OVERWORLD_TRANSITION
 
+
 func _resume_after_battle_transition():
 	if _has_finished_first_battle && !_has_finished_second_battle:
 		state = STATE.ENEMY2_ENGAGE_PLAYER
 	if _has_finished_first_battle && _has_finished_second_battle:
-		print("tseng debrief")
+		_begin_debrief()
+
+
+func _begin_debrief():
+	_has_played_phone_audio = false
+	_play_phone_audio()
+	yield(get_tree().create_timer(1.0), "timeout")
+	player.get_node("AnimatedSprite").animation = "phone"
+	state = STATE.DEBRIEF_DIALOG
+	_show_debrief_dialog()
+
+
+func _show_debrief_dialog():
+	_show_debrief_dialog1()
+
+
+func _show_debrief_dialog1():
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["player_debrief_1", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["player_debrief_1", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.PLAYER_DEBRIEF_1)
+		dialog_box_top.visible = true
+
+
+func _show_debrief_dialog2():
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["player_debrief_2", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["player_debrief_2", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pathToPage2Sentence1 = ["player_debrief_2", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["player_debrief_2", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.SHOTGUN)
+		
+		var pathToPage3Sentence1 = ["player_debrief_2", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["player_debrief_2", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var pathToPage3Sentence3 = ["player_debrief_2", "page3line3"]
+		var page3line3 = global.DialogLine.new(pathToPage3Sentence3)
+		var page3 = global.DialogPage.new([page3line1, page3line2, page3line3], global.g_PORTRAITS.SHOTGUN)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.PLAYER_DEBRIEF_2)
+		dialog_box_bottom.visible = true
+
+
+func _show_debrief_dialog3():
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["player_debrief_3", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var pathToPage1Sentence3 = ["player_debrief_3", "page1line3"]
+		var page1line3 = global.DialogLine.new(pathToPage1Sentence3)
+		var page1 = global.DialogPage.new([page1line1, page1line2, page1line3], global.g_PORTRAITS.TSENG)
+		
+		var pathToPage2Sentence1 = ["player_debrief_3", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["player_debrief_3", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var page2 = global.DialogPage.new([page2line1, page2line2], global.g_PORTRAITS.TSENG)
+
+		var pathToPage3Sentence1 = ["player_debrief_3", "page3line1"]
+		var page3line1 = global.DialogLine.new(pathToPage3Sentence1)
+		var pathToPage3Sentence2 = ["player_debrief_3", "page3line2"]
+		var page3line2 = global.DialogLine.new(pathToPage3Sentence2)
+		var pathToPage3Sentence3 = ["player_debrief_3", "page3line3"]
+		var page3line3 = global.DialogLine.new(pathToPage3Sentence3)
+		var page3 = global.DialogPage.new([page3line1, page3line2, page3line3], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1, page2, page3]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.PLAYER_DEBRIEF_3)
+		dialog_box_top.visible = true
+
+
+func _show_debrief_dialog4():
+	if (dialog_box_bottom.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "shotgun"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["player_debrief_4", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.SHOTGUN)
+
+		var pathToPage2Sentence1 = ["player_debrief_4", "page2line1"]
+		var page2line1 = global.DialogLine.new(pathToPage2Sentence1)
+		var pathToPage2Sentence2 = ["player_debrief_4", "page2line2"]
+		var page2line2 = global.DialogLine.new(pathToPage2Sentence2)
+		var pathToPage2Sentence3 = ["player_debrief_4", "page2line3"]
+		var page2line3 = global.DialogLine.new(pathToPage2Sentence3)
+		var page2 = global.DialogPage.new([page2line1, page2line2, page2line3], global.g_PORTRAITS.SHOTGUN)
+
+		var pages: Array = [page1, page2]
+		dialog_box_bottom.write_pages(pages, global.g_DIALOG_TYPE.PLAYER_DEBRIEF_4)
+		dialog_box_bottom.visible = true
+
+
+func _show_debrief_dialog5():
+	if (dialog_box_top.has_method("write_pages")):
+		var pathToPage1Sentence1 = ["character", "tseng"]
+		var page1line1 = global.DialogLine.new(pathToPage1Sentence1)
+		var pathToPage1Sentence2 = ["player_debrief_5", "page1line2"]
+		var page1line2 = global.DialogLine.new(pathToPage1Sentence2)
+		var page1 = global.DialogPage.new([page1line1, page1line2], global.g_PORTRAITS.TSENG)
+		
+		var pages: Array = [page1]
+		dialog_box_top.write_pages(pages, global.g_DIALOG_TYPE.PLAYER_DEBRIEF_5)
+		dialog_box_top.visible = true
+
+
+func _debrief_finished():
+	print("debrief finished")
+	dialog_box_top.visible = false
+	dialog_box_bottom.visible = false
 	_enable_actors()
 
 
