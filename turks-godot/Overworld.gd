@@ -14,6 +14,7 @@ onready var overworld_menu = get_node("CanvasLayer/OverworldMenu")
 onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
 onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
 onready var transition = get_node("CanvasLayer/Transition")
+onready var arrow = get_node("CanvasLayer/Arrow")
 onready var camera = get_node("Player/Camera2D")
 
 enum STATE {
@@ -31,9 +32,17 @@ enum STATE {
 	OVERWORLD_TRANSITION,
 	ENEMY2_ENGAGE_PLAYER,
 	DEBRIEF_DIALOG,
+	SHOW_ARROW,
+}
+
+enum DIRECTION {
+	TOP, BOTTOM, LEFT, RIGHT,
+	TOP_LEFT, TOP_RIGHT,
+	BOTTOM_LEFT, BOTTOM_RIGHT,
 }
 
 var state = STATE.PLAYER_INTRO
+var _arrow_direction
 var _has_played_phone_audio: bool = false
 var _has_played_player_intro: bool = false # cater for debounce in _process
 var _has_spotted_enemy: bool = false # cater for debounce in _process
@@ -61,6 +70,7 @@ func _ready():
 	overworld_menu.visible = false
 	dialog_box_top.visible = false
 	transition.visible = false
+	arrow.visible = false
 	if dialog_box_top.has_method("set_portrait_top_left"):
 		dialog_box_top.set_portrait_top_left()
 	dialog_box_bottom.visible = false
@@ -96,6 +106,8 @@ func _process(delta):
 		_play_overworld_transition()
 	if state == STATE.ENEMY2_ENGAGE_PLAYER:
 		_play_enemy2_engage_player()
+	if state == STATE.SHOW_ARROW:
+		_play_show_arrow()
 
 
 func _play_player_intro():
@@ -185,6 +197,31 @@ func _play_battle_transition(battle_index):
 			_transition_to_battle2()
 		else:
 			print("_play_battle_transition: unknown battle index [",battle_index,"]")
+
+
+func _play_show_arrow():
+	_set_arrow_direction()
+	if _arrow_direction == DIRECTION.TOP_LEFT:
+		arrow.position = Vector2(16, 16)
+		arrow.animation = "top-left"
+	if _arrow_direction == DIRECTION.TOP_RIGHT:
+		arrow.position = Vector2(240-16, 16)
+		arrow.animation = "top-right"
+	if _arrow_direction == DIRECTION.TOP:
+		arrow.position = Vector2(120, 16)
+		arrow.animation = "top"
+	if _arrow_direction == DIRECTION.LEFT:
+		arrow.position = Vector2(16, 120-16)
+		arrow.animation = "left"
+	if _arrow_direction == DIRECTION.BOTTOM_LEFT:
+		arrow.position = Vector2(16, 240-16)
+		arrow.animation = "bottom-left"
+	if _arrow_direction == DIRECTION.BOTTOM:
+		arrow.position = Vector2(120, 240-16)
+		arrow.animation = "bottom"
+	if _arrow_direction == DIRECTION.BOTTOM_RIGHT:
+		arrow.position = Vector2(240-16, 240-16)
+		arrow.animation = "bottom-right"
 
 
 func _transition_to_battle1():
@@ -911,10 +948,23 @@ func _show_debrief_dialog5():
 
 
 func _debrief_finished():
-	print("debrief finished")
 	dialog_box_top.visible = false
 	dialog_box_bottom.visible = false
+	arrow.visible = true
+	_set_arrow_direction()
 	_enable_actors()
+	state = STATE.SHOW_ARROW
+
+
+func _set_arrow_direction():
+	if player.position.x < 240 && player.position.y > -50:
+		_arrow_direction = DIRECTION.TOP_RIGHT
+	elif player.position.x >= 240 && player.position.x <= 420 && player.position.y > -50:
+		_arrow_direction = DIRECTION.TOP
+	elif player.position.x >= 300 && player.position.y > -50:
+		_arrow_direction = DIRECTION.TOP_LEFT
+	else:
+		_arrow_direction = DIRECTION.LEFT
 
 
 func _on_FirstEnemySpotted_body_entered(body):

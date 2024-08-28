@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
@@ -10,6 +10,82 @@
 [ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
 [ext_resource path="res://UI/transition.png" type="Texture" id=10]
+[ext_resource path="res://UI/icons.png" type="Texture" id=11]
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 32, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 3 ), null ],
+"loop": true,
+"name": "bottom",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 4 ), null ],
+"loop": true,
+"name": "bottom-left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 5 ), null ],
+"loop": true,
+"name": "bottom-right",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 6 ), null ],
+"loop": true,
+"name": "left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 7 ), null ],
+"loop": true,
+"name": "right",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 8 ), null ],
+"loop": true,
+"name": "top",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 9 ), null ],
+"loop": true,
+"name": "top-left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 10 ), null ],
+"loop": true,
+"name": "top-right",
+"speed": 2.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -69,6 +145,12 @@ position = Vector2( 72, 14 )
 position = Vector2( 120, 120 )
 scale = Vector2( 1, 0.01 )
 texture = ExtResource( 10 )
+
+[node name="Arrow" type="AnimatedSprite" parent="CanvasLayer"]
+position = Vector2( 8, 8 )
+frames = SubResource( 11 )
+animation = "bottom-right"
+playing = true
 
 [node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
