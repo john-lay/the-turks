@@ -15,6 +15,7 @@ onready var dialog_box_top = get_node("CanvasLayer/DialogBoxTop")
 onready var dialog_box_bottom = get_node("CanvasLayer/DialogBoxBottom")
 onready var transition = get_node("CanvasLayer/Transition")
 onready var arrow = get_node("CanvasLayer/Arrow")
+onready var game_over = get_node("CanvasLayer/GameOver")
 onready var camera = get_node("Player/Camera2D")
 
 enum STATE {
@@ -33,6 +34,7 @@ enum STATE {
 	ENEMY2_ENGAGE_PLAYER,
 	DEBRIEF_DIALOG,
 	SHOW_ARROW,
+	END_GAME,
 }
 
 enum DIRECTION {
@@ -71,6 +73,7 @@ func _ready():
 	dialog_box_top.visible = false
 	transition.visible = false
 	arrow.visible = false
+	game_over.visible = false
 	if dialog_box_top.has_method("set_portrait_top_left"):
 		dialog_box_top.set_portrait_top_left()
 	dialog_box_bottom.visible = false
@@ -108,6 +111,8 @@ func _process(delta):
 		_play_enemy2_engage_player()
 	if state == STATE.SHOW_ARROW:
 		_play_show_arrow()
+	if state == STATE.END_GAME:
+		_play_battle_transition(global.g_ORDINAL.UNKNOWN)
 
 
 func _play_player_intro():
@@ -195,8 +200,11 @@ func _play_battle_transition(battle_index):
 			_transition_to_battle1()
 		elif battle_index == global.g_ORDINAL.SECOND:
 			_transition_to_battle2()
+		elif battle_index == global.g_ORDINAL.UNKNOWN:
+			_game_over()
 		else:
 			print("_play_battle_transition: unknown battle index [",battle_index,"]")
+			
 
 
 func _play_show_arrow():
@@ -234,6 +242,11 @@ func _transition_to_battle2():
 	if !_has_transition_to_battle2:
 		_has_transition_to_battle2 = true
 		emit_signal("load_battle_2")
+
+
+func _game_over():
+	mission_theme_audio.stop()
+	game_over.visible = true
 
 
 func _play_pan_camera_to_confrontation():
@@ -980,3 +993,10 @@ func _on_FirstEnemySpotted_body_entered(body):
 func _on_SecondEnemySpotted_body_entered(body):
 	if (body.name == player.name || body.name == enemy2.name) && !_has_finished_second_battle:
 		_start_battle2_transition()
+
+
+func _on_EndZone_body_entered(body):
+	arrow.visible = false
+	_disable_actors()
+	player.visible = false
+	state = STATE.END_GAME

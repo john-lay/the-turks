@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
 [ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Overworld.gd" type="Script" id=9]
 [ext_resource path="res://UI/transition.png" type="Texture" id=10]
 [ext_resource path="res://UI/icons.png" type="Texture" id=11]
+[ext_resource path="res://Battle/game-over.png" type="Texture" id=12]
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 11 )
@@ -91,6 +92,8 @@ animations = [ {
 
 [sub_resource type="RectangleShape2D" id=2]
 
+[sub_resource type="RectangleShape2D" id=12]
+
 [node name="Overworld" type="Node2D"]
 script = ExtResource( 9 )
 
@@ -150,7 +153,12 @@ texture = ExtResource( 10 )
 position = Vector2( 8, 8 )
 frames = SubResource( 11 )
 animation = "bottom-right"
+frame = 1
 playing = true
+
+[node name="GameOver" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 124, 116 )
+texture = ExtResource( 12 )
 
 [node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
@@ -175,6 +183,13 @@ position = Vector2( 365, 90 )
 scale = Vector2( 2, 2 )
 shape = SubResource( 2 )
 
+[node name="EndZone" type="Area2D" parent="."]
+position = Vector2( -6, -109 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndZone"]
+scale = Vector2( 1, 2 )
+shape = SubResource( 12 )
+
 [connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
 [connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]
 [connection signal="select" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_select"]
@@ -183,3 +198,4 @@ shape = SubResource( 2 )
 [connection signal="body_entered" from="FirstEnemySpotted" to="." method="_on_FirstEnemySpotted_body_entered"]
 [connection signal="child_entered_tree" from="FirstEnemySpotted/CollisionShape2D" to="." method="_on_EnemySpotted_child_entered_tree"]
 [connection signal="body_entered" from="SecondEnemySpotted" to="." method="_on_SecondEnemySpotted_body_entered"]
+[connection signal="body_entered" from="EndZone" to="." method="_on_EndZone_body_entered"]
