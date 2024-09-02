@@ -47,19 +47,21 @@ func _load_scene1_1():
 
 
 func _on_scene1_1_load_battle_1():
-	print("signal received: _on_scene1_1_load_battle_1")
+#	print("signal received: _on_scene1_1_load_battle_1")
 	get_tree().current_scene.remove_child(scene1_1)
 	_load_battle(global.g_ORDINAL.FIRST)
 
 
 func _on_scene1_1_load_battle_2():
-	print("signal received: _on_scene1_1_load_battle_2")
+#	print("signal received: _on_scene1_1_load_battle_2")
 	get_tree().current_scene.remove_child(scene1_1)
+	battle = BATTLE.instance()
 	_load_battle(global.g_ORDINAL.SECOND)
 
 
 func _on_battle_player_won_battle(battle_index):
 	get_tree().current_scene.remove_child(battle)
+	battle.queue_free()
 	get_tree().current_scene.add_child(scene1_1)
 	if battle_index == global.g_ORDINAL.FIRST:
 		if scene1_1.has_method("_transition_from_battle1"):

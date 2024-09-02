@@ -38,6 +38,8 @@ var spell_cost: int = 0
 var enemies: Array
 var is_first_battle: bool = false
 
+var _debug_skip_battle: bool = false
+
 signal player_won_battle
 
 # Called when the node enters the scene tree for the first time.

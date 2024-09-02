@@ -63,9 +63,9 @@ var _enemy1_final_position: Vector2
 var _has_started_battle2_transition: bool = false
 
 
-# debug flags to skip dialog
-var _debug_skip_initial_dialog: bool = true
-var _debug_skip_avalanche_dialog: bool = true
+# debug flags
+var _debug_skip_initial_dialog: bool = false
+var _debug_skip_avalanche_dialog: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -729,6 +729,7 @@ func _on_DialogBoxTop_dialog_complete(dialog_type):
 		_show_confrontation_dialog2()
 	if dialog_type == global.g_DIALOG_TYPE.CONFRONTATION_3:
 		dialog_box_top.visible = false
+		dialog_box_bottom.visible = false
 		state = STATE.ENEMY1_ENGAGE_PLAYER
 	if dialog_type == global.g_DIALOG_TYPE.PLAYER_DEBRIEF_1:
 		if dialog_box_top.has_method("hide_text_box"):
@@ -835,6 +836,7 @@ func _transition_from_battle2():
 
 func _resume_after_battle_transition():
 	if _has_finished_first_battle && !_has_finished_second_battle:
+		_enable_actors()
 		state = STATE.ENEMY2_ENGAGE_PLAYER
 	if _has_finished_first_battle && _has_finished_second_battle:
 		_begin_debrief()
