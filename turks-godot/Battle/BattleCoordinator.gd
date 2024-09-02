@@ -28,7 +28,6 @@ var state = STATE.UNKNOWN
 var _battle_index
 var _intro_transition_complete: bool = false # cater for debounce in _process
 var _outtro_transition_complete: bool = false # cater for debounce in _process
-var _debug_skip_battle: bool = true
 var player_max_hp: int
 var player_hp: int
 var player_max_mp: int
@@ -41,6 +40,7 @@ var is_first_battle: bool = false
 var _debug_skip_battle: bool = false
 
 signal player_won_battle
+signal player_stats_changed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -193,20 +193,20 @@ func _on_enemy_request_player_position():
 			enemy.player_position_received(player.position)
 
 
-func init_player_stats(hp: int, mp: int, attack_power: int):
-	player_max_hp = hp
+func init_player_stats(max_hp:int, hp: int, max_mp:int, mp: int, attack_power: int):
+	player_max_hp = max_hp
 	player_hp = hp
 	health_label.text = player_hp as String + "/" + player_max_hp as String
-	health_bar.value = (player_hp / player_max_hp) * 100
+	health_bar.value = (player_hp as float / player_max_hp as float) * 100
 	if (player.has_method("init_player_health")):
 		player.init_player_health(hp)
 	if (player.has_method("init_player_attack_power")):
 		player.init_player_attack_power(attack_power)
 	
-	player_max_mp = mp
+	player_max_mp = max_mp
 	player_mp = mp
 	magic_label.text = player_mp as String + "/" + player_max_mp as String
-	magic_bar.value = (player_mp / player_max_mp) * 100
+	magic_bar.value = (player_mp as float / player_max_mp as float) * 100
 
 
 func init_enemy_stats(hp: int, attack_power: int):
@@ -267,6 +267,7 @@ func _show_exp_dialog():
 
 func _return_to_map():
 	# returning player to exploration mode
+	emit_signal("player_stats_changed", player_hp, player_mp)
 	emit_signal("player_won_battle", _battle_index)
 
 

@@ -3,13 +3,15 @@ extends Node2D
 
 # https://bibo.sakura.ne.jp/ff7bc/data/character.html
 var player_level: int = 1
-var shotgun_hp: int = (60 * player_level) + 200
-var shotgun_mp: int = (7 * player_level) + 100
+var shotgun_max_hp: int = (60 * player_level) + 200
+var shotgun_hp: int = shotgun_max_hp
+var shotgun_max_mp: int = (7 * player_level) + 100
+var shotgun_mp: int = shotgun_max_mp
 var shotgun_attack_power: int = (2 * player_level) + 14
 var shotgun_defence_power: int = player_level + 14
 
 var enemy_hp: int = 20
-var enemy_attack_power: int = 5
+var enemy_attack_power: int = 50 # should be 5, but 50 makes it more fun!
 
 onready var global = get_node("/root/Global")
 
@@ -71,14 +73,17 @@ func _on_battle_player_won_battle(battle_index):
 			scene1_1._transition_from_battle2()
 
 
+func _on_battle_player_stats_changed(player_hp, player_mp):
+	shotgun_hp = player_hp
+	shotgun_mp = player_mp
+
+
 func _load_battle(battle_index):
 	get_tree().current_scene.add_child(battle)
 	battle.connect("player_won_battle", self, "_on_battle_player_won_battle")
+	battle.connect("player_stats_changed", self, "_on_battle_player_stats_changed")
 	if battle.has_method("init_player_stats"):
-		battle.init_player_stats(shotgun_hp, shotgun_mp, shotgun_attack_power)
-	if battle.has_method("init_enemy_stats"):
-		battle.init_enemy_stats(enemy_hp, enemy_attack_power)
-		
+		battle.init_player_stats(shotgun_max_hp, shotgun_hp, shotgun_max_mp, shotgun_mp, shotgun_attack_power)
 	if battle_index == global.g_ORDINAL.FIRST:
 		if battle.has_method("set_battle_index"):
 			battle.set_battle_index(global.g_ORDINAL.FIRST)
@@ -87,3 +92,6 @@ func _load_battle(battle_index):
 			battle.set_battle_index(global.g_ORDINAL.SECOND)
 	else:
 		print("_load_battle: unknown battle index [",battle_index,"]")
+	# init enemy stats AFTER they've been added to the scene (as part of set_battle_index)
+	if battle.has_method("init_enemy_stats"):
+		battle.init_enemy_stats(enemy_hp, enemy_attack_power)
