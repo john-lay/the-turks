@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Background/train_cleanup.png" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 1, 1 )
+
+[node name="Background" type="TextureRect" parent="."]
+margin_right = 240.0
+margin_bottom = 240.0
+texture = ExtResource( 2 )
+
+[node name="KinematicBody2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 100 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -1, -1, -1, 95, 183, 95, 183, 55, 207, 55, 207, 95, 239, 95, 239, -1 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -1, 199, 239, 199, 239, 239, -1, 239 )

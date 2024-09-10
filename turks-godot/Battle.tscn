@@ -1,0 +1,162 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Magic/CastMagic.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/MateriaMenu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/DialogMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/transition.png" type="Texture" id=5]
+[ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Battle/BattleCoordinator.gd" type="Script" id=7]
+[ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=8]
+[ext_resource path="res://Battle/Battle-menu.tres" type="TileSet" id=9]
+[ext_resource path="res://Audio/survive-phone.ogg" type="AudioStream" id=10]
+[ext_resource path="res://Battle/game-over.png" type="Texture" id=11]
+[ext_resource path="res://Battle/battle-menu-assist_.png" type="Texture" id=12]
+[ext_resource path="res://Battle/battle-menu-health-magic_.png" type="Texture" id=13]
+[ext_resource path="res://Battle/battle-menu-health.png" type="Texture" id=14]
+[ext_resource path="res://Battle/battle-menu-magic.png" type="Texture" id=15]
+[ext_resource path="res://Battle/battle-menu-assist.png" type="Texture" id=16]
+
+[node name="BattleCoordinator" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="GameOver" type="Sprite" parent="."]
+visible = false
+position = Vector2( 120, 120 )
+z_index = 100
+texture = ExtResource( 11 )
+
+[node name="Battle1" type="Node2D" parent="."]
+position = Vector2( 120, 120 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TileMap" type="TileMap" parent="Battle1"]
+position = Vector2( -128, -120 )
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 0, 8, 0, 1, 30, 0, 2, 7, 0, 3, 34, 0, 4, 17, 0, 65536, 17, 0, 65537, 29, 0, 65538, 16, 0, 65539, 21, 0, 65540, 12, 0, 131072, 13, 0, 131073, 4, 0, 131074, 13, 0, 131075, 4, 0, 131076, 20, 0, 196608, 12, 0, 196609, 12, 0, 196610, 12, 0, 196611, 12, 0, 196612, 13, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle1" groups=["bg"]]
+position = Vector2( -120, -120 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle1/StaticBody2D"]
+polygon = PoolVector2Array( 256, 0, 256, 48, 152, 48, 152, 96, -8, 96, -8, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle1/StaticBody2D"]
+polygon = PoolVector2Array( 8, 104, 8, 192, 232, 192, 232, 56, 256, 56, 256, 240, -16, 240, -16, 104 )
+
+[node name="Battle2" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Battle2"]
+position = Vector2( -8, 0 )
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 0, 9, 0, 1, 10, 0, 2, 25, 0, 3, 8, 0, 4, 30, 0, 65536, 4, 0, 65537, 33, 0, 65538, 34, 0, 65539, 17, 0, 65540, 29, 0, 131072, 12, 0, 131073, 13, 0, 131074, 4, 0, 131075, 13, 0, 131076, 4, 0, 196608, 21, 0, 196609, 12, 0, 196610, 20, 0, 196611, 21, 0, 196612, 12, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle2" groups=["bg"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle2/StaticBody2D"]
+polygon = PoolVector2Array( -16, 40, 96, 40, 96, 96, 256, 96, 256, 0, -16, 0 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle2/StaticBody2D"]
+polygon = PoolVector2Array( -16, 240, 256, 240, 256, 96, 232, 96, 232, 192, 8, 192, 8, 40, -16, 40 )
+
+[node name="TileMap HUD" type="TileMap" parent="."]
+tile_set = ExtResource( 9 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( 262144, 0, 0, 262145, 1, 0, 262146, 2, 0, 262147, 3, 0, 262148, 4, 0 )
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = 30.0
+margin_top = 233.0
+margin_right = 100.0
+margin_bottom = 237.0
+value = 25.0
+texture_under = ExtResource( 13 )
+texture_progress = ExtResource( 14 )
+
+[node name="MagicBar" type="TextureProgress" parent="."]
+margin_left = 148.0
+margin_top = 233.0
+margin_right = 218.0
+margin_bottom = 237.0
+value = 75.0
+texture_under = ExtResource( 13 )
+texture_progress = ExtResource( 15 )
+
+[node name="AssistBar" type="TextureProgress" parent="."]
+margin_left = 33.0
+margin_top = 214.0
+margin_right = 229.0
+margin_bottom = 218.0
+value = 50.0
+texture_under = ExtResource( 12 )
+texture_progress = ExtResource( 16 )
+
+[node name="player" parent="." groups=["player_group"] instance=ExtResource( 2 )]
+position = Vector2( 80, 100 )
+z_index = 2
+
+[node name="BattleMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -10.0
+autoplay = true
+
+[node name="HealthLabel" type="Label" parent="."]
+margin_left = 50.0
+margin_top = 220.0
+margin_right = 119.0
+margin_bottom = 234.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3380/3380"
+align = 2
+
+[node name="MagicLabel" type="Label" parent="."]
+margin_left = 160.0
+margin_top = 220.0
+margin_right = 229.0
+margin_bottom = 234.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "120/120"
+align = 2
+
+[node name="DialogBox" parent="." instance=ExtResource( 6 )]
+visible = false
+z_index = 3
+
+[node name="MateriaMenu" parent="." instance=ExtResource( 3 )]
+visible = false
+z_index = 3
+
+[node name="CastMagic" parent="." instance=ExtResource( 1 )]
+visible = false
+
+[node name="DialogMenu" parent="." instance=ExtResource( 4 )]
+visible = false
+z_index = 3
+
+[node name="Transition" type="Sprite" parent="."]
+position = Vector2( 120, 120 )
+z_index = 3
+texture = ExtResource( 5 )
+
+[connection signal="finished_casting" from="player" to="." method="_on_player_finished_casting"]
+[connection signal="materia_menu_invoked" from="player" to="." method="_on_player_materia_menu_invoked"]
+[connection signal="player_died" from="player" to="." method="_on_player_player_died"]
+[connection signal="player_health_changed" from="player" to="." method="_on_player_player_health_changed"]
+[connection signal="player_select" from="player" to="." method="_on_player_player_select"]
+[connection signal="dialog_complete" from="DialogBox" to="." method="_on_DialogBox_dialog_complete"]
+[connection signal="cast_spell" from="MateriaMenu" to="." method="_on_MateriaMenu_cast_spell"]
+[connection signal="close" from="MateriaMenu" to="." method="_on_MateriaMenu_close"]
+[connection signal="cast_spell" from="CastMagic" to="." method="_on_CastMagic_cast_spell"]
+[connection signal="close" from="CastMagic" to="." method="_on_CastMagic_close"]
+[connection signal="finished" from="CastMagic" to="." method="_on_CastMagic_finished"]
+[connection signal="menu_complete" from="DialogMenu" to="." method="_on_DialogMenu_menu_complete"]

@@ -1,0 +1,127 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Magic/CastMagic.gd" type="Script" id=1]
+[ext_resource path="res://Magic/magic-cursor.png" type="Texture" id=2]
+[ext_resource path="res://Magic/thunder-sprite.png" type="Texture" id=3]
+[ext_resource path="res://Audio/navigate.wav" type="AudioStream" id=4]
+[ext_resource path="res://Audio/cast.wav" type="AudioStream" id=5]
+[ext_resource path="res://Audio/thunder.wav" type="AudioStream" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 52, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 104, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
+region = Rect2( 52, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 104, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 104, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
+region = Rect2( 52, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 52, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 2 )
+region = Rect2( 104, 0, 52, 52 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 2 )
+region = Rect2( 52, 0, 52, 52 )
+
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=20]
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 96, 200 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 3 )
+region = Rect2( 96, 0, 96, 200 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 96, 200 )
+
+[sub_resource type="SpriteFrames" id=19]
+animations = [ {
+"frames": [ SubResource( 18 ), SubResource( 18 ), SubResource( 17 ), SubResource( 16 ), null ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="CastMagic" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="MagicCursor" type="Area2D" parent="."]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="MagicCursor"]
+position = Vector2( 16, 26 )
+frames = SubResource( 15 )
+frame = 6
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagicCursor"]
+position = Vector2( 16, 26 )
+scale = Vector2( 2.6, 2.6 )
+shape = SubResource( 20 )
+
+[node name="ThunderAnimation" type="AnimatedSprite" parent="."]
+position = Vector2( 100, 100 )
+z_index = 1
+frames = SubResource( 19 )
+
+[node name="NavigateAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="CastSpellAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="ThunderAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[connection signal="body_entered" from="MagicCursor" to="." method="_on_MagicCursor_body_entered"]
+[connection signal="body_exited" from="MagicCursor" to="." method="_on_MagicCursor_body_exited"]

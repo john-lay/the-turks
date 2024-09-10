@@ -1,0 +1,201 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://Background/Midgar-Sector8.tres" type="TileSet" id=1]
+[ext_resource path="res://Player/Shotgun.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Audio/mission-theme.ogg" type="AudioStream" id=3]
+[ext_resource path="res://UI/OverworldMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Audio/cell-phone.wav" type="AudioStream" id=5]
+[ext_resource path="res://UI/DialogBox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Audio/turks-theme.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Enemy/avalanche.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Overworld.gd" type="Script" id=9]
+[ext_resource path="res://UI/transition.png" type="Texture" id=10]
+[ext_resource path="res://UI/icons.png" type="Texture" id=11]
+[ext_resource path="res://Battle/game-over.png" type="Texture" id=12]
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 64, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 11 )
+region = Rect2( 32, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 32, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 11 )
+region = Rect2( 96, 32, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 3 ), null ],
+"loop": true,
+"name": "bottom",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 4 ), null ],
+"loop": true,
+"name": "bottom-left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 5 ), null ],
+"loop": true,
+"name": "bottom-right",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 6 ), null ],
+"loop": true,
+"name": "left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 7 ), null ],
+"loop": true,
+"name": "right",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 8 ), null ],
+"loop": true,
+"name": "top",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 9 ), null ],
+"loop": true,
+"name": "top-left",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 10 ), null ],
+"loop": true,
+"name": "top-right",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="RectangleShape2D" id=12]
+
+[node name="Overworld" type="Node2D"]
+script = ExtResource( 9 )
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2( 0, -20 )
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 52, 52 )
+format = 1
+tile_data = PoolIntArray( -327680, 18, 0, -327679, 19, 0, -327678, 18, 0, -327677, 19, 0, -327676, 14, 0, -327675, 15, 0, -327674, 5, 0, -327673, 6, 0, -327672, 26, 0, -327671, 27, 0, -327670, 28, 0, -327669, 18, 0, -327668, 19, 0, -262144, 0, 0, -262143, 1, 0, -262142, 0, 0, -262141, 1, 0, -262140, 25, 0, -262139, 8, 0, -262138, 30, 0, -262137, 7, 0, -262136, 33, 0, -262135, 25, 0, -262134, 8, 0, -262133, 27, 0, -262132, 28, 0, -196608, 9, 0, -196607, 10, 0, -196606, 9, 0, -196605, 10, 0, -196604, 34, 0, -196603, 17, 0, -196602, 29, 0, -196601, 16, 0, -196600, 21, 0, -196599, 14, 0, -196598, 15, 0, -196597, 18, 0, -196596, 19, 0, -131072, 21, 0, -131071, 12, 0, -131070, 12, 0, -131069, 13, 0, -131068, 4, 0, -131067, 13, 0, -131066, 4, 0, -131065, 13, 0, -131064, 4, 0, -131063, 25, 0, -131062, 8, 0, -131061, 0, 0, -131060, 1, 0, -65536, 27, 0, -65535, 28, 0, -65534, 18, 0, -65533, 19, 0, -65532, 5, 0, -65531, 6, 0, -65530, 12, 0, -65529, 12, 0, -65528, 27, 0, -65527, 28, 0, -65526, 17, 0, -65525, 9, 0, -65524, 22, 0, 0, 18, 0, 1, 19, 0, 2, 18, 0, 3, 19, 0, 4, 30, 0, 5, 7, 0, 6, 23, 0, 7, 24, 0, 8, 25, 0, 9, 8, 0, 10, 35, 0, 11, 26, 0, 12, 22, 0, 65536, 0, 0, 65537, 1, 0, 65538, 0, 0, 65539, 1, 0, 65540, 29, 0, 65541, 16, 0, 65542, 32, 0, 65543, 33, 0, 65544, 34, 0, 65545, 17, 0, 65546, 21, 0, 65547, 26, 0, 65548, 22, 0, 131072, 9, 0, 131073, 9, 0, 131074, 9, 0, 131075, 9, 0, 131076, 12, 0, 131077, 13, 0, 131078, 4, 0, 131079, 13, 0, 131080, 4, 0, 131081, 13, 0, 131082, 4, 0, 131083, 26, 0, 131084, 22, 0, 196608, 4, 0, 196609, 13, 0, 196610, 4, 0, 196611, 20, 0, 196612, 21, 0, 196613, 27, 0, 196614, 28, 0, 196615, 27, 0, 196616, 28, 0, 196617, 5, 0, 196618, 6, 0, 196619, 18, 0, 196620, 19, 0, 262144, 28, 0, 262145, 27, 0, 262146, 28, 0, 262147, 18, 0, 262148, 19, 0, 262149, 18, 0, 262150, 19, 0, 262151, 14, 0, 262152, 15, 0, 262153, 27, 0, 262154, 28, 0, 262155, 0, 0, 262156, 1, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 104 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( 32, 40 )
+current = true
+limit_left = 0
+limit_top = -280
+limit_right = 680
+limit_bottom = 240
+editor_draw_limits = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 0, 176, 256, 176, 256, 120, 616, 120, 616, -32, 528, -32, 528, 72, 400, 72, 400, -16, 408, -16, 408, -88, 464, -88, 464, -280, 672, -280, 672, 240, 0, 240 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 0, -136, 424, -136, 424, -264, 464, -264, 464, -280, 424, -280, 0, -280 )
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -16, 176, 0, 176, 0, 120, 216, 120, 216, 72, 328, 72, 328, -24, 320, -24, 320, -88, -16, -88 )
+
+[node name="MissionThemeAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -10.0
+
+[node name="TurksThemeAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -10.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="OverworldMenu" parent="CanvasLayer" instance=ExtResource( 4 )]
+
+[node name="DialogBoxBottom" parent="CanvasLayer" instance=ExtResource( 6 )]
+
+[node name="DialogBoxTop" parent="CanvasLayer" instance=ExtResource( 6 )]
+position = Vector2( 72, 14 )
+
+[node name="Transition" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 120, 120 )
+scale = Vector2( 1, 0.01 )
+texture = ExtResource( 10 )
+
+[node name="Arrow" type="AnimatedSprite" parent="CanvasLayer"]
+position = Vector2( 8, 8 )
+frames = SubResource( 11 )
+animation = "bottom-right"
+frame = 1
+playing = true
+
+[node name="GameOver" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 124, 116 )
+texture = ExtResource( 12 )
+
+[node name="PhoneAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="FirstEnemySpotted" type="Area2D" parent="."]
+position = Vector2( 312, 96 )
+scale = Vector2( 1, 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FirstEnemySpotted"]
+shape = SubResource( 1 )
+
+[node name="Enemy2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 388, -24 )
+
+[node name="Enemy1" parent="." instance=ExtResource( 8 )]
+position = Vector2( 388, 32 )
+
+[node name="SecondEnemySpotted" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SecondEnemySpotted"]
+position = Vector2( 365, 90 )
+scale = Vector2( 2, 2 )
+shape = SubResource( 2 )
+
+[node name="EndZone" type="Area2D" parent="."]
+position = Vector2( -6, -109 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EndZone"]
+scale = Vector2( 1, 2 )
+shape = SubResource( 12 )
+
+[connection signal="player_select" from="Player" to="." method="_on_Player_player_select"]
+[connection signal="close" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_close"]
+[connection signal="select" from="CanvasLayer/OverworldMenu" to="." method="_on_OverworldMenu_select"]
+[connection signal="dialog_complete" from="CanvasLayer/DialogBoxBottom" to="." method="_on_DialogBoxBottom_dialog_complete"]
+[connection signal="dialog_complete" from="CanvasLayer/DialogBoxTop" to="." method="_on_DialogBoxTop_dialog_complete"]
+[connection signal="body_entered" from="FirstEnemySpotted" to="." method="_on_FirstEnemySpotted_body_entered"]
+[connection signal="child_entered_tree" from="FirstEnemySpotted/CollisionShape2D" to="." method="_on_EnemySpotted_child_entered_tree"]
+[connection signal="body_entered" from="SecondEnemySpotted" to="." method="_on_SecondEnemySpotted_body_entered"]
+[connection signal="body_entered" from="EndZone" to="." method="_on_EndZone_body_entered"]
